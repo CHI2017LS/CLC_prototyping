@@ -2,6 +2,7 @@
 
   $.fn.pad = function( options ) {
     var settings = {
+      // 'host'              : 'http://127.0.0.1:9001',
       'host'              : 'http://beta.etherpad.org',
       'baseUrl'           : '/p/',
       'showControls'      : true,
@@ -26,11 +27,11 @@
     
     var $self = this;
     if (!$self.length) return;
-    if (!$self.attr('id')) throw new Error('No "id" attribute');
+    if (!$self.attr('class')) throw new Error('No "class" attribute');
     
     var useValue = $self[0].tagName.toLowerCase() == 'textarea';
-    var selfId = $self.attr('id');
-    var epframeId = 'epframe'+ selfId;
+    var selfClass = $self.attr('class');
+    var epframeClass = 'epframe'+ selfClass;
     // This writes a new frame if required
     if ( !options.getContents ) {
       if ( options ) {
@@ -42,8 +43,8 @@
         pluginParams += '&' + option + '=' + settings.plugins[option]
       }
 
-      var iFrameLink = '<iframe id="'+epframeId;
-          iFrameLink = iFrameLink +'" name="' + epframeId;
+      var iFrameLink = '<iframe id="'+epframeClass;
+          iFrameLink = iFrameLink +'" name="' + epframeClass;
           iFrameLink = iFrameLink +'" src="' + settings.host+settings.baseUrl+settings.padId;
           iFrameLink = iFrameLink + '?showControls=' + settings.showControls;
           iFrameLink = iFrameLink + '&showChat=' + settings.showChat;
@@ -89,7 +90,7 @@
 
     // This reads the etherpad contents if required
     else {
-      var frameUrl = $('#'+ epframeId).attr('src').split('?')[0];
+      var frameUrl = $('#'+ epframeClass).attr('src').split('?')[0];
       var contentsUrl = frameUrl + "/export/html";
       var target = $('#'+ options.getContents);
 
@@ -103,7 +104,7 @@
           target.html(data);
         }
         
-        $('#'+ epframeId).remove();
+        $('#'+ epframeClass).remove();
       });
     }
     
