@@ -118,7 +118,7 @@
 }
 
 /* @media -> use to detect the size or directions of device */
-@media(min-width:768px) {
+@media(min-width: 0px) {
     #wrapper {
         padding-left: 400px;
     }
