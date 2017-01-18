@@ -85,6 +85,8 @@
     text-decoration: none;
 }
 
+.sidebar-nav li.icon {display: none;}
+
 .sidebar-nav > .sidebar-brand {
     height: 65px;
     font-size: 18px;
@@ -118,7 +120,7 @@
 }
 
 /* @media -> use to detect the size or directions of device */
-@media(min-width: 0px) {
+@media(min-width: 768px) {
     #wrapper {
         padding-left: 400px;
     }
@@ -143,5 +145,56 @@
     #wrapper.toggled #page-content-wrapper {
         position: relative;
         margin-right: 0;
+    }
+}
+
+@media(max-width:767px) {
+    #wrapper {
+        padding-left: 50px;
+    }
+
+    #wrapper.toggled {
+        padding-left: 0;
+    }
+
+    #wrapper.extend {
+        padding-left: 250px;
+    }
+
+    #sidebar-wrapper {
+        width: 50px;
+    }
+
+    #sidebar-wrapper.extend {
+        width: 250px;
+    }
+
+    #wrapper.toggled #sidebar-wrapper {
+        width: 0;
+    }
+
+    #page-content-wrapper {
+        padding: 20px;
+        position: relative;
+    }
+
+    #wrapper.toggled #page-content-wrapper {
+        position: relative;
+        margin-right: 0;
+    }
+
+    .sidebar-nav div,li,hr{display: none;}
+    .sidebar-nav li.icon {display: block;}
+    .sidebar-nav.responsive li.icon{
+        margin: auto;
+    }
+    .sidebar-nav.responsive div:not(:first-child) {
+        float: none;
+        display: inline;
+
+    }
+    .sidebar-nav.responsive div:not(:first-child) a {
+        display: block;
+        text-align: left;
     }
 }

@@ -32,6 +32,9 @@
                         CHI2017 CLC Tool
                     </a>
                     </li>
+                    <li class="icon">
+                      <a href="javascript:void(0);" onclick="extend()">&#9776;</a>
+                    </li>                      
                     <div class="row">
                         <a id="1" href="javascript: return false;" onclick="changePad(this.id);"> <img class="img-responsive" src="http://imgur.com/UBOTllp.jpg" alt=""></a>
                     </div>
@@ -90,17 +93,18 @@
 
     <!-- Menu Toggle Script -->
     <script>
-        $("#menu-toggle").click(function(e) {
-            e.preventDefault();
-            $("#wrapper").toggleClass("toggled");
-        });
-
-        // The most basic example
+        // Initially display the pad of the first slide
          $('.mypad').pad({'padId':'1'}); // sets the pad id and puts the pad in the div 
 
         function changePad(id) {
             $('.mypad').pad({'padId':id});
         } 
+
+        function extend() {
+            $(".sidebar-nav").toggleClass("responsive");
+            $("#sidebar-wrapper").toggleClass("extend");
+            $("#wrapper").toggleClass("extend");
+        }         
     </script>
 </body>
 
