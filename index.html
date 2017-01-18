@@ -31,40 +31,41 @@
                         CHI2017 CLC Tool
                     </a>
                     </li>
-
                     <li class="icon">
-                      <a href="javascript:void(0);" onclick="extend()">&#9776;</a>
-                    </li>                      
-                    <div class="row">
-                        <a id="1" href="javascript: return false;" onclick="changePad(this.id);"> <img id="imgFrame" class="img-responsive" src="http://imgur.com/UBOTllp.jpg" tabindex="0" alt=""></a>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <a id="2" href="javascript: return false;" onclick="changePad(this.id);"> <img id="imgFrame" class="img-responsive" src="http://imgur.com/74fTXqv.jpg" tabindex="0" alt=""></a>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <a id="3" href="javascript: return false;" onclick="changePad(this.id);"> <img id="imgFrame" class="img-responsive" src="http://imgur.com/T73fYI2.jpg" tabindex="0" alt=""></a>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <a id="4" href="javascript: return false;" onclick="changePad(this.id);"> <img id="imgFrame" class="img-responsive" src="http://imgur.com/SYk7C9w.jpg" tabindex="0" alt=""></a>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <a id="5" href="javascript: return false;" onclick="changePad(this.id);"> <img id="imgFrame" class="img-responsive" src="http://imgur.com/X3gapju.jpg" tabindex="0" alt=""></a>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <a id="6" href="javascript: return false;" onclick="changePad(this.id);"> <img id="imgFrame" class="img-responsive" src="http://imgur.com/pv8OwMO.jpg" tabindex="0" alt=""></a>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <a id="7" href="javascript: return false;" onclick="changePad(this.id);"> <img id="imgFrame" class="img-responsive" src="http://imgur.com/bVJIOj5.jpg" tabindex="0" alt=""></a>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <img src="about:blank" alt="" id="show-picture" class="img-responsive">
+                        <a href="javascript:void(0);" onclick="extend()">&#9776;</a>
+                    </li>
+                    <div class="imgFrame">
+                        <div class="row">
+                            <a id="1" href="javascript: return false;" onclick="changePad(this.id);"> <img class="img-responsive" src="http://imgur.com/UBOTllp.jpg" tabindex="0" alt=""></a>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <a id="2" href="javascript: return false;" onclick="changePad(this.id);"> <img class="img-responsive" src="http://imgur.com/74fTXqv.jpg" tabindex="0" alt=""></a>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <a id="3" href="javascript: return false;" onclick="changePad(this.id);"> <img class="img-responsive" src="http://imgur.com/T73fYI2.jpg" tabindex="0" alt=""></a>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <a id="4" href="javascript: return false;" onclick="changePad(this.id);"> <img class="img-responsive" src="http://imgur.com/SYk7C9w.jpg" tabindex="0" alt=""></a>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <a id="5" href="javascript: return false;" onclick="changePad(this.id);"> <img class="img-responsive" src="http://imgur.com/X3gapju.jpg" tabindex="0" alt=""></a>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <a id="6" href="javascript: return false;" onclick="changePad(this.id);"> <img class="img-responsive" src="http://imgur.com/pv8OwMO.jpg" tabindex="0" alt=""></a>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <a id="7" href="javascript: return false;" onclick="changePad(this.id);"> <img class="img-responsive" src="http://imgur.com/bVJIOj5.jpg" tabindex="0" alt=""></a>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <a id="7" href="javascript: return false;" onclick="changePad(this.id);"> <img class="img-responsive" src="about:blank" tabindex="0" alt="" id="show-picture" ></a>
+                        </div>
                     </div>
                     <hr>
                     <div class="row">
@@ -99,22 +100,24 @@
     <script src="js/upload-photo.js"></script>
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
-    
     <!-- Menu Toggle Script -->
     <script>
-        // Initially display the pad of the first slide
-         $('.mypad').pad({'padId':'1'}); // sets the pad id and puts the pad in the div 
+    // Initially display the pad of the first slide
+    $('.mypad').pad({
+        'padId': '1'
+    }); // sets the pad id and puts the pad in the div 
 
-        function changePad(id) {
-            $('.mypad').pad({'padId':id});
-        } 
+    function changePad(id) {
+        $('.mypad').pad({
+            'padId': id
+        });
+    }
 
-        function extend() {
-            $(".sidebar-nav").toggleClass("responsive");
-            $("#sidebar-wrapper").toggleClass("extend");
-            $("#wrapper").toggleClass("extend");
-        }         
-
+    function extend() {
+        $(".sidebar-nav").toggleClass("responsive");
+        $("#sidebar-wrapper").toggleClass("extend");
+        $("#wrapper").toggleClass("extend");
+    }
     </script>
 </body>
 
