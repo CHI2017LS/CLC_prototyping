@@ -100,9 +100,10 @@
     background: none;
 }
 
+/* @media -> use to detect the size or directions of device */
 @media(min-width:768px) {
     #wrapper {
-        padding-left: 250px;
+        padding-left: 400px;
     }
 
     #wrapper.toggled {
@@ -110,7 +111,7 @@
     }
 
     #sidebar-wrapper {
-        width: 250px;
+        width: 400px;
     }
 
     #wrapper.toggled #sidebar-wrapper {
