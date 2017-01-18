@@ -18,7 +18,6 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
 </head>
 
 <body>
@@ -32,40 +31,52 @@
                         CHI2017 CLC Tool
                     </a>
                     </li>
-                    <div class="row">
-                        <a href="#"> <img class="img-responsive" src="http://imgur.com/UBOTllp.jpg" alt=""></a>
+                    <div class="imgFrame">
+                        <div class="row">
+                            <a href="#"> <img id="imgFrame" class="img-responsive" src="http://imgur.com/UBOTllp.jpg" tabindex="0" alt=""></a>p1
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <a href="#"> <img id="imgFrame" class="img-responsive" src="http://imgur.com/74fTXqv.jpg" tabindex="0" alt=""></a>p2
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <a href="#"> <img id="imgFrame" class="img-responsive" src="http://imgur.com/T73fYI2.jpg" tabindex="0" alt=""></a>p3
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <a href="#"> <img id="imgFrame" class="img-responsive" src="http://imgur.com/SYk7C9w.jpg" tabindex="0" alt=""></a>p4
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <a href="#"> <img id="imgFrame" class="img-responsive" src="http://imgur.com/X3gapju.jpg" tabindex="0" alt=""></a>p5
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <a href="#"> <img id="imgFrame" class="img-responsive" src="http://imgur.com/pv8OwMO.jpg" tabindex="0" alt=""></a>p6
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <a href="#"> <img id="imgFrame" class="img-responsive" src="http://imgur.com/bVJIOj5.jpg" tabindex="0" alt=""></a>p7
+                        </div>
                     </div>
                     <hr>
                     <div class="row">
-                        <a href="#"> <img class="img-responsive" src="http://imgur.com/74fTXqv.jpg" alt=""></a>
+                        <img src="about:blank" alt="" id="show-picture" width ="500">
                     </div>
                     <hr>
                     <div class="row">
-                        <a href="#"> <img class="img-responsive" src="http://imgur.com/T73fYI2.jpg" alt=""></a>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <a href="#"> <img class="img-responsive" src="http://imgur.com/SYk7C9w.jpg" alt=""></a>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <a href="#"> <img class="img-responsive" src="http://imgur.com/X3gapju.jpg" alt=""></a>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <a href="#"> <img class="img-responsive" src="http://imgur.com/pv8OwMO.jpg" alt=""></a>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <a href="#"> <img class="img-responsive" src="http://imgur.com/bVJIOj5.jpg" alt=""></a>
-                    </div>
-                    <hr>
-                    <div class="row">
+                        <label class="take-picture">
+                            <span class="btn-label"><i class="glyphicon glyphicon-camera"></i></span> Add Slides
+                            <input type="file" class="take-picture" id="take-picture" accept="image/*">
+                        </label>
+                        <!--
                         <button type="button" class="btn btn-labeled btn-primary">
-                            <span class="btn-label"><i class="glyphicon glyphicon-camera"></i></span>Add Slides</button>
-                        
+                            <span class="btn-label"><i class="glyphicon glyphicon-camera"></i></span>Add Slides
+                        </button>-->
                         <button type="button" class="btn btn-labeled btn-success">
-                            <span class="btn-label"><i class="glyphicon glyphicon-refresh"></i></span>Refresh</button>
+                            <span class="btn-label"><i class="glyphicon glyphicon-refresh"></i></span>Refresh
+                        </button>
                     </div>
                 </ul>
             </div>
@@ -74,19 +85,18 @@
         <!-- Page Content -->
         <div id="page-content-wrapper">
             <h1>Simple Sidebar</h1>
-            <div id="examplePadBasic"></div>
+            <!--
+            <div id="examplePadBasic"></div>-->
         </div>
         <!-- /#page-content-wrapper -->
     </div>
     <!-- /#wrapper -->
-
     <!-- jQuery -->
     <script src="js/jquery.js"></script>
     <script src="js/etherpad.js"></script>
-
+    <script src="js/upload-photo.js"></script>
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
-
     <!-- Menu Toggle Script -->
     <script>
     $("#menu-toggle").click(function(e) {
@@ -95,7 +105,9 @@
     });
 
     // The most basic example
-     $('#examplePadBasic').pad({'padId':'test'}); // sets the pad id and puts the pad in the div    
+    $('#examplePadBasic').pad({
+        'padId': 'test'
+    }); // sets the pad id and puts the pad in the div
     </script>
 </body>
 
