@@ -4,9 +4,10 @@
  * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap/blob/gh-pages/LICENSE)
  */
 
- body {
+body {
     overflow-x: hidden;
- }
+}
+
 
 /* Toggle Styles */
 
@@ -53,6 +54,7 @@
     margin-right: -250px;
 }
 
+
 /* Sidebar Styles */
 
 .sidebar-nav {
@@ -74,12 +76,6 @@
     display: block;
     text-decoration: none;
     color: #999999;
-}
-
-.sidebar-nav li a:hover {
-    text-decoration: none;
-    color: #fff;
-    background: rgba(255,255,255,0.2);
 }
 
 .sidebar-nav li a:active,
@@ -104,11 +100,30 @@
     background: none;
 }
 
+
+/* Slides in sidebar */
+
+.imgFrame :focus {
+    transform: scale(1.25);
+}
+
+.imgFrame :hover {
+    -webkit-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+    -moz-box-shadow: 0 0 12px 3px #f7d699;
+    -webkit-box-shadow: 0 0 12px 3px #f7d699;
+    box-shadow: 0 0 12px 3px #f7d699;
+}
+
+
 /* Button */
+
 .btn-label {
-    position: relative;left: -12px;
-    display: inline-block;padding: 6px 12px;
-    background: rgba(0,0,0,0.15);
+    position: relative;
+    left: -12px;
+    display: inline-block;
+    padding: 6px 12px;
+    background: rgba(0, 0, 0, 0.15);
     border-radius: 3px 0 0 3px;
 }
 
@@ -117,33 +132,57 @@
     padding-bottom: 0;
 }
 
-.btn { 
-    margin-bottom:10px; 
+.btn {
+    margin-bottom: 10px;
 }
+
+
+/*Hide the original style of file uploading */
+
+input[type="file"] {
+    display: none;
+}
+
+.take-picture {
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-bottom: 10px;
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #2e6da4;
+    border: 1px solid transparent;
+    display: inline-block;
+    padding: 0px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.take-picture:hover {
+  color: #fff;
+  background-color: #286090;
+  border-color: #204d74;
+}
+
 
 /* @media -> use to detect the size or directions of device */
 @media(min-width: 768px) {
+
     #wrapper {
         padding-left: 400px;
     }
-
     #wrapper.toggled {
         padding-left: 0;
     }
-
     #sidebar-wrapper {
         width: 400px;
     }
-
     #wrapper.toggled #sidebar-wrapper {
         width: 0;
     }
-
     #page-content-wrapper {
         padding: 20px;
         position: relative;
     }
-
     #wrapper.toggled #page-content-wrapper {
         position: relative;
         margin-right: 0;
