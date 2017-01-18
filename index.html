@@ -33,31 +33,31 @@
                     </a>
                     </li>
                     <div class="row">
-                        <a href="#"> <img class="img-responsive" src="http://imgur.com/UBOTllp.jpg" alt=""></a>
+                        <a id="1" href="javascript: return false;" onclick="changePad(this.id);"> <img class="img-responsive" src="http://imgur.com/UBOTllp.jpg" alt=""></a>
                     </div>
                     <hr>
                     <div class="row">
-                        <a href="#"> <img class="img-responsive" src="http://imgur.com/74fTXqv.jpg" alt=""></a>
+                        <a id="2" href="javascript: return false;" onclick="changePad(this.id);"> <img class="img-responsive" src="http://imgur.com/74fTXqv.jpg" alt=""></a>
                     </div>
                     <hr>
                     <div class="row">
-                        <a href="#"> <img class="img-responsive" src="http://imgur.com/T73fYI2.jpg" alt=""></a>
+                        <a id="3" href="javascript: return false;" onclick="changePad(this.id);"> <img class="img-responsive" src="http://imgur.com/T73fYI2.jpg" alt=""></a>
                     </div>
                     <hr>
                     <div class="row">
-                        <a href="#"> <img class="img-responsive" src="http://imgur.com/SYk7C9w.jpg" alt=""></a>
+                        <a id="4" href="javascript: return false;" onclick="changePad(this.id);"> <img class="img-responsive" src="http://imgur.com/SYk7C9w.jpg" alt=""></a>
                     </div>
                     <hr>
                     <div class="row">
-                        <a href="#"> <img class="img-responsive" src="http://imgur.com/X3gapju.jpg" alt=""></a>
+                        <a id="5" href="javascript: return false;" onclick="changePad(this.id);"> <img class="img-responsive" src="http://imgur.com/X3gapju.jpg" alt=""></a>
                     </div>
                     <hr>
                     <div class="row">
-                        <a href="#"> <img class="img-responsive" src="http://imgur.com/pv8OwMO.jpg" alt=""></a>
+                        <a id="6" href="javascript: return false;" onclick="changePad(this.id);"> <img class="img-responsive" src="http://imgur.com/pv8OwMO.jpg" alt=""></a>
                     </div>
                     <hr>
                     <div class="row">
-                        <a href="#"> <img class="img-responsive" src="http://imgur.com/bVJIOj5.jpg" alt=""></a>
+                        <a id="7" href="javascript: return false;" onclick="changePad(this.id);"> <img class="img-responsive" src="http://imgur.com/bVJIOj5.jpg" alt=""></a>
                     </div>
                     <hr>
                     <div class="row">
@@ -73,8 +73,9 @@
         <!-- /#sidebar-wrapper -->
         <!-- Page Content -->
         <div id="page-content-wrapper">
-            <h1>Simple Sidebar</h1>
-            <div id="examplePadBasic"></div>
+            <h3>Keyword: HCI, homepage, index</h3>
+            <hr style="color:black">
+            <div class="mypad"></div>
         </div>
         <!-- /#page-content-wrapper -->
     </div>
@@ -89,13 +90,17 @@
 
     <!-- Menu Toggle Script -->
     <script>
-    $("#menu-toggle").click(function(e) {
-        e.preventDefault();
-        $("#wrapper").toggleClass("toggled");
-    });
+        $("#menu-toggle").click(function(e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+        });
 
-    // The most basic example
-     $('#examplePadBasic').pad({'padId':'test'}); // sets the pad id and puts the pad in the div    
+        // The most basic example
+         $('.mypad').pad({'padId':'1'}); // sets the pad id and puts the pad in the div 
+
+        function changePad(id) {
+            $('.mypad').pad({'padId':id});
+        } 
     </script>
 </body>
 
