@@ -2,20 +2,20 @@
 
   $.fn.pad = function( options ) {
     var settings = {
-      'host'              : 'http://beta.etherpad.org',
+      'host'              : 'http://127.0.0.1:9001',
       'baseUrl'           : '/p/',
-      'showControls'      : false,
+      'showControls'      : true,
       'showChat'          : false,
       'showLineNumbers'   : false,
       'userName'          : 'unnamed',
       'lang'              : '',
       'useMonospaceFont'  : false,
       'noColors'          : false,
-      'userColor'         : false,
+      'userColor'         : true,
       'hideQRCode'        : false,
       'alwaysShowChat'    : false,
       'width'             : 100,
-      'height'            : 100,
+      'height'            : 400,
       'border'            : 0,
       'borderStyle'       : 'solid',
       'toggleTextOn'      : 'Disable Rich-text',
@@ -62,7 +62,7 @@
           iFrameLink = iFrameLink +'" style="border:' + settings.border;
           iFrameLink = iFrameLink +'; border-style:' + settings.borderStyle;
           iFrameLink = iFrameLink +';" width="' + '100%';//settings.width;
-          iFrameLink = iFrameLink +'" height="' + settings.height; 
+          iFrameLink = iFrameLink +';" height="' + settings.height; 
           iFrameLink = iFrameLink +'"></iframe>';
       
       
