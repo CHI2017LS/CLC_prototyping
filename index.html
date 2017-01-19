@@ -12,6 +12,8 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link href="css/simple-sidebar.css" rel="stylesheet">
+	<!-- My CSS -->
+	<link href="css/myCss.css" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -87,7 +89,10 @@
         <!-- /#sidebar-wrapper -->
         <!-- Page Content -->
         <div id="page-content-wrapper">
-            <h3>Keyword: HCI, homepage, index</h3>
+            <span id="showBlock">
+				<b style="font-size:20px;">Keywords:</b> 
+			</span>
+			<img class="keywordAdd" src="img/add.png" id="addKeyword">
             <hr style="color:black">
             <div class="mypad"></div>
         </div>
@@ -119,6 +124,41 @@
         $("#wrapper").toggleClass("extend");
     }
     </script>
+	
+	<!-- Keywords adding Script -->
+	<script>
+		
+		var txtId = 1;
+		$("#addKeyword").click(function () {
+			$("#showBlock").append('<span id="kw' + txtId + '"><input type="text" class="keywordBtn" size="10" id="kw' + txtId + 'text" onchange="ok(this.value,'+txtId+')"/></span>');
+			
+			
+			txtId++;
+		});
+		//function deltxt(id) {
+			//$("#div"+id).remove();
+		//}
+	
+
+	</script>
+	
+	<!-- Keywords editing Script -->
+	<script>
+	  
+		function edit(kwId){
+			var keyword = document.getElementById("kw"+kwId+"text").value;
+			//document.write(keyword);
+			document.getElementById("kw"+kwId).innerHTML='<input type="text" class="keywordBtn" size="8" value="'+keyword+'" id="kw'+kwId+'text" onchange="ok(this.value,'+kwId+')"/>';
+		}
+	</script>
+	
+	<!-- Keywords confirming Script -->
+	<script>
+		function ok(edit_value, kwId){
+			document.getElementById("kw"+kwId).innerHTML='<input type="button" class="keywordBtn" id="kw'+kwId+'text" value="'+edit_value+'" onclick="edit('+kwId+')"/>';
+		}
+
+	</script>
 </body>
 
 </html>
