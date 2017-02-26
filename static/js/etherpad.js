@@ -2,8 +2,8 @@
 
   $.fn.pad = function( options ) {
     var settings = {
-      // 'host'              : 'https://clc-etherpad.herokuapp.com',
-      'host'              : 'http://0.0.0.0:9001',
+      'host'              : 'https://clc-etherpad.herokuapp.com',
+      // 'host'              : 'http://0.0.0.0:9001',
       'baseUrl'           : '/p/',
       'showControls'      : true,
       'showChat'          : false,
