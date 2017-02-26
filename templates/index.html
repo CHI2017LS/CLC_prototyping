@@ -39,43 +39,69 @@
                     </li>
                     <div class="imgFrame">
                         <div class="row">
-                            <a id="1" href="javascript: return false;" onclick="changePad(this.id);"> <img class="img-responsive" src="http://imgur.com/UBOTllp.jpg" tabindex="0" alt=""></a>
-                            <p id="pad-1" class="number-of-editing"></p>
+                            <div class="row-left">
+                                <a id="1" href="javascript: return false;" onclick="changePad(this.id);"> <img class="img-responsive" src="http://imgur.com/UBOTllp.jpg" tabindex="0" alt=""></a>
+                            </div>
+                            <div class="row-right">
+                                <img src="/static/img/user.png">
+                                <p id="padInfo-1" class="number-of-editing"></p>
+                            </div>
                         </div>
                         <hr>
                         <div class="row">
                             <a id="2" href="javascript: return false;" onclick="changePad(this.id);"> <img class="img-responsive" src="http://imgur.com/74fTXqv.jpg" tabindex="0" alt=""></a>
-                            <p id="pad-2" class="number-of-editing"></p>
+                            <div class="row-right">
+                                <img src="/static/img/user.png">                            
+                                <p id="padInfo-2" class="number-of-editing"></p>
+                            </div>
                         </div>
                         <hr>
                         <div class="row">
                             <a id="3" href="javascript: return false;" onclick="changePad(this.id);"> <img class="img-responsive" src="http://imgur.com/T73fYI2.jpg" tabindex="0" alt=""></a>
-                            <p id="pad-3" class="number-of-editing"></p>
+                            <div class="row-right">
+                                <img src="/static/img/user.png">                            
+                                <p id="padInfo-3" class="number-of-editing"></p>
+                            </div>
                         </div>
                         <hr>
                         <div class="row">
                             <a id="4" href="javascript: return false;" onclick="changePad(this.id);"> <img class="img-responsive" src="http://imgur.com/SYk7C9w.jpg" tabindex="0" alt=""></a>
-                            <p id="pad-4" class="number-of-editing"></p>
+                            <div class="row-right">
+                                <img src="/static/img/user.png">                            
+                                <p id="padInfo-4" class="number-of-editing"></p>
+                            </div>
                         </div>
                         <hr>
                         <div class="row">
                             <a id="5" href="javascript: return false;" onclick="changePad(this.id);"> <img class="img-responsive" src="http://imgur.com/X3gapju.jpg" tabindex="0" alt=""></a>
-                            <p id="pad-5" class="number-of-editing"></p>
+                            <div class="row-right">
+                                <img src="/static/img/user.png">                            
+                                <p id="padInfo-5" class="number-of-editing"></p>
+                            </div>
                         </div>
                         <hr>
                         <div class="row">
                             <a id="6" href="javascript: return false;" onclick="changePad(this.id);"> <img class="img-responsive" src="http://imgur.com/pv8OwMO.jpg" tabindex="0" alt=""></a>
-                            <p id="pad-6" class="number-of-editing"></p>
+                            <div class="row-right">
+                                <img src="/static/img/user.png">                            
+                                <p id="padInfo-6" class="number-of-editing"></p>
+                            </div>
                         </div>
                         <hr>
                         <div class="row">
                             <a id="7" href="javascript: return false;" onclick="changePad(this.id);"> <img class="img-responsive" src="http://imgur.com/bVJIOj5.jpg" tabindex="0" alt=""></a>
-                            <p id="pad-7" class="number-of-editing"></p>
+                            <div class="row-right">
+                                <img src="/static/img/user.png">                            
+                                <p id="padInfo-7" class="number-of-editing"></p>
+                            </div>
                         </div>
                         <hr>
                         <div class="row">
                             <a id="8" href="javascript: return false;" onclick="changePad(this.id);"> <img class="img-responsive" src="about:blank" tabindex="0" alt="" id="show-picture" ></a>
-                            <p id="pad-8" class="number-of-editing"></p>
+                            <div class="row-right">
+                                <img src="/static/img/user.png">                            
+                                <p id="padInfo-8" class="number-of-editing"></p>
+                            </div>
                         </div>
                     </div>
                     <hr>
@@ -157,13 +183,14 @@
             response = JSON.parse(response);    // parse JSON string
 
             for(var padID in response){
-                if(document.getElementById("pad-" + padID)) {
-                    $("#pad-" + padID).text('Number of people editing: ' + response[padID]);
+                if(document.getElementById("padInfo-" + padID)) {
+                    // $("#padInfo-" + padID).text('Number of people editing: ' + response[padID]);
+                    $("#padInfo-" + padID).text(response[padID]);
                 }                
            }            
         }); 
 
-        setTimeout(getPadUsersCount, 3000);
+        setTimeout(getPadUsersCount, 3000); // call getPadUsersCount every 3 seconds
     }       
     </script>
 	
