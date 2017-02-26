@@ -31,6 +31,9 @@ Download etherpad-lite-heroku and push it to heroku server.
 ### Add etherpad API key
 Add the api key to heroku's configuration either by heroku web settings or the command:
 `heroku config:add ETHERPAD_API_KEY=somereallylongrandomstring`
+### Use Etherpad API on Heroku
+Modify the code in CLC_prototyping/etherpad-lite/__init__.py:
+change the base_url of line 24 from `https://localhost:9001/api` to `https://clc-etherpad.herokuapp.com/api`
 
 For more information about the usage of etherpad api:      
 1. http://etherpad.org/doc/v1.6.0/#index_paduserscount_padid       
