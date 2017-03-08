@@ -226,12 +226,12 @@ input[type="file"] {
 
     .sidebar-nav div,li,hr{display: none;}
     .sidebar-nav li.icon {display: block;}
-    .sidebar-nav.responsive div:not(:first-child) {
+    .sidebar-nav.responsive div {
         float: none;
         display: inline;
 
     }
-    .sidebar-nav.responsive div:not(:first-child) a {
+    .sidebar-nav.responsive div a {
         display: block;
         text-align: left;
     }

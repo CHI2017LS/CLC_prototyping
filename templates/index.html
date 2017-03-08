@@ -9,11 +9,12 @@
     <meta name="author" content="">
     <title>Simple Sidebar - Start Bootstrap Template</title>
     <!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    
     <!-- Custom CSS -->
-    <link href="css/simple-sidebar.css" rel="stylesheet">
-	<!-- My CSS -->
-	<link href="css/myCss.css" rel="stylesheet">
+    <link href="/static/css/simple-sidebar.css" rel="stylesheet">
+    <link href="/static/css/myCss.css" rel="stylesheet">
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -38,35 +39,69 @@
                     </li>
                     <div class="imgFrame">
                         <div class="row">
-                            <a id="1" href="javascript: return false;" onclick="changePad(this.id);"> <img class="img-responsive" src="http://imgur.com/UBOTllp.jpg" tabindex="0" alt=""></a>
+                            <div class="row-left">
+                                <a id="1" href="javascript: return false;" onclick="changePad(this.id);"> <img class="img-responsive" src="http://imgur.com/UBOTllp.jpg" tabindex="0" alt=""></a>
+                            </div>
+                            <div class="row-right">
+                                <img src="/static/img/user.png">
+                                <p id="padInfo-1" class="number-of-editing"></p>
+                            </div>
                         </div>
                         <hr>
                         <div class="row">
                             <a id="2" href="javascript: return false;" onclick="changePad(this.id);"> <img class="img-responsive" src="http://imgur.com/74fTXqv.jpg" tabindex="0" alt=""></a>
+                            <div class="row-right">
+                                <img src="/static/img/user.png">                            
+                                <p id="padInfo-2" class="number-of-editing"></p>
+                            </div>
                         </div>
                         <hr>
                         <div class="row">
                             <a id="3" href="javascript: return false;" onclick="changePad(this.id);"> <img class="img-responsive" src="http://imgur.com/T73fYI2.jpg" tabindex="0" alt=""></a>
+                            <div class="row-right">
+                                <img src="/static/img/user.png">                            
+                                <p id="padInfo-3" class="number-of-editing"></p>
+                            </div>
                         </div>
                         <hr>
                         <div class="row">
                             <a id="4" href="javascript: return false;" onclick="changePad(this.id);"> <img class="img-responsive" src="http://imgur.com/SYk7C9w.jpg" tabindex="0" alt=""></a>
+                            <div class="row-right">
+                                <img src="/static/img/user.png">                            
+                                <p id="padInfo-4" class="number-of-editing"></p>
+                            </div>
                         </div>
                         <hr>
                         <div class="row">
                             <a id="5" href="javascript: return false;" onclick="changePad(this.id);"> <img class="img-responsive" src="http://imgur.com/X3gapju.jpg" tabindex="0" alt=""></a>
+                            <div class="row-right">
+                                <img src="/static/img/user.png">                            
+                                <p id="padInfo-5" class="number-of-editing"></p>
+                            </div>
                         </div>
                         <hr>
                         <div class="row">
                             <a id="6" href="javascript: return false;" onclick="changePad(this.id);"> <img class="img-responsive" src="http://imgur.com/pv8OwMO.jpg" tabindex="0" alt=""></a>
+                            <div class="row-right">
+                                <img src="/static/img/user.png">                            
+                                <p id="padInfo-6" class="number-of-editing"></p>
+                            </div>
                         </div>
                         <hr>
                         <div class="row">
                             <a id="7" href="javascript: return false;" onclick="changePad(this.id);"> <img class="img-responsive" src="http://imgur.com/bVJIOj5.jpg" tabindex="0" alt=""></a>
+                            <div class="row-right">
+                                <img src="/static/img/user.png">                            
+                                <p id="padInfo-7" class="number-of-editing"></p>
+                            </div>
                         </div>
                         <hr>
                         <div class="row">
-                            <a id="7" href="javascript: return false;" onclick="changePad(this.id);"> <img class="img-responsive" src="about:blank" tabindex="0" alt="" id="show-picture" ></a>
+                            <a id="8" href="javascript: return false;" onclick="changePad(this.id);"> <img class="img-responsive" src="about:blank" tabindex="0" alt="" id="show-picture" ></a>
+                            <div class="row-right">
+                                <img src="/static/img/user.png">                            
+                                <p id="padInfo-8" class="number-of-editing"></p>
+                            </div>
                         </div>
                     </div>
                     <hr>
@@ -92,7 +127,8 @@
             <span id="showBlock">
 				<b style="font-size:20px;">Keywords:</b> 
 			</span>
-			<img class="keywordAdd" src="img/add.png" id="addKeyword">
+			<img class="keywordAdd" src="/static/img/add.png" id="addKeyword">
+
             <hr style="color:black">
             <div class="mypad"></div>
         </div>
@@ -100,12 +136,23 @@
     </div>
     <!-- /#wrapper -->
     <!-- jQuery -->
-    <script src="js/jquery.js"></script>
-    <script src="js/etherpad.js"></script>
-    <script src="js/upload-photo.js"></script>
+    <script src="/static/js/jquery.js"></script>
+    <script src="/static/js/etherpad.js"></script>
+    <script src="/static/js/upload-photo.js"></script>
+
     <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+
     <!-- Menu Toggle Script -->
+    <script>
+    function extend() {
+        $(".sidebar-nav").toggleClass("responsive");
+        $("#sidebar-wrapper").toggleClass("extend");
+        $("#wrapper").toggleClass("extend");
+    }
+    </script>
+
+    <!-- Create pad and change pad Script -->
     <script>
     // Initially display the pad of the first slide
     $('.mypad').pad({
@@ -117,12 +164,34 @@
             'padId': id
         });
     }
+    </script>
 
-    function extend() {
-        $(".sidebar-nav").toggleClass("responsive");
-        $("#sidebar-wrapper").toggleClass("extend");
-        $("#wrapper").toggleClass("extend");
-    }
+    <!-- Update pad users count -->
+    <script type="text/javascript">
+    $(function() {
+        console.log( "ready!" );
+        getPadUsersCount();
+    });    
+
+    function getPadUsersCount() {
+        console.log( "get users count!" );
+        $.ajax({
+          type: "GET",
+          url: "/getpadusercount"
+        }).done(function( response ) {
+            console.log(response);
+            response = JSON.parse(response);    // parse JSON string
+
+            for(var padID in response){
+                if(document.getElementById("padInfo-" + padID)) {
+                    // $("#padInfo-" + padID).text('Number of people editing: ' + response[padID]);
+                    $("#padInfo-" + padID).text(response[padID]);
+                }                
+           }            
+        }); 
+
+        setTimeout(getPadUsersCount, 3000); // call getPadUsersCount every 3 seconds
+    }       
     </script>
 	
 	<!-- Keywords adding Script -->

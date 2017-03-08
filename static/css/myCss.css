@@ -20,5 +20,8 @@
 .keywordAdd {
 	cursor:pointer;
 }
-		
 
+.number-of-editing {
+	color: #fff;
+	display: inline;
+}
