@@ -9,11 +9,11 @@
     <meta name="author" content="">
     <title>Simple Sidebar - Start Bootstrap Template</title>
     <!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="static/css/bootstrap.min.css" rel="stylesheet">
     
     <!-- Custom CSS -->
-    <link href="css/simple-sidebar.css" rel="stylesheet">
-    <link href="css/myCss.css" rel="stylesheet">
+    <link href="static/css/simple-sidebar.css" rel="stylesheet">
+    <link href="static/css/myCss.css" rel="stylesheet">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -43,7 +43,7 @@
                                 <a id="1" href="javascript: return false;" onclick="changePad(this.id);"> <img class="img-responsive" src="http://imgur.com/UBOTllp.jpg" tabindex="0" alt=""></a>
                             </div>
                             <div class="row-right">
-                                <img src="img/user.png">
+                                <img src="static/img/user.png">
                                 <p id="padInfo-1" class="number-of-editing"></p>
                             </div>
                         </div>
@@ -72,9 +72,9 @@
         <div id="page-content-wrapper">
 
             <span id="showBlock">
-				<b style="font-size:20px;">Keywords:</b> 
-			</span>
-			<img class="keywordAdd" src="img/add.png" id="addKeyword">
+                <b style="font-size:20px;">Keywords:</b> 
+            </span>
+            <img class="keywordAdd" src="static/img/add.png" id="addKeyword">
 
             <hr style="color:black">
 
@@ -96,13 +96,13 @@
     </script>
     <!-- /#wrapper -->
     <!-- jQuery -->
-    <script src="js/jquery.js"></script>
-    <script src="js/etherpad.js"></script>
-    <script src="js/firebase.js"></script>
-    <script src="js/upload-photo.js"></script>
+    <script src="static/js/jquery.js"></script>
+    <script src="static/js/etherpad.js"></script>
+    <script src="static/js/firebase.js"></script>
+    <script src="static/js/upload-photo.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
+    <script src="static/js/bootstrap.min.js"></script>
 
     <!-- Menu Toggle Script -->
     <script>
@@ -153,41 +153,41 @@
     }
     */
     </script>
-	
-	<!-- Keywords adding Script -->
-	<script>
-		
-		var txtId = 1;
-		$("#addKeyword").click(function () {
-			$("#showBlock").append('<span id="kw' + txtId + '"><input type="text" class="keywordBtn" size="10" id="kw' + txtId + 'text" onchange="ok(this.value,'+txtId+')"/></span>');
-			
-			
-			txtId++;
-		});
-		//function deltxt(id) {
-			//$("#div"+id).remove();
-		//}
-	
+    
+    <!-- Keywords adding Script -->
+    <script>
+        
+        var txtId = 1;
+        $("#addKeyword").click(function () {
+            $("#showBlock").append('<span id="kw' + txtId + '"><input type="text" class="keywordBtn" size="10" id="kw' + txtId + 'text" onchange="ok(this.value,'+txtId+')"/></span>');
+            
+            
+            txtId++;
+        });
+        //function deltxt(id) {
+            //$("#div"+id).remove();
+        //}
+    
 
-	</script>
-	
-	<!-- Keywords editing Script -->
-	<script>
-	  
-		function edit(kwId){
-			var keyword = document.getElementById("kw"+kwId+"text").value;
-			//document.write(keyword);
-			document.getElementById("kw"+kwId).innerHTML='<input type="text" class="keywordBtn" size="8" value="'+keyword+'" id="kw'+kwId+'text" onchange="ok(this.value,'+kwId+')"/>';
-		}
-	</script>
-	
-	<!-- Keywords confirming Script -->
-	<script>
-		function ok(edit_value, kwId){
-			document.getElementById("kw"+kwId).innerHTML='<input type="button" class="keywordBtn" id="kw'+kwId+'text" value="'+edit_value+'" onclick="edit('+kwId+')"/>';
-		}
+    </script>
+    
+    <!-- Keywords editing Script -->
+    <script>
+      
+        function edit(kwId){
+            var keyword = document.getElementById("kw"+kwId+"text").value;
+            //document.write(keyword);
+            document.getElementById("kw"+kwId).innerHTML='<input type="text" class="keywordBtn" size="8" value="'+keyword+'" id="kw'+kwId+'text" onchange="ok(this.value,'+kwId+')"/>';
+        }
+    </script>
+    
+    <!-- Keywords confirming Script -->
+    <script>
+        function ok(edit_value, kwId){
+            document.getElementById("kw"+kwId).innerHTML='<input type="button" class="keywordBtn" id="kw'+kwId+'text" value="'+edit_value+'" onclick="edit('+kwId+')"/>';
+        }
 
-	</script>
+    </script>
 </body>
 
 </html>

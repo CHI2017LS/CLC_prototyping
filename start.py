@@ -5,10 +5,18 @@ from flask import request
 import json
 
 app = Flask(__name__)
+app.config.update(
+	TEMPLATES_AUTO_RELOAD = True
+)
 
 @app.route("/")
 def index():
 	return render_template('index.html')
+
+@app.route("/slides")
+def slides():
+	return render_template('slides.html')
+
 
 @app.route("/getpadusercount")
 def getPadUsersCount(userCount = None):
