@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, shrink-to-fit=no, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Simple Sidebar - Start Bootstrap Template</title>
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link href="css/simple-sidebar.css" rel="stylesheet">
+    <link href="css/myCss.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <div id="wrapper">
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <div class="col-md-offset-2">
+                <ul class="sidebar-nav">
+                    <li class="sidebar-brand">
+                        <a href="#">
+                        CHI2017 CLC Tool
+                    </a>
+                    </li>  
+                    <li class="icon">
+                        <a href=";" onclick="extend()">&#9776;</a>
+                    </li>
+                    <div class="slideTemplate">
+                        <div class="row">
+                            <div class="row-left">
+                                <a id="1" href="javascript: return false;" onclick="changePad(this.id);"> <img class="img-responsive" src="http://imgur.com/UBOTllp.jpg" tabindex="0" alt=""></a>
+                            </div>
+                            <div class="row-right">
+                                <img src="img/user.png">
+                                <p id="padInfo-1" class="number-of-editing"></p>
+                            </div>
+                        </div>
+                        <hr>
+                        
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <label class="take-picture">
+                            <span class="btn-label"><i class="glyphicon glyphicon-camera"></i></span> Add Slides
+                            <input type="file" class="take-picture" id="take-picture" accept="image/*">
+                        </label>
+                        <!--
+                        <button type="button" class="btn btn-labeled btn-primary">
+                            <span class="btn-label"><i class="glyphicon glyphicon-camera"></i></span>Add Slides
+                        </button>-->
+                        <button type="button" class="btn btn-labeled btn-success">
+                            <span class="btn-label"><i class="glyphicon glyphicon-refresh"></i></span>Refresh
+                        </button>
+                    </div>
+                </ul>
+            </div>
+        </div>
+        <!-- /#sidebar-wrapper -->
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+
+            <span id="showBlock">
+				<b style="font-size:20px;">Keywords:</b> 
+			</span>
+			<img class="keywordAdd" src="img/add.png" id="addKeyword">
+
+            <hr style="color:black">
+
+            <iframe width="800" height="600" src="https://docs.google.com/document/d/1MJVag5wPXXHPkvDIK9ILAaZXxuFY61fhp5nH2c7Calk/edit?usp=sharing"></iframe>
+        </div>
+        <!-- /#page-content-wrapper -->
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/3.7.1/firebase.js"></script>
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyBvhsHOR3UrEdb6gTXR9tIOihdsYizOaVc",
+        authDomain: "clc-chi-6d953.firebaseapp.com",
+        databaseURL: "https://clc-chi-6d953.firebaseio.com",
+        storageBucket: "clc-chi-6d953.appspot.com",
+        messagingSenderId: "20034161141"
+      };
+      firebase.initializeApp(config);
+    </script>
+    <!-- /#wrapper -->
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+    <script src="js/etherpad.js"></script>
+    <script src="js/firebase.js"></script>
+    <script src="js/upload-photo.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- Menu Toggle Script -->
+    <script>
+    function extend() {
+        $(".sidebar-nav").toggleClass("responsive");
+        $("#sidebar-wrapper").toggleClass("extend");
+        $("#wrapper").toggleClass("extend");
+    }
+    </script>
+
+    <!-- Create pad and change pad Script -->
+    <script>
+    // Initially display the pad of the first slide
+    $('.mypad').pad({
+        'padId': '1'
+    }); // sets the pad id and puts the pad in the div 
+
+    function changePad(id) {
+        $('.mypad').pad({
+            'padId': id
+        });
+    }
+    </script>
+
+    <!-- Update pad users count -->
+    <script type="text/javascript">
+    $(function() {
+        console.log( "ready!" );
+    });
+    /*
+    function getPadUsersCount() {
+        $.ajax({
+          type: "GET",
+          url: "/getpadusercount"
+        }).done(function( response ) {
+            console.log(response);
+            response = JSON.parse(response);    // parse JSON string
+
+            for(var padID in response){
+                if(document.getElementById("padInfo-" + padID)) {
+                    // $("#padInfo-" + padID).text('Number of people editing: ' + response[padID]);
+                    $("#padInfo-" + padID).text(response[padID]);
+                }                
+           }            
+        }); 
+
+        setTimeout(getPadUsersCount, 3000); // call getPadUsersCount every 3 seconds
+    }
+    */
+    </script>
+	
+	<!-- Keywords adding Script -->
+	<script>
+		
+		var txtId = 1;
+		$("#addKeyword").click(function () {
+			$("#showBlock").append('<span id="kw' + txtId + '"><input type="text" class="keywordBtn" size="10" id="kw' + txtId + 'text" onchange="ok(this.value,'+txtId+')"/></span>');
+			
+			
+			txtId++;
+		});
+		//function deltxt(id) {
+			//$("#div"+id).remove();
+		//}
+	
+
+	</script>
+	
+	<!-- Keywords editing Script -->
+	<script>
+	  
+		function edit(kwId){
+			var keyword = document.getElementById("kw"+kwId+"text").value;
+			//document.write(keyword);
+			document.getElementById("kw"+kwId).innerHTML='<input type="text" class="keywordBtn" size="8" value="'+keyword+'" id="kw'+kwId+'text" onchange="ok(this.value,'+kwId+')"/>';
+		}
+	</script>
+	
+	<!-- Keywords confirming Script -->
+	<script>
+		function ok(edit_value, kwId){
+			document.getElementById("kw"+kwId).innerHTML='<input type="button" class="keywordBtn" id="kw'+kwId+'text" value="'+edit_value+'" onclick="edit('+kwId+')"/>';
+		}
+
+	</script>
+</body>
+
+</html>

@@ -1,13 +1,12 @@
-(function( $ ){
+ (function( $ ){
 
   $.fn.pad = function( options ) {
     var settings = {
-      'host'              : 'https://clc-etherpad.herokuapp.com',
-      // 'host'              : 'http://0.0.0.0:9001',
+      'host'              : 'http://140.114.79.181:9001',
       'baseUrl'           : '/p/',
       'showControls'      : true,
       'showChat'          : false,
-      'showLineNumbers'   : false,
+      'showLineNumbers'   : true,
       'userName'          : 'unnamed',
       'lang'              : '',
       'useMonospaceFont'  : false,
@@ -15,8 +14,8 @@
       'userColor'         : true,
       'hideQRCode'        : false,
       'alwaysShowChat'    : false,
-      'width'             : 100,
-      'height'            : 400,
+      'width'             : 500,
+      'height'            : 600,
       'border'            : 0,
       'borderStyle'       : 'solid',
       'toggleTextOn'      : 'Disable Rich-text',
@@ -27,11 +26,11 @@
     
     var $self = this;
     if (!$self.length) return;
-    if (!$self.attr('class')) throw new Error('No "class" attribute');
+    if (!$self.attr('id')) throw new Error('No "id" attribute');
     
     var useValue = $self[0].tagName.toLowerCase() == 'textarea';
-    var selfClass = $self.attr('class');
-    var epframeClass = 'epframe'+ selfClass;
+    var selfId = $self.attr('id');
+    var epframeId = 'epframe'+ selfId;
     // This writes a new frame if required
     if ( !options.getContents ) {
       if ( options ) {
@@ -43,8 +42,8 @@
         pluginParams += '&' + option + '=' + settings.plugins[option]
       }
 
-      var iFrameLink = '<iframe id="'+epframeClass;
-          iFrameLink = iFrameLink +'" name="' + epframeClass;
+      var iFrameLink = '<iframe id="'+epframeId;
+          iFrameLink = iFrameLink +'" name="' + epframeId;
           iFrameLink = iFrameLink +'" src="' + settings.host+settings.baseUrl+settings.padId;
           iFrameLink = iFrameLink + '?showControls=' + settings.showControls;
           iFrameLink = iFrameLink + '&showChat=' + settings.showChat;
@@ -62,8 +61,8 @@
           iFrameLink = iFrameLink + pluginParams;
           iFrameLink = iFrameLink +'" style="border:' + settings.border;
           iFrameLink = iFrameLink +'; border-style:' + settings.borderStyle;
-          iFrameLink = iFrameLink +';" width="' + '100%';//settings.width;
-          iFrameLink = iFrameLink +';" height="' + settings.height; 
+          iFrameLink = iFrameLink +';" width="' + settings.width; //'100%';
+          iFrameLink = iFrameLink +'" height="' + settings.height; 
           iFrameLink = iFrameLink +'"></iframe>';
       
       
@@ -90,7 +89,7 @@
 
     // This reads the etherpad contents if required
     else {
-      var frameUrl = $('#'+ epframeClass).attr('src').split('?')[0];
+      var frameUrl = $('#'+ epframeId).attr('src').split('?')[0];
       var contentsUrl = frameUrl + "/export/html";
       var target = $('#'+ options.getContents);
 
@@ -104,11 +103,11 @@
           target.html(data);
         }
         
-        $('#'+ epframeClass).remove();
+        $('#'+ epframeId).remove();
       });
     }
     
     
     return $self;
-  }; 
+  };
 })( jQuery );
