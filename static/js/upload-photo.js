@@ -17,7 +17,7 @@
                     fileReader.onload = function (event) {
                         //showPicture.src = event.target.result;
                         
-                        createSlide(event.target.result);
+                    createSlide(event.target.result);
                         
 
                     };

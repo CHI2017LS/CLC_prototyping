@@ -12,6 +12,9 @@ app.config.update(
 @app.route("/")
 def index():
 	return render_template('index.html')
+@app.route("/menu")
+def menu():
+	return render_template('menu.html')
 
 @app.route("/slides")
 def slides():
@@ -30,13 +33,27 @@ def getPadUsersCount(userCount = None):
 	
 	return json.dumps(userCount)
 
-@app.route("/setText")
-def pasteText(text=None):
-	a = request.args.get('a')
+@app.route("/createpad")
+def createPad():
+	id = request.args.get('padID')
+	print(id)
 	c = EtherpadLiteClient(base_params={'apikey':'f42591e743037bc39d530ba6b1550b0d558aed32f3e9f5e8f12cdeaa1a48b0cd'})
 	padList = c.listAllPads()
-	c.appendText(padID=padList['padIDs'][0], text=a)
-	return json.dumps('test')
+	if id in padList['padIDs']:
+		c.deletePad(padID=id)
+	message = c.createPad(padID=id)
+	message = c.setText(padID=id, text="")
+	return json.dumps(message)
+
+@app.route("/setText")
+def pasteText(padID=None,text=None):
+	a = request.args.get('a')
+	c = EtherpadLiteClient(base_params={'apikey':'f42591e743037bc39d530ba6b1550b0d558aed32f3e9f5e8f12cdeaa1a48b0cd'})
+	#padList = c.listAllPads()
+	#padList['padIDs']['']
+	message = c.appendText(padID=padID, text=a)
+	return json.dumps(message)
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0')

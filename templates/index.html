@@ -54,11 +54,11 @@
 		      lines.scrollTop = lines.scrollHeight;
 		}, 300);*/
 
-		function setContent(text) {
+		function addLine(padID,text) {
 	        $.ajax({
 	          type: "GET",
 	          url: "/setText",
-	          data:{ a: text+'\n'}
+	          data:{ text: text+'\n',padID:padID}
 
 	        }).done(function( response ) {
 	        	console.log(response);
@@ -74,7 +74,7 @@
 
 	   function scrollToBottom(){
 				//lines.scrollTop = lines.scrollHeight - lines.clientHeight;
-				lines.scrollTop = lines.scrollHeight;			
+			lines.scrollTop = lines.scrollHeight;			
 	   }
 
 		/*

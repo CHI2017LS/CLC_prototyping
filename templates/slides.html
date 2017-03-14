@@ -59,10 +59,10 @@
                         <!--
                         <button type="button" class="btn btn-labeled btn-primary">
                             <span class="btn-label"><i class="glyphicon glyphicon-camera"></i></span>Add Slides
-                        </button>-->
+                        </button>
                         <button type="button" class="btn btn-labeled btn-success">
                             <span class="btn-label"><i class="glyphicon glyphicon-refresh"></i></span>Refresh
-                        </button>
+                        </button>-->
                     </div>
                 </ul>
             </div>
@@ -78,7 +78,10 @@
 
             <hr style="color:black">
 
-            <iframe width="800" height="600" src="https://docs.google.com/document/d/1MJVag5wPXXHPkvDIK9ILAaZXxuFY61fhp5nH2c7Calk/edit?usp=sharing"></iframe>
+            <!--<iframe width="800" height="600" src="https://docs.google.com/document/d/1MJVag5wPXXHPkvDIK9ILAaZXxuFY61fhp5nH2c7Calk/edit?usp=sharing"></iframe>-->
+            <div style="float: left" id="PadContent">
+                <div id="mypad"></div>
+            </div>
         </div>
         <!-- /#page-content-wrapper -->
     </div>
@@ -98,7 +101,7 @@
     <!-- jQuery -->
     <script src="static/js/jquery.js"></script>
     <script src="static/js/etherpad.js"></script>
-    <script src="static/js/firebase.js"></script>
+    <script src="static/js/slides.js"></script>
     <script src="static/js/upload-photo.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
@@ -116,15 +119,7 @@
     <!-- Create pad and change pad Script -->
     <script>
     // Initially display the pad of the first slide
-    $('.mypad').pad({
-        'padId': '1'
-    }); // sets the pad id and puts the pad in the div 
-
-    function changePad(id) {
-        $('.mypad').pad({
-            'padId': id
-        });
-    }
+    
     </script>
 
     <!-- Update pad users count -->
@@ -160,8 +155,6 @@
         var txtId = 1;
         $("#addKeyword").click(function () {
             $("#showBlock").append('<span id="kw' + txtId + '"><input type="text" class="keywordBtn" size="10" id="kw' + txtId + 'text" onchange="ok(this.value,'+txtId+')"/></span>');
-            
-            
             txtId++;
         });
         //function deltxt(id) {

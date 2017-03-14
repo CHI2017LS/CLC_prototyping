@@ -3,29 +3,40 @@
   var slideTemplate = $(".slideTemplate");
   // Create a root reference
   var storageRef = firebase.storage().ref();
-  var databaseRef = firebase.database().ref();
-
-  var slides;
-  slideRef = databaseRef.child("slides/test");
-  slideRef.on("value", function(snapshot) {
-    slides = snapshot.val();
-    if(slides)
-    {
-      slideLength = Object.keys(slides).length;
-      console.log(slideLength);
-      for (var k in slides) {
-          if (slides.hasOwnProperty(k)) {
-            console.log($('#slide'+k));
-            if($('#slide'+k).length==0)
-             addSlide(k,slides[k].img);
-          }
-      }  
-    }
-    
-    //addSlide(slide);
+  var databaseRef = firebase.database().ref().child('chiclc');
+  var slidesRef;
+  var sessionInfo;
+  $(document).ready(function()
+  {
+    init();
   });
+  function init()
+  {
+      databaseRef.child("session/"+QueryString.session_id).once('value').then(function(snapshot) {
+      console.log(snapshot.val());
+      sessionInfo = snapshot.val();
+      sessionTitle = snapshot.val().title;
+      $('.title').text(sessionTitle);
+      listenToSlides();
+    });
+  }
+
+  function listenToSlides()
+  {
+    sessionID = QueryString.session_id;
+
+    slidesRef = databaseRef.child("session/"+QueryString.session_id+"/slides");
+    slidesRef.on("child_added", function(snapshot) {
+      var slide = snapshot.val();
+      if(slide)
+      {
+        addSlide(snapshot.key,slide.img);
+      }
+    });
+  }
   var slideLength = 0;
-  
+  var sessionTitle;
+  var sessionID;
     
   function addSlide(id,img_url)
   {
@@ -33,27 +44,60 @@
     console.log(img_url);
     $(newSlide).attr('class','slide');
     $(newSlide).attr('id','slide'+id);
+    $(newSlide).find('a').attr('onclick',"changePad('"+sessionID+sessionTitle+id+"')");
     $(newSlide).find('img.img-responsive').attr('src',img_url);
     //var el = $("<li class='list-group-item'><b><img src=" +  img_url + ":</b> " + "ee" + "</li>");//modify
-      slideList.append(newSlide);
+    slideList.append(newSlide);
   }
  
-  function createSlide(data_url) {
-    uploadFirebase(data_url,1,null);
+  function createSlide(data_url){
+    
+      databaseRef.child("session/"+QueryString.session_id).once('value').then(function(snapshot) {
+          var slidesCount = 0;
+          if(sessionInfo.slides!=null)
+            slidesCount = snapshot.val().slides.length;
+        console.log("id:"+slidesCount);
+        createPad(sessionID+sessionTitle+slidesCount,function()
+          {
+            changePad(sessionID+sessionTitle+slidesCount)
+          });
+        console.log('before uploade');
+        uploadImageToFirebase(data_url,slidesCount,null);
+      });
   }
 
   var imgRef;
-  function uploadFirebase(data_url,slideId,callback)
+  function uploadImageToFirebase(data_url,slideId,callback)
   {
-    // Base64 formatted string
-    var id = ID();
-    console.log('uploading base64 image');
-
-    imgRef = storageRef.child('images/'+id+'.png');
+    console.log('images/'+sessionTitle+slideId+'.png');
+    imgRef = storageRef.child('images/'+sessionTitle+slideId+'.png');
     imgRef.putString(data_url, 'data_url').then(function(snapshot) {  
-      getFileURL(callback)
+      getFileURL(slideId,callback)
     });
   }
+
+var QueryString = function () {
+  // This function is anonymous, is executed immediately and 
+  // the return value is assigned to QueryString!
+  var query_string = {};
+  var query = window.location.search.substring(1);
+  var vars = query.split("&");
+  for (var i=0;i<vars.length;i++) {
+    var pair = vars[i].split("=");
+        // If first entry with this name
+    if (typeof query_string[pair[0]] === "undefined") {
+      query_string[pair[0]] = decodeURIComponent(pair[1]);
+        // If second entry with this name
+    } else if (typeof query_string[pair[0]] === "string") {
+      var arr = [ query_string[pair[0]],decodeURIComponent(pair[1]) ];
+      query_string[pair[0]] = arr;
+        // If third or later entry with this name
+    } else {
+      query_string[pair[0]].push(decodeURIComponent(pair[1]));
+    }
+  } 
+  return query_string;
+}();
 
 var ID = function () {
   // Math.random should be unique because of its seeding algorithm.
@@ -67,15 +111,17 @@ var ID = function () {
   //return id;
 };
 
-function getFileURL(callback)
+//save slides
+function getFileURL(slideId,callback)
 {
   console.log('slides database');
   var talk_topic = "test";
   var result = imgRef.getDownloadURL().then(function(url) {
     console.log(url);
-    var re = firebase.database().ref('slides/'+talk_topic+'/'+slideLength).set({
+    var re = slidesRef.child(slideId).set({
       img: url
     });
+    
     console.log(re);
 
     }).catch(function(error) {
@@ -105,14 +151,54 @@ function writeGameData() {
     });  
   }
 }
+function addLine(padID,text) {
+          $.ajax({
+            type: "GET",
+            url: "/setText",
+            data:{ text: text+'\n',padID:padID}
 
+          }).done(function( response ) {
+            console.log(response);
+              response = JSON.parse(response);    // parse JSON string
+              console.log(response);
+              for(var padID in response){
+                  console.log('test');
+             }            
+          }); 
+
+          //setTimeout(getPadUsersCount, 3000); // call getPadUsersCount every 3 seconds
+      }
+      
+
+var changePad = function(id){
+  console.log(id);
+    $('#mypad').pad({
+        'padId': id
+    });
+}
+changePad('welcome');
+function createPad(padID,callback) {
+          $.ajax({
+            type: "GET",
+            url: "/createpad",
+            data:{padID:padID}
+          }).done(function( response ) {
+            callback();
+            console.log(response);
+              response = JSON.parse(response);    // parse JSON string
+              console.log(response);
+          }); 
+
+          //setTimeout(getPadUsersCount, 3000); // call getPadUsersCount every 3 seconds
+      }
+/*
 function writeUserData(userId, name, email, imageUrl) {
   firebase.database().ref('users/' + userId).set({
     username: name,
     email: email,
     profile_picture : imageUrl
   });
-}
+}*/
 
 $(document).ready(function() {
   // Get references to Firebase data
