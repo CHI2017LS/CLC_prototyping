@@ -33,6 +33,7 @@
         addSlide(snapshot.key,slide.img);
       }
     });
+    recognition.start();
   }
   var slideLength = 0;
   var sessionTitle;
@@ -169,9 +170,10 @@ function addLine(padID,text) {
           //setTimeout(getPadUsersCount, 3000); // call getPadUsersCount every 3 seconds
       }
       
-
+var currentPadId;
 var changePad = function(id){
   console.log(id);
+  currentPadId = id;
     $('#mypad').pad({
         'padId': id
     });
@@ -199,6 +201,32 @@ function writeUserData(userId, name, email, imageUrl) {
     profile_picture : imageUrl
   });
 }*/
+
+var recognition = new webkitSpeechRecognition();
+
+recognition.continuous=true
+recognition.interimResults=true;
+recognition.lang="en-US";
+//recognition.lang="cmn-Hant-TW";
+recognition.onend = function(){
+  console.log('restart');
+    recognition.start();
+}
+
+recognition.onstart=function(){
+  console.log('開始辨識...');
+};
+
+recognition.onresult=function(event){
+  var i = event.resultIndex;
+  var j = event.results[i].length-1;
+  console.log(event.results[i][j].transcript);
+  console.log(currentPadId);
+  addLine(currentPadId,event.results[i][j].transcript);
+};
+
+
+
 
 $(document).ready(function() {
   // Get references to Firebase data

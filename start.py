@@ -47,11 +47,12 @@ def createPad():
 
 @app.route("/setText")
 def pasteText(padID=None,text=None):
-	a = request.args.get('a')
+	text = request.args.get('text')
+	padID = request.args.get('padID')
 	c = EtherpadLiteClient(base_params={'apikey':'f42591e743037bc39d530ba6b1550b0d558aed32f3e9f5e8f12cdeaa1a48b0cd'})
 	#padList = c.listAllPads()
 	#padList['padIDs']['']
-	message = c.appendText(padID=padID, text=a)
+	message = c.appendText(padID=padID, text=text)
 	return json.dumps(message)
 
 
