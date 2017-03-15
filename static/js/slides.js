@@ -154,22 +154,21 @@ function writeGameData() {
   }
 }
 
-function addLine(padID,text, lastDivId) {
-          // $.ajax({
-          //   type: "GET",
-          //   url: "/setText",
-          //   data:{ text: text+'\n',padID:padID}
+function addLine(padID,text) {
+          $.ajax({
+            type: "GET",
+            url: "/setText",
+            data:{ text: text+'\n',padID:padID}
 
-          // }).done(function( response ) {
-          //   console.log(response);
-          //     response = JSON.parse(response);    // parse JSON string
-          //     console.log(response);
-          //     for(var padID in response){
-          //         console.log('test');
-          //    }            
-          // }); 
-
-    $('#'+padID+lastDivId).text(text);         
+          }).done(function( response ) {
+            console.log(response);
+              response = JSON.parse(response);    // parse JSON string
+              console.log(response);
+              for(var padID in response){
+                  console.log('test');
+             }            
+          }); 
+        
 }
       
 var currentPadId;
@@ -234,11 +233,17 @@ function writeUserData(userId, name, email, imageUrl) {
 
     // addLineEvent(currentPadId, event);
     if(!event.results[i].isFinal){
-      addLine(currentPadId,event.results[i][j].transcript,lastDivId);
+      $('#'+currentPadId+lastDivId).text(event.results[i][j].transcript); 
     }
     else{
+      // addLine(currentPadId,event.results[i][j].transcript);
+      $('#'+currentPadId+lastDivId).css('cursor', 'pointer');
+      $('#'+currentPadId+lastDivId).click(function(){
+          console.log('click');
+          addLine(currentPadId, $(this).text());
+      });      
       lastDivId += 1;
-      console.log(lastDivId);
+      console.log(lastDivId);      
       jQuery('<div/>', {
           id: currentPadId+lastDivId
       }).appendTo('#lines');
