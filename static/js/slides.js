@@ -6,6 +6,7 @@
   var databaseRef = firebase.database().ref().child('chiclc');
   var slidesRef;
   var sessionInfo;
+
   $(document).ready(function()
   {
     init();
@@ -33,7 +34,7 @@
         addSlide(snapshot.key,slide.img);
       }
     });
-    recognition.start();
+    // recognition.start();
   }
   var slideLength = 0;
   var sessionTitle;
@@ -202,30 +203,57 @@ function writeUserData(userId, name, email, imageUrl) {
   });
 }*/
 
-var recognition = new webkitSpeechRecognition();
+// var recognition = new webkitSpeechRecognition();
+var recognition;
+if (annyang) {
+  annyang.start(continuous=true);
+  recognition = annyang.getSpeechRecognizer();
+  console.log(recognition);
 
-recognition.continuous=true
-recognition.interimResults=true;
-recognition.lang="en-US";
-//recognition.lang="cmn-Hant-TW";
-recognition.onend = function(){
-  console.log('restart');
-    recognition.start();
+  // var commands = {
+  //   '*speech': 
+    
+    // function(speech) { 
+        // console.log(speech); 
+
+        // $.ajax({
+        //   type: "GET",
+        //   url: "/setText",
+        //   data:{ a: speech+'\n'}
+
+        // }).done(function( response ) {
+        //     console.log(response);
+        //     response = JSON.parse(response);    // parse JSON string
+        //     console.log(response);
+        //     for(var padID in response){
+        //         console.log('test');
+        //    }            
+        // });             
+    // }
+
+  
+    recognition.continuous=true;
+    recognition.interimResults=true;
+    // recognition.lang="en-US";
+    //recognition.lang="cmn-Hant-TW";
+    // recognition.onend = function(){
+    // console.log('restart');
+    //   recognition.start();
+    // }
+
+    // recognition.onstart=function(){
+    // console.log('開始辨識...');
+    // };
+    // recognition.start();
+      // recognition.onresult=function(event){
+      // var i = event.resultIndex;
+      // var j = event.results[i].length-1;
+      // console.log(event.results[i][j].transcript);
+      // console.log(currentPadId);
+      // addLine(currentPadId,event.results[i][j].transcript);
+      // };
+
 }
-
-recognition.onstart=function(){
-  console.log('開始辨識...');
-};
-
-recognition.onresult=function(event){
-  var i = event.resultIndex;
-  var j = event.results[i].length-1;
-  console.log(event.results[i][j].transcript);
-  console.log(currentPadId);
-  addLine(currentPadId,event.results[i][j].transcript);
-};
-
-
 
 
 $(document).ready(function() {
