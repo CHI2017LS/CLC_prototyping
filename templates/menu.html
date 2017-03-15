@@ -1,0 +1,38 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+	<div class="session-block-template">
+	<a href="/slides?session_id">
+		<p class="session-title">sessionPadTemplate</p>
+		<p class="session-time">time:13:00</p>
+		</a>
+	</div>
+
+<div class="session-display-area">
+	
+</div>
+
+
+<div>
+	<p>title: <input id='create-session-titlefield' type="text" name="title" value="type"></p>
+	<input id="create-session-btn" type="button" name="Create session" value="Create Session">
+</div>
+</body> 
+<script src="static/js/jquery.js"></script>
+<script src="https://www.gstatic.com/firebasejs/3.7.1/firebase.js"></script>
+	<script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyBvhsHOR3UrEdb6gTXR9tIOihdsYizOaVc",
+        authDomain: "clc-chi-6d953.firebaseapp.com",
+        databaseURL: "https://clc-chi-6d953.firebaseio.com",
+        storageBucket: "clc-chi-6d953.appspot.com",
+        messagingSenderId: "20034161141"
+      };
+      firebase.initializeApp(config);
+    </script>
+<script src="static/js/menu.js"></script>
+</html>

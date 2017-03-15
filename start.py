@@ -5,16 +5,26 @@ from flask import request
 import json
 
 app = Flask(__name__)
+app.config.update(
+	TEMPLATES_AUTO_RELOAD = True
+)
 
 @app.route("/")
 def index():
 	return render_template('index.html')
+@app.route("/menu")
+def menu():
+	return render_template('menu.html')
+
+@app.route("/slides")
+def slides():
+	return render_template('slides.html')
+
 
 @app.route("/getpadusercount")
 def getPadUsersCount(userCount = None):
-	# c = EtherpadLiteClient(base_params={'apikey':'521b9da922ce0c1a01c929eab6e35970edbc25629c2a3080a9a59437a9810138'})
-	c = EtherpadLiteClient(base_params={'apikey':'8ca139f10b904bf9420718c4977c4f9e2a06fca26a20c81d337e2a08c3bb478a'})
-	
+	c = EtherpadLiteClient(base_params={'apikey':'f42591e743037bc39d530ba6b1550b0d558aed32f3e9f5e8f12cdeaa1a48b0cd'})
+	# c = EtherpadLiteClient(base_params={'apikey':'555ddf5d51cba5e38e93d538742a02f7d1b2ea968ca4dcccb983f31c954d632b'})
 	padList = c.listAllPads()
 	userCount = {}
 
@@ -23,5 +33,29 @@ def getPadUsersCount(userCount = None):
 	
 	return json.dumps(userCount)
 
+@app.route("/createpad")
+def createPad():
+	id = request.args.get('padID')
+	print(id)
+	c = EtherpadLiteClient(base_params={'apikey':'f42591e743037bc39d530ba6b1550b0d558aed32f3e9f5e8f12cdeaa1a48b0cd'})
+	padList = c.listAllPads()
+	if id in padList['padIDs']:
+		c.deletePad(padID=id)
+	message = c.createPad(padID=id)
+	message = c.setText(padID=id, text="")
+	return json.dumps(message)
+
+@app.route("/setText")
+def pasteText(padID=None,text=None):
+	text = request.args.get('text')
+	padID = request.args.get('padID')
+	c = EtherpadLiteClient(base_params={'apikey':'f42591e743037bc39d530ba6b1550b0d558aed32f3e9f5e8f12cdeaa1a48b0cd'})
+	#padList = c.listAllPads()
+	#padList['padIDs']['']
+	message = c.appendText(padID=padID, text=text)
+	return json.dumps(message)
+
+
 if __name__ == "__main__":
-    app.run(debug = True)
+    app.run(host='0.0.0.0')
+
