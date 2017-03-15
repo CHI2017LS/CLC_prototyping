@@ -36,7 +36,7 @@
                     </a>
                     </li>  
                     <li class="icon">
-                        <a href=";" onclick="extend()">&#9776;</a>
+                        <a onclick="extend()">&#9776;</a>
                     </li>
                     <div class="slideTemplate">
                         <div class="row">
@@ -82,11 +82,12 @@
             <!--<iframe width="800" height="600" src="https://docs.google.com/document/d/1MJVag5wPXXHPkvDIK9ILAaZXxuFY61fhp5nH2c7Calk/edit?usp=sharing"></iframe>-->
             <div style="float: left" id="PadContent">
                 <div id="mypad"></div>
+                <button type="button" onclick="start()"> Start </button>
+                <button type="button" onclick="restart()"> Restart </button>
+                <div id="lines" style="height:200px; overflow-y: scroll; overflow-x: hidden;">
             </div>
 
-            <button type="button" onclick="start()"> Start </button>
-            <button type="button" onclick="restart()"> Restart </button>
-            <div id="lines" style="height:200px; overflow-y: scroll; overflow-x: hidden;">
+
         </div>
         <!-- /#page-content-wrapper -->
     </div>
