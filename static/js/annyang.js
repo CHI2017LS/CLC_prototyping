@@ -51,7 +51,7 @@
   var debugState = false;
   var debugStyle = 'font-weight: bold; color: #00f;';
   var pauseListening = false;
-  var isListening = false;
+  var isListening = true;
 
   // The command matching code is a modified version of Backbone.Router by Jeremy Ashkenas, under the MIT license.
   var optionalParam = /\s*\((.*?)\)\s*/g;
@@ -232,6 +232,7 @@
       };
 
       recognition.onresult = function(event) {
+        console.log(recognition);
        var i = event.resultIndex;
       var j = event.results[i].length-1;
       console.log("annyang.js: " + event.results[i][j].transcript);       
