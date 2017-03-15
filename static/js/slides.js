@@ -56,7 +56,7 @@
     
       databaseRef.child("session/"+QueryString.session_id).once('value').then(function(snapshot) {
           var slidesCount = 0;
-          if(sessionInfo.slides!=null)
+          if(snapshot.val().slides!=null)
             slidesCount = snapshot.val().slides.length;
         console.log("id:"+slidesCount);
         createPad(sessionID+sessionTitle+slidesCount,function()
