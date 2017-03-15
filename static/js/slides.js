@@ -153,23 +153,24 @@ function writeGameData() {
     });  
   }
 }
-function addLine(padID,text) {
-          $.ajax({
-            type: "GET",
-            url: "/setText",
-            data:{ text: text+'\n',padID:padID}
 
-          }).done(function( response ) {
-            console.log(response);
-              response = JSON.parse(response);    // parse JSON string
-              console.log(response);
-              for(var padID in response){
-                  console.log('test');
-             }            
-          }); 
+function addLine(padID,text, lastDivId) {
+          // $.ajax({
+          //   type: "GET",
+          //   url: "/setText",
+          //   data:{ text: text+'\n',padID:padID}
 
-          //setTimeout(getPadUsersCount, 3000); // call getPadUsersCount every 3 seconds
-      }
+          // }).done(function( response ) {
+          //   console.log(response);
+          //     response = JSON.parse(response);    // parse JSON string
+          //     console.log(response);
+          //     for(var padID in response){
+          //         console.log('test');
+          //    }            
+          // }); 
+
+    $('#'+padID+lastDivId).text(text);         
+}
       
 var currentPadId;
 var changePad = function(id){
@@ -202,6 +203,10 @@ function writeUserData(userId, name, email, imageUrl) {
     profile_picture : imageUrl
   });
 }*/
+    var lastDivId = 1;
+    jQuery('<div/>', {
+          id: currentPadId+lastDivId
+      }).appendTo('#lines');
 
     var recognition = new webkitSpeechRecognition();
     console.log(recognition);
@@ -218,17 +223,37 @@ function writeUserData(userId, name, email, imageUrl) {
     recognition.onstart=function(){
       console.log('開始辨識...'); 
     };
-    recognition.start();
+    // recognition.start();
     recognition.onresult=function(event){
     var i = event.resultIndex;
     var j = event.results[i].length-1;
     console.log(event.results[i][j].transcript);
     console.log(currentPadId);
-    addLine(currentPadId,event.results[i][j].transcript);
+
+
+
+    // addLineEvent(currentPadId, event);
+    if(!event.results[i].isFinal){
+      addLine(currentPadId,event.results[i][j].transcript,lastDivId);
+    }
+    else{
+      lastDivId += 1;
+      console.log(lastDivId);
+      jQuery('<div/>', {
+          id: currentPadId+lastDivId
+      }).appendTo('#lines');
+
+    }
+    
     };
 
-var restart = function()
+function start() {
+  recognition.start();
+}
+
+function restart()
 {
+  console.log('restart');
   recognition.abort();
   recognition.stop();
   recognition.start();

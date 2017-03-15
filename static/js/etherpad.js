@@ -15,7 +15,7 @@
       'hideQRCode'        : false,
       'alwaysShowChat'    : false,
       'width'             : 500,
-      'height'            : 600,
+      'height'            : 400,
       'border'            : 0,
       'borderStyle'       : 'solid',
       'toggleTextOn'      : 'Disable Rich-text',
