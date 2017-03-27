@@ -20,6 +20,13 @@ def menu():
 def slides():
 	return render_template('slides.html')
 
+@app.route("/worker")
+def worker():
+	return render_template('worker.html')
+
+@app.route("/test")
+def test():
+	return render_template('test.html')	
 
 @app.route("/getpadusercount")
 def getPadUsersCount(userCount = None):
@@ -57,5 +64,6 @@ def pasteText(padID=None,text=None):
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0')
+    # app.run(host='0.0.0.0')
+    app.run()
 
