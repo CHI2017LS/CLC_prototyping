@@ -46,6 +46,7 @@ function addSlide(id, img_url) {
     $(newSlide).find('img.img-responsive').attr('src', img_url);
     //var el = $("<li class='list-group-item'><b><img src=" +  img_url + ":</b> " + "ee" + "</li>");//modify
     slideList.append(newSlide);
+
 }
 
 function createSlide(data_url) {
