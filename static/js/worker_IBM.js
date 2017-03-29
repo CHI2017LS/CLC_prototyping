@@ -69,6 +69,29 @@ function uploadImageToFirebase(data_url, slideId, callback) {
 }
 var id = 0;
 
+var QueryString = function () {
+  // This function is anonymous, is executed immediately and 
+  // the return value is assigned to QueryString!
+  var query_string = {};
+  var query = window.location.search.substring(1);
+  var vars = query.split("&");
+  for (var i=0;i<vars.length;i++) {
+    var pair = vars[i].split("=");
+        // If first entry with this name
+    if (typeof query_string[pair[0]] === "undefined") {
+      query_string[pair[0]] = decodeURIComponent(pair[1]);
+        // If second entry with this name
+    } else if (typeof query_string[pair[0]] === "string") {
+      var arr = [ query_string[pair[0]],decodeURIComponent(pair[1]) ];
+      query_string[pair[0]] = arr;
+        // If third or later entry with this name
+    } else {
+      query_string[pair[0]].push(decodeURIComponent(pair[1]));
+    }
+  } 
+  return query_string;
+}();
+
 function addSpeechToFirebase() {
     console.log('send');
     if ($('#editLines').val() != "") {
@@ -81,7 +104,12 @@ function addSpeechToFirebase() {
             id += 1;
         }
     }
-    $('#editLines').val(""); // after sending the text, the editor will be blank
+    nextSelect = parseInt(currentSelect)+1;
+    if ($('#' + currentPadId + nextSelect).text() != "") {
+      $('#editLines').val($('#' + currentPadId + nextSelect).text());
+    }
+    else
+      $('#editLines').val(""); 
 }
 //save slides
 function getFileURL(slideId, callback) {
@@ -126,18 +154,22 @@ function createPad(padID, callback) {
     });
 }
 var lastDivId = 1;
+var currentSelect = 1;
 jQuery('<div/>', {
     id: currentPadId + lastDivId,
-    "class": 'recognizing'
+    "class": 'recognizing',
+    text: 'test'
 }).appendTo('#lines');
 $('#' + currentPadId + lastDivId).click(function() {
     console.log('click');
+    currentSelect = $(this).attr('id').split(currentPadId)[1];
+    console.log('this id = ' + currentSelect);
     editLine($(this).text());
 });
 
 function start() {
     console.log('hihi');
-    var token = 'jIiEcg4GW7oZu3htCajm1sBb1o4UgmxF9%2FuQHK%2F%2B%2BhsX44TQA0ueUkaVwO1R3RCsKt3nKBWvLZ2jxqGhEL4U33SaJfWawOmZ8kn7Zx7MHFy5LKeBUVwprQfUdLh3gzgQyoilz10mYk3LARr1CagfpIygD2L0TFtTOqpIKmE%2F%2FIIJBN6YPRXGbUwjOHT8eUSWeVcD7HSLoNciIGcHIol%2B%2FX1faIGcsqeO1XqkXERgEz2mfC7c6%2B2u6sAj8wrJQ3KZ0U%2F0hO0bELJ9RtEcLdwmKCYEZJIf6HNjRTMGuu51BnRVDr%2BPrP3rX%2BRPU1Q2YQRTL7pZ5UVwXd7QvZjdqqsAfSHNAOdk9HcIF4DgqAPIxxYrhAomduAsBxWnlkoGmyORpBUNNXsR0XrMYUqdk79pYyToxAapqCAv73JwzePfIqy93SHZqueIyXiJ2LcWjIXt5PJFcpZvKPbCa4mREcBVNMPSiQFjlAAnYnRJxYdJF%2BGV6OYP2uvHGHR%2FpZejREzDUtnf28ZDTSlHJQxfeMwJXRTGorEVnhfiqE9HlmNaOYQNY2%2Bilipu6Q6rC18%2FQGHGvMACyvUF1%2BBUzAMDBGxlEqJG0hmiFox7D9vNz7lFoZ38Q30BwuZ%2F8Cq61T%2BHE%2B99elzR5lFo9djD%2FkjuZ%2BT0kxxLJL7HERViIL%2B8vpyQ9VJVhEFtWtsvREwc%2FQNfNrGRGSgOk7KHjZ4NF%2BSY0kOTarb%2BQOV8WR9OAqAVucg4kXbPJc9hXvRC9G1LDljglw%2FbzM6XKyye9fDXo2LxisrEx1kjY1xknlWSUEcOL%2FXl%2FOiucc9tB%2BUOGRTMXOaLaVtl2AAFUzH5f%2FPd44Z0NVF01%2Fp%2F%2F9%2FapG%2FyTjsTRuw1wcXEi%2F1cKImjbjXs%2BQk4Ase3usZS8bLLv74l1hwqOdqsWS%2BKCoUlhG%2FUT1%2FrcSv5Hi70kagfHrq7WAgetcj4hXTDUOE1uaNOajZKjC%2FaBd4Cek7XkOplSB8W';
+    var token = 'NJVOO3mKFOqIQbw7str%2BR7HTyaFfazoRQv3qbc%2FGfXnIjkCiJF698laSZau50x1rilYewrElL69qEWh8TO4nmiRYTZcA5rt4XEiLEbeTztEf1DAEy80PAoX4sR21a%2FOcPJ8zgzjGwOUe4TrMMMsYXfsY17JpOVuvXjl3qI2I1VjyhNzxejOXlJwCyiVH2d%2FjPmAWTs5eQ04VyIXMNymTGT5evu3bn9EraocWKlQqlK6YnGQMi9L474WDvY003rjtofsDVsojhZDtgKleqttW1veBJUlei%2BrWUFBotPf2%2F9vrTM0lLJ653KBh3Xj%2FOE808FOvGEq%2BFQJZhZwyDfm2m2ZJ99JOqk9bAOQWb7bUaBBMp3EJcgkOLIOZliVrpUkW0aA4SmM1yrrgecksiJsL4aMgi1kvifr84qAcanz%2Bm9Ok1qZPeQ8AdgJMpYsElYd4yOdrfH%2BZ07SwOjUBpJ1sC6TuWpvUr3vBqY7JDArIL8sto%2FWNLf9mUOjA29bpoH8AxlkFA3OWPuRAcNRK7SGYUXMZpyrHlRuX1Xpgr35bQIY7XlrBIC00Yo8oSUoJ17qgqwTWgPBPsMkqMuRVrEQ6AUgA1WJMQua2IlFuhnEjThYz9qHAhJQKymk9BZ1O%2Ft5XeAMFZZogFLdqGutYbVZ9N2Oy%2Bt2W5%2F%2F7mj8bpsrFTtOAxg1EOLHxoafdfcBPF3%2BrXjM8hgLF6UbPPXQ7cdHBW%2FPsYdFAT0UhQ0SAcxbDAtAuPE%2B2LoZrXiNdreZALD3h1FJJIx768BejM1YOfxwPuwEeEd2BPb7m%2BdCa3RuA7RtT7UD%2BkSgcoGk7WKkqz53gEZRuEcJrBD%2FNn75sy0aN6n4U5VWs0raBHKlsGls%2Fj64qb0zAjb2ZM5iOv7Jn24Lg9Fkw4RtaFKehIhHwzvOSFjojpMrwJwj6C%2FeqZE7IEDMLJp%2BXCN3nQA%3D%3D';
     // fetch('https://watson-speech.mybluemix.net/api/speech-to-text/token',
     //   {mode: 'no-cors'
     //   // header: {
@@ -167,6 +199,8 @@ function start() {
         $('#' + currentPadId + lastDivId).css('cursor', 'pointer');
         $('#' + currentPadId + lastDivId).click(function(e) {
             console.log('click');
+            currentSelect = $(this).attr('id').split(currentPadId)[1];
+            console.log("this id = " + currentSelect);
             editLine($(this).text());
         });
         lastDivId += 1;
@@ -177,6 +211,8 @@ function start() {
         }).appendTo('#lines');
         $('#' + currentPadId + lastDivId).click(function() {
             console.log('click');
+            currentSelect = $(this).attr('id').split(currentPadId)[1];
+            console.log("this id = " + currentSelect);
             editLine($(this).text());
         });
     });
