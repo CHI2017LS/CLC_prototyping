@@ -115,6 +115,11 @@ function listenToSpeech() {
         var speech = snapshot.val();
         if (speech) {
             addSpeech(snapshot.key, snapshot.val().text);
+            // auto scroll
+            var lines = document.getElementById('lines');
+            console.log("scrollHeight:" + lines.scrollHeight + ", top: " + lines.scrollTop);
+            if (lines.scrollTop + 50 >= lines.scrollHeight - lines.clientHeight) lines.scrollTop = lines.scrollHeight;
+            else console.log("scrolling");            
         }
     });
 }
