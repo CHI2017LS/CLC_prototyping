@@ -107,6 +107,7 @@ function addSpeechToFirebase() {
     nextSelect = parseInt(currentSelect)+1;
     if ($('#' + currentPadId + nextSelect).text() != "") {
       $('#editLines').val($('#' + currentPadId + nextSelect).text());
+      currentSelect = nextSelect;
     }
     else
       $('#editLines').val(""); 
@@ -157,8 +158,7 @@ var lastDivId = 1;
 var currentSelect = 1;
 jQuery('<div/>', {
     id: currentPadId + lastDivId,
-    "class": 'recognizing',
-    text: 'test'
+    "class": 'recognizing'
 }).appendTo('#lines');
 $('#' + currentPadId + lastDivId).click(function() {
     console.log('click');
@@ -169,7 +169,7 @@ $('#' + currentPadId + lastDivId).click(function() {
 
 function start() {
     console.log('hihi');
-    var token = 'NJVOO3mKFOqIQbw7str%2BR7HTyaFfazoRQv3qbc%2FGfXnIjkCiJF698laSZau50x1rilYewrElL69qEWh8TO4nmiRYTZcA5rt4XEiLEbeTztEf1DAEy80PAoX4sR21a%2FOcPJ8zgzjGwOUe4TrMMMsYXfsY17JpOVuvXjl3qI2I1VjyhNzxejOXlJwCyiVH2d%2FjPmAWTs5eQ04VyIXMNymTGT5evu3bn9EraocWKlQqlK6YnGQMi9L474WDvY003rjtofsDVsojhZDtgKleqttW1veBJUlei%2BrWUFBotPf2%2F9vrTM0lLJ653KBh3Xj%2FOE808FOvGEq%2BFQJZhZwyDfm2m2ZJ99JOqk9bAOQWb7bUaBBMp3EJcgkOLIOZliVrpUkW0aA4SmM1yrrgecksiJsL4aMgi1kvifr84qAcanz%2Bm9Ok1qZPeQ8AdgJMpYsElYd4yOdrfH%2BZ07SwOjUBpJ1sC6TuWpvUr3vBqY7JDArIL8sto%2FWNLf9mUOjA29bpoH8AxlkFA3OWPuRAcNRK7SGYUXMZpyrHlRuX1Xpgr35bQIY7XlrBIC00Yo8oSUoJ17qgqwTWgPBPsMkqMuRVrEQ6AUgA1WJMQua2IlFuhnEjThYz9qHAhJQKymk9BZ1O%2Ft5XeAMFZZogFLdqGutYbVZ9N2Oy%2Bt2W5%2F%2F7mj8bpsrFTtOAxg1EOLHxoafdfcBPF3%2BrXjM8hgLF6UbPPXQ7cdHBW%2FPsYdFAT0UhQ0SAcxbDAtAuPE%2B2LoZrXiNdreZALD3h1FJJIx768BejM1YOfxwPuwEeEd2BPb7m%2BdCa3RuA7RtT7UD%2BkSgcoGk7WKkqz53gEZRuEcJrBD%2FNn75sy0aN6n4U5VWs0raBHKlsGls%2Fj64qb0zAjb2ZM5iOv7Jn24Lg9Fkw4RtaFKehIhHwzvOSFjojpMrwJwj6C%2FeqZE7IEDMLJp%2BXCN3nQA%3D%3D';
+    var token = 'FR%2BAgWV0xFVuMnVQQP8iy9upWDGgXm9b7OXGAvmNMjvrDeWuUcn0iWalnkPdBDskOCdYQyybs7BUGSdYCdcUlo1vw6M6s3Aks0Br9zi5wzVhLU3Uc9Mij75lHbicT9BdTlJQDCThbFW8ZfKvjdr2r3kwvmC%2FUiTgZ2gobh%2B5IQ15BDWZzsfgWVoPhPpjiniRLlAvDTScTxPNlCBA%2Fw2rW4nUokpIUiwS0Myofw6MHW36215pIWBcUcHtqksi41jX5UwDJ7wx7H1xRqs%2BiB1euVPaq5MrwCyQ1ffEB6mEwj7LyRh0yUZ5IWuEbeaiWX6KFoSsmNt1gBp1FgU6iV%2FDOOm3OYu9G68eFCk%2FQgi%2FkEP8jwVE7kYZwX5%2FtMAmidyHei7en6qLDLgEPcqptfkwzuiY%2FA2Rp5iOQTejumqt25SduQ3ro3wd4bu95jieyc3tIrEV5c0MI56Fvnw4jZ3cgSFT0bt42lJMpnpxnuo98kvPeCMkWPv3cZhP5VyfA8s8w7W2GDAScP40eyiEIjv8vvpQWGKw2ieATxU%2FnH%2FnXuA%2FfW1CoCZBW1cDOYSxgAm3M0H1AdxTKKumv%2BxwN9TIr%2BRkDbeYu8fQxkuuGFDBAQ6sPJVVgPSX4fibOY91OBWLIcRbSK1cVHZ1GuRB6lQsrhmsA0egOqRdxLtYrYlUh34bx%2B20BC2LsbWAtSYNG%2B2y8bzRnBEnUljNoO9ovBZRk2HpgEOdV8cDYwppB8d3b1Qauo3BW9xrX099B0xwJCyhSVERCMU9vJA%2FNxl5qKBOyCl3Vev8MEo5L1rzo8zABCOXqpGqIHIsgvzzu5WvTMG7hrbjLLaKT7xM4hlGkiOmtYu88uLvduN2ZTHgq92KIMTo%2BwljEPBqHeWL%2FH%2BSPkQsYg5kY4w6ip7RY8x%2FL5WM0tsoZ7ZgiuoggQSmUHmQKIKrxmRQsdrhcw%3D%3D';
     // fetch('https://watson-speech.mybluemix.net/api/speech-to-text/token',
     //   {mode: 'no-cors'
     //   // header: {
@@ -188,8 +188,7 @@ function start() {
     // console.log(token);
     var stream = WatsonSpeech.SpeechToText.recognizeMicrophone({
         token: token,
-        object_mode: false, // default
-        interim_results: true
+        object_mode: false // default
         // outputElement: '#lines' // CSS selector or DOM Element
     });
     stream.setEncoding('utf8'); // get text instead of Buffers for on data events
@@ -222,6 +221,7 @@ function start() {
     else console.log("scrolling");
     stream.on('error', function(err) {
         console.log(err);
+        start();
     });
     document.querySelector('#stop').onclick = stream.stop.bind(stream);
     // }).catch(function(error) {
