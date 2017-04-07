@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8"/>
         <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+        <!-- <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"/> -->
         <meta content="width=device-width, shrink-to-fit=no, initial-scale=1" name="viewport"/>
         <meta content="" name="description"/>
         <meta content="" name="author"/>
@@ -14,13 +15,35 @@
         <!-- Custom CSS -->
         <link href="static/css/simple-sidebar.css" rel="stylesheet"/>
         <link href="static/css/myCss.css" rel="stylesheet"/>
+        
+        
         <script src="static/js/annyang.js">
+        </script>
+        <!-- jQuery -->
+        <script src="static/js/jquery.js">
+        </script>
+        <script src="static/js/etherpad.js">
+        </script>
+        <!-- <script src="static/js/worker.js"></script> -->
+        
+        <script src="static/js/upload-photo.js">
+        </script>
+        <script src="https://watson-speech.mybluemix.net/bower_components/watson-speech/dist/watson-speech.js">
+        </script>
+        <!-- window.fetch pollyfill for IE/Edge & Older Chrome/FireFox -->
+        <script src="https://watson-speech.mybluemix.net/bower_components/fetch/fetch.js">
+        </script>
+        <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script> -->
+        <!-- Bootstrap Core JavaScript -->
+        <script src="static/js/bootstrap.min.js">
+        </script>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js">
+        </script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js">
         </script>
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-        <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <!--[if lt IE 9]
     <![endif]-->
     </head>
     <body>
@@ -117,39 +140,7 @@
             </div>
             <!-- /#page-content-wrapper -->
         </div>
-        <script src="https://www.gstatic.com/firebasejs/3.7.1/firebase.js">
-        </script>
-        <script>
-            // Initialize Firebase
-      var config = {
-        apiKey: "AIzaSyBvhsHOR3UrEdb6gTXR9tIOihdsYizOaVc",
-        authDomain: "clc-chi-6d953.firebaseapp.com",
-        databaseURL: "https://clc-chi-6d953.firebaseio.com",
-        storageBucket: "clc-chi-6d953.appspot.com",
-        messagingSenderId: "20034161141"
-      };
-      firebase.initializeApp(config);
-        </script>
         <!-- /#wrapper -->
-        <!-- jQuery -->
-        <script src="static/js/jquery.js">
-        </script>
-        <script src="static/js/etherpad.js">
-        </script>
-        <!-- <script src="static/js/worker.js"></script> -->
-        <script src="static/js/worker_IBM.js">
-        </script>
-        <script src="static/js/upload-photo.js">
-        </script>
-        <script src="https://watson-speech.mybluemix.net/bower_components/watson-speech/dist/watson-speech.js">
-        </script>
-        <!-- window.fetch pollyfill for IE/Edge & Older Chrome/FireFox -->
-        <script src="https://watson-speech.mybluemix.net/bower_components/fetch/fetch.js">
-        </script>
-        <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script> -->
-        <!-- Bootstrap Core JavaScript -->
-        <script src="static/js/bootstrap.min.js">
-        </script>
         <!-- Menu Toggle Script -->
         <script>
             function extend() {
@@ -158,9 +149,21 @@
         $("#wrapper").toggleClass("extend");
     }
         </script>
-        <!-- Create pad and change pad Script -->
+        
+        <script src="https://www.gstatic.com/firebasejs/3.7.1/firebase.js">
+        </script>
         <script>
-            // Initially display the pad of the first slide
+            // Initialize Firebase
+          var config = {
+            apiKey: "AIzaSyBvhsHOR3UrEdb6gTXR9tIOihdsYizOaVc",
+            authDomain: "clc-chi-6d953.firebaseapp.com",
+            databaseURL: "https://clc-chi-6d953.firebaseio.com",
+            storageBucket: "clc-chi-6d953.appspot.com",
+            messagingSenderId: "20034161141"
+          };
+          firebase.initializeApp(config);
+        </script>
+        <script src="static/js/worker_IBM.js">
         </script>
         <!-- Update pad users count -->
         <script type="text/javascript">
@@ -189,29 +192,5 @@
     */
         </script>
         <!-- Keywords adding Script -->
-        <script>
-            var txtId = 1;
-        $("#addKeyword").click(function () {
-            $("#showBlock").append('<span id="kw' + txtId + '"><input type="text" class="keywordBtn" size="10" id="kw' + txtId + 'text" onchange="ok(this.value,'+txtId+')"/></span>');
-            txtId++;
-        });
-        //function deltxt(id) {
-            //$("#div"+id).remove();
-        //}
-        </script>
-        <!-- Keywords editing Script -->
-        <script>
-            function edit(kwId){
-            var keyword = document.getElementById("kw"+kwId+"text").value;
-            //document.write(keyword);
-            document.getElementById("kw"+kwId).innerHTML='<input type="text" class="keywordBtn" size="8" value="'+keyword+'" id="kw'+kwId+'text" onchange="ok(this.value,'+kwId+')"/>';
-        }
-        </script>
-        <!-- Keywords confirming Script -->
-        <script>
-            function ok(edit_value, kwId){
-            document.getElementById("kw"+kwId).innerHTML='<input type="button" class="keywordBtn" id="kw'+kwId+'text" value="'+edit_value+'" onclick="edit('+kwId+')"/>';
-        }
-        </script>
     </body>
 </html>
