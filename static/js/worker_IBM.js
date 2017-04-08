@@ -20,7 +20,7 @@ function init() {
         listenToSlides();
         changePad(sessionID + sessionTitle + 0); // default is the first slide
         // Update pad users count
-        getPadUsersCount();
+        testWs();
     });
 }
 
@@ -317,17 +317,45 @@ function checkEmpty(edit_value, kwId) {
     }
 }
 
-function getPadUsersCount() {
-    $.ajax({
-        type: "GET",
-        url: "/getpadusercount"
-    }).done(function(response) {
-        response = JSON.parse(response); // parse JSON string
+// Get pad user count with websocket
+// var wsUri = "ws://echo.websocket.org/";
+var wsUri = "/getpadusercount";
+var output;
+var socket = new io.connect(location.protocol + '//' + document.domain + ':' + location.port + wsUri);
+
+function testWs() {   // use web-socket
+    
+    socket.on('connect', function() {
+        console.log("connected!");
+    });
+    socket.on('disconnect', function() {
+       console.log("disconnected!"); 
+    });
+    socket.on('error', function(evt) {
+        console.log("ERROR: " + evt.data);
+    });
+    socket.on('response', function(msg) {
+        console.log(msg.data);
+        response = JSON.parse(msg.data); // parse JSON string
         for (var padId in response) {
             if ($('#padInfo-' + padId).length > 0) { // element exist
                 $("#padInfo-" + padId).text(response[padId]);
             }
         }
     });
-    setTimeout(getPadUsersCount, 3000); // call getPadUsersCount() every 3 seconds
 }
+
+// function getPadUsersCount() {
+//     $.ajax({
+//         type: "GET",
+//         url: "/getpadusercount"
+//     }).done(function(response) {
+//         response = JSON.parse(response); // parse JSON string
+//         for (var padId in response) {
+//             if ($('#padInfo-' + padId).length > 0) { // element exist
+//                 $("#padInfo-" + padId).text(response[padId]);
+//             }
+//         }
+//     });
+//     setTimeout(getPadUsersCount, 3000); // call getPadUsersCount() every 3 seconds
+// }
