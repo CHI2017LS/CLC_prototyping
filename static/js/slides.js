@@ -23,7 +23,7 @@ function init() {
         listenToSpeech();
         changePad(sessionID + sessionTitle + 0); // default is the first slide
         // Update pad users count
-        getPadUsersCount();
+        // getPadUsersCount();
     });
 }
 
@@ -165,7 +165,8 @@ function listenToKeywords() {
         var keyword = snapshot.val();
         if (keyword) {
             if ($('#kw' + snapshot.key).length == 0) {
-                addKeyword(snapshot.key, snapshot.val().text);
+                // addKeyword(snapshot.key, snapshot.val().text);
+                $("#showBlock").append('<span class="keywordSpan" id="kw' + snapshot.key + '"><input type="text" class="keywordBtn" size="8" value="' + snapshot.val().text + '" id="kw' + snapshot.key + 'text" onchange="ok(this.value,' + snapshot.key + ')"/></span>');
                 txtId = parseInt(snapshot.key) + 1;
             }
         }
@@ -174,7 +175,16 @@ function listenToKeywords() {
         var keyword = snapshot.val();
         if (keyword) {
             if ($('#kw' + snapshot.key).length > 0) {
-                setKeyword(snapshot.key, snapshot.val().text);
+                // setKeyword(snapshot.key, snapshot.val().text);
+                document.getElementById("kw" + snapshot.key).innerHTML = '<input type="text" class="keywordBtn" size="8" value="' + snapshot.val().text + '" id="kw' + snapshot.key + 'text" onchange="ok(this.value,' + snapshot.key + ')"/>';
+            }
+        }
+    });
+    keywordRef.on("child_removed", function(snapshot) {
+        var keyword = snapshot.val();
+        if (keyword) {
+            if ($('#kw' + snapshot.key).length > 0) {
+                $('#kw' + snapshot.key).remove();
             }
         }
     });
@@ -219,33 +229,53 @@ function createPad(padID, callback) {
 // Keywords adding Script
 var txtId;
 $('#addKeyword').click(function() {
-    $("#showBlock").append('<span class="keywordSpan" id="kw' + txtId + '"><input type="text" class="keywordBtn" size="8" id="kw' + txtId + 'text" onchange="ok(this.value,' + txtId + ')"/></span>');
+    $("#showBlock").append('<span class="keywordSpan" id="kw' + txtId + '"><input type="text" class="keywordBtn" size="8" id="kw' + txtId + 'text" onchange="ok(this.value,' + txtId + ')"  onfocusout="checkEmpty(this.value,' + txtId + ')" autofocus/></span>');
     txtId++;
 });
 
 function edit(kwId) {
+    console.log("edit");
     var keyword = document.getElementById("kw" + kwId + "text").value;
-    //document.write(keyword);
-    document.getElementById("kw" + kwId).innerHTML = '<input type="text" class="keywordBtn" size="8" value="' + keyword + '" id="kw' + kwId + 'text" onchange="ok(this.value,' + kwId + ')"/>';
-    // update entry in Firebase
-    var postData = {
-        text: keyword
-    }; // A post entry
-    var newPostKey = speechDB.ref().child('keyword').push().key; // Get a key for a new Post
-    console.log('newPostKey');
-    var updates = {};
-    updates['/' + currentPadId + '/' + newPostKey] = postData;
-    return speechDB.ref('keyword' + currentPadId).update(updates);
+    if (keyword.length > 0) {
+        //document.write(keyword);
+        document.getElementById("kw" + kwId).innerHTML = '<input type="text" class="keywordBtn" size="8" value="' + keyword + '" id="kw' + kwId + 'text" onchange="ok(this.value,' + kwId + ')"/>';
+        // update entry in Firebase
+        // var postData = {
+        //     text: keyword
+        // }; // A post entry
+        // var newPostKey = speechDB.ref().child('keyword').push().key; // Get a key for a new Post
+        // console.log('newPostKey');
+        // var updates = {};
+        // updates['/' + currentPadId + '/' + newPostKey] = postData;
+        // return speechDB.ref('keyword' + currentPadId).update(updates);
+    }
 }
 
 function ok(edit_value, kwId) {
-    document.getElementById("kw" + kwId).innerHTML = '<input type="button" class="keywordBtn" id="kw' + kwId + 'text" value="' + edit_value + '" onclick="edit(' + kwId + ')"/>';
-    var keyword = document.getElementById("kw" + kwId + "text").value;
-    console.log('keyword: ' + keyword);
-    // create entry in Firebase
-    speechDB.ref('keyword/' + currentPadId).child(kwId).set({
-        text: keyword
-    });
+    console.log("ok");
+    
+    // var keyword = document.getElementById("kw" + kwId + "text").value;
+    console.log('keyword: ' + edit_value);
+    if (edit_value.length == 0) {
+        console.log("delete");
+        $('#kw' + kwId).remove();
+        speechDB.ref('keyword/' + currentPadId).child(kwId).set({
+            text: null
+        });
+    } else {
+        console.log("not delete");
+        document.getElementById("kw" + kwId).innerHTML = '<input type="button" class="keywordBtn" id="kw' + kwId + 'text" value="' + edit_value + '" onclick="edit(' + kwId + ')"/>';
+        // create entry in Firebase
+        speechDB.ref('keyword/' + currentPadId).child(kwId).set({
+            text: edit_value
+        });
+    }
+}
+
+function checkEmpty(edit_value, kwId) {
+    if (edit_value.length == 0) {
+        $('#kw' + kwId).remove();
+    }
 }
 
 function getPadUsersCount() {
