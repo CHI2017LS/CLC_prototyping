@@ -31,7 +31,6 @@ def test():
 @app.route("/getpadusercount")
 def getPadUsersCount(userCount = None):
 	c = EtherpadLiteClient(base_params={'apikey':'f42591e743037bc39d530ba6b1550b0d558aed32f3e9f5e8f12cdeaa1a48b0cd'})
-	# c = EtherpadLiteClient(base_params={'apikey':'555ddf5d51cba5e38e93d538742a02f7d1b2ea968ca4dcccb983f31c954d632b'})
 	padList = c.listAllPads()
 	userCount = {}
 

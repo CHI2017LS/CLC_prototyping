@@ -14,13 +14,11 @@
         <!-- Custom CSS -->
         <link href="static/css/simple-sidebar.css" rel="stylesheet"/>
         <link href="static/css/myCss.css" rel="stylesheet"/>
-        
         <!-- jQuery -->
         <script src="static/js/jquery.js">
         </script>
         <script src="static/js/etherpad.js">
         </script>
-        
         <script src="static/js/megapix-image.js">
         </script>
         <script src="static/js/upload-photo.js">
@@ -60,9 +58,9 @@
                                 </div>
                                 <div class="row-right">
                                     <img src="static/img/user.png">
-                                        <p class="number-of-editing" id="padInfo-1">
-                                        </p>
                                     </img>
+                                     <p class="number-of-editing"> 0
+                                    </p>
                                 </div>
                             </div>
                             <hr>
@@ -130,32 +128,6 @@
           firebase.initializeApp(config);
         </script>
         <script src="static/js/slides.js">
-        </script>
-        <!-- Update pad users count -->
-        <script type="text/javascript">
-            $(function() {
-        console.log( "ready!" );
-    });
-    /*
-    function getPadUsersCount() {
-        $.ajax({
-          type: "GET",
-          url: "/getpadusercount"
-        }).done(function( response ) {
-            console.log(response);
-            response = JSON.parse(response);    // parse JSON string
-
-            for(var padID in response){
-                if(document.getElementById("padInfo-" + padID)) {
-                    // $("#padInfo-" + padID).text('Number of people editing: ' + response[padID]);
-                    $("#padInfo-" + padID).text(response[padID]);
-                }                
-           }            
-        }); 
-
-        setTimeout(getPadUsersCount, 3000); // call getPadUsersCount every 3 seconds
-    }
-    */
         </script>
     </body>
 </html>
