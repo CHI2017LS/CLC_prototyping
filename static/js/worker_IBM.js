@@ -21,6 +21,7 @@ function init() {
         changePad(sessionID + sessionTitle + 0); // default is the first slide
         // Update pad users count
         testWs();
+        listenToKeywords();
     });
 }
 
@@ -46,6 +47,7 @@ function addSlide(id, img_url) {
     $(newSlide).find('a').attr('onclick', "changePad('" + sessionID + sessionTitle + id + "')");
     $(newSlide).find('img.img-responsive').attr('src', img_url);
     $(newSlide).find('p.number-of-editing').attr('id', 'padInfo-' + sessionID + sessionTitle + id);
+    $(newSlide).find('p.keyword').attr('id', 'padKeyword-' + sessionID + sessionTitle + id);
     //var el = $("<li class='list-group-item'><b><img src=" +  img_url + ":</b> " + "ee" + "</li>");//modify
     slideList.append(newSlide);
 }
@@ -132,37 +134,84 @@ function editLine(text) {
     $('#editLines').val(text);
 }
 
-function listenToKeywords() {
-    console.log('listen');
-    var keywordRef = speechDB.ref("keyword/" + currentPadId);
-    keywordRef.on("child_added", function(snapshot) {
-        var keyword = snapshot.val();
-        if (keyword) {
-            if ($('#kw' + snapshot.key).length == 0) {
-                addKeyword(snapshot.key, snapshot.val().text);
-                txtId = parseInt(snapshot.key) + 1;
-            }
-        }
+var existPadId = [];
+function loadKeywordsFromFirebase() { // display on right side of the page
+    var keywordRef = speechDB.ref("keyword/" + sessionID + sessionTitle + '/' + currentPadId); // reference to keywords of current pad
+        keywordRef.once("value", function(snapshot) {
+            snapshot.forEach(function(childSnapshot) {
+                var keyword = childSnapshot.val();
+                console.log("parent: " + keywordRef.key);
+                if (keyword) {
+                    if ($('#kw' + currentPadId + childSnapshot.key).length == 0) {   // element not exists
+                        $("#showBlock").append('<span class="keywordSpan" id="kw' + currentPadId + childSnapshot.key + '"><input type="text" class="keywordBtn" size="8" value="' + childSnapshot.val().text + '" id="kw' + currentPadId + childSnapshot.key + 'text" onchange="ok(this.value,' + childSnapshot.key + ')"/></span>');
+                        txtId = parseInt(childSnapshot.key) + 1;
+                    }
+                    
+                }                
+            })
     });
-    keywordRef.on("child_changed", function(snapshot) {
-        var keyword = snapshot.val();
-        if (keyword) {
-            if ($('#kw' + snapshot.key).length > 0) {
-                setKeyword(snapshot.key, snapshot.val().text);
+}
+function listenToKeywords() {  
+    var kw_slides = speechDB.ref("keyword/" + sessionID + sessionTitle + '/'); // reference to keywords for each slide in the talk
+    kw_slides.on("child_added", function(snapshot) {
+        snapshot.forEach(function() { // each slide
+            var padId = snapshot.key;
+            console.log("padId: " + padId); // get the pad id
+            console.log("existPadId: " + existPadId);
+            if (existPadId.length == 0 || !(existPadId.includes(padId))) {
+                existPadId.push(padId);
+                var pad_ref = speechDB.ref("keyword/" + sessionID + sessionTitle + '/' + padId);
+
+                pad_ref.on("child_added", function(childSnapshot) {
+                    var id = childSnapshot.key;
+                    var keyword = childSnapshot.val().text;
+                    console.log(padId + ": " + keyword);
+                    if (keyword) {
+                        if ($('#padKeyword-' + padId).text() == "Keywords: ") {
+                            $('#padKeyword-' + padId).append('<span id="' + padId + childSnapshot.key + '">' + keyword + '</span>');
+                        } else {
+                            $('#padKeyword-' + padId).append('<span id="' + padId + childSnapshot.key + '">' + ", " + keyword + '</span>');
+                        }
+                        if ($('#kw' + padId + childSnapshot.key).length == 0 && currentPadId == padId) {   // element not exists
+                            $("#showBlock").append('<span class="keywordSpan" id="kw' + padId + childSnapshot.key + '"><input type="text" class="keywordBtn" size="8" value="' + childSnapshot.val().text + '" id="kw' + padId + childSnapshot.key + 'text" onchange="ok(this.value,' + childSnapshot.key + ')"/></span>');
+                            txtId = parseInt(childSnapshot.key) + 1;
+                        }
+
+                    }
+                });
+
+                pad_ref.on("child_changed", function(childSnapshot) {
+                    var keyword = childSnapshot.val().text;
+                    if (keyword) {
+                        if (document.getElementById("padKeyword-" + padId).childElementCount == 1) {
+                            $('#' + padId + childSnapshot.key).text(keyword);
+                        } else if(document.getElementById("padKeyword-" + padId).childElementCount > 1) {
+                            if(document.getElementById("padKeyword-" + padId).childNodes[1] == $('#' + padId + childSnapshot.key)[0]) 
+                                $('#' + padId + childSnapshot.key).text(keyword);
+                            
+                            else
+                                $('#' + padId + childSnapshot.key).text(", " + keyword);
+                        }                        
+                        
+                        if ($('#kw' + currentPadId + childSnapshot.key).length > 0 && currentPadId == padId) {
+                            document.getElementById("kw" + currentPadId + childSnapshot.key).innerHTML = '<input type="text" class="keywordBtn" size="8" value="' + childSnapshot.val().text + '" id="kw' + currentPadId + childSnapshot.key + 'text" onchange="ok(this.value,' + childSnapshot.key + ')"/>';
+                        }
+                    }
+                });
+                pad_ref.on("child_removed", function(childSnapshot) {
+                    var keyword = childSnapshot.val().text;
+                    if (keyword) {
+                        $('#' + padId + childSnapshot.key).remove();
+                        if ($('#kw' + currentPadId + childSnapshot.key).length > 0 && currentPadId == padId) {
+                            $('#kw' + currentPadId + childSnapshot.key).remove();
+                        }
+                    }
+                });
             }
-        }
+        });
     });
 }
 
-function addKeyword(key, text) {
-    // Create a span of each keyword
-    $("#showBlock").append('<span class="keywordSpan" id="kw' + key + '"><input type="text" class="keywordBtn" size="8" value="' + text + '" id="kw' + key + 'text" onchange="ok(this.value,' + key + ')"/></span>');
-}
-
-function setKeyword(key, text) {
-    // Keyword Modified
-    document.getElementById("kw" + key).innerHTML = '<input type="text" class="keywordBtn" size="8" value="' + text + '" id="kw' + key + 'text" onchange="ok(this.value,' + key + ')"/>';
-}
 var currentPadId;
 var changePad = function(id) {
     console.log(id);
@@ -172,7 +221,7 @@ var changePad = function(id) {
     });
     txtId = 1;
     $('span').remove('.keywordSpan');
-    listenToKeywords();
+    loadKeywordsFromFirebase();
 }
 
 function createPad(padID, callback) {
@@ -268,16 +317,16 @@ function start() {
 // Keywords adding Script
 var txtId;
 $('#addKeyword').click(function() {
-    $("#showBlock").append('<span class="keywordSpan" id="kw' + txtId + '"><input type="text" class="keywordBtn" size="8" id="kw' + txtId + 'text" onchange="ok(this.value,' + txtId + ')"  onfocusout="checkEmpty(this.value,' + txtId + ')" autofocus/></span>');
+    $("#showBlock").append('<span class="keywordSpan" id="kw' + currentPadId + txtId + '"><input type="text" class="keywordBtn" size="8" id="kw' + currentPadId + txtId + 'text" onchange="ok(this.value,' + txtId + ')"  onfocusout="checkEmpty(this.value,' + txtId + ')" autofocus/></span>');
     txtId++;
 });
 
 function edit(kwId) {
     console.log("edit");
-    var keyword = document.getElementById("kw" + kwId + "text").value;
+    var keyword = document.getElementById("kw" + currentPadId + kwId + "text").value;
     if (keyword.length > 0) {
         //document.write(keyword);
-        document.getElementById("kw" + kwId).innerHTML = '<input type="text" class="keywordBtn" size="8" value="' + keyword + '" id="kw' + kwId + 'text" onchange="ok(this.value,' + kwId + ')"/>';
+        document.getElementById("kw" + currentPadId + kwId).innerHTML = '<input type="text" class="keywordBtn" size="8" value="' + keyword + '" id="kw' + currentPadId + kwId + 'text" onchange="ok(this.value,' + kwId + ')"/>';
         // update entry in Firebase
         // var postData = {
         //     text: keyword
@@ -292,20 +341,19 @@ function edit(kwId) {
 
 function ok(edit_value, kwId) {
     console.log("ok");
-    
     // var keyword = document.getElementById("kw" + kwId + "text").value;
     console.log('keyword: ' + edit_value);
     if (edit_value.length == 0) {
         console.log("delete");
-        $('#kw' + kwId).remove();
-        speechDB.ref('keyword/' + currentPadId).child(kwId).set({
+        $('#kw' + currentPadId + kwId).remove();
+        speechDB.ref('keyword/' + sessionID + sessionTitle + '/' + currentPadId).child(kwId).set({
             text: null
         });
     } else {
         console.log("not delete");
-        document.getElementById("kw" + kwId).innerHTML = '<input type="button" class="keywordBtn" id="kw' + kwId + 'text" value="' + edit_value + '" onclick="edit(' + kwId + ')"/>';
+        document.getElementById("kw" + currentPadId + kwId).innerHTML = '<input type="button" class="keywordBtn" id="kw' + currentPadId + kwId + 'text" value="' + edit_value + '" onclick="edit(' + kwId + ')"/>';
         // create entry in Firebase
-        speechDB.ref('keyword/' + currentPadId).child(kwId).set({
+        speechDB.ref('keyword/' + sessionID + sessionTitle + '/' + currentPadId).child(kwId).set({
             text: edit_value
         });
     }
@@ -313,7 +361,7 @@ function ok(edit_value, kwId) {
 
 function checkEmpty(edit_value, kwId) {
     if (edit_value.length == 0) {
-        $('#kw' + kwId).remove();
+        $('#kw' + currentPadId + kwId).remove();
     }
 }
 

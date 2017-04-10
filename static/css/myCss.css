@@ -33,3 +33,7 @@
 .speechTemplate {
 	display: none;
 }
+
+.keyword {
+	color: #fff;
+}
