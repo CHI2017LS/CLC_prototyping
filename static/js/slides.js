@@ -49,8 +49,11 @@ function addSlide(id, img_url) {
     $(newSlide).attr('id', 'slide' + id);
     $(newSlide).find('a').attr('onclick', "changePad('" + sessionID + sessionTitle + id + "')");
     $(newSlide).find('img.img-responsive').attr('src', img_url);
+    $(newSlide).find('img.img-responsive').css("display", "block");
     $(newSlide).find('p.number-of-editing').attr('id', 'padInfo-' + sessionID + sessionTitle + id);
+    $(newSlide).find('p.number-of-editing').css("display", "block");
     $(newSlide).find('p.keyword').attr('id', 'padKeyword-' + sessionID + sessionTitle + id);
+    $(newSlide).find('p.keyword').css("display", "block");
     //var el = $("<li class='list-group-item'><b><img src=" +  img_url + ":</b> " + "ee" + "</li>");//modify
     slideList.append(newSlide);
 }
