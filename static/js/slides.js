@@ -117,7 +117,7 @@ function getFileURL(slideId, callback) {
 }
 
 function listenToSpeech() {
-    speechRef = speechDB.ref("speech/");
+    speechRef = speechDB.ref("speech/" + sessionID + sessionTitle);
     speechRef.on("child_added", function(snapshot) {
         var speech = snapshot.val();
         if (speech) {

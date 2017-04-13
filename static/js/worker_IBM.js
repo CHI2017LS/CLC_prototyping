@@ -106,7 +106,7 @@ function addSpeechToFirebase() {
         str = $('#editLines').val().split('\n');
         for (var i = 0; i < str.length; i++) {
             text = str[i];
-            speechDB.ref('speech/' + id).set({
+            speechDB.ref('speech/' + sessionID + sessionTitle + '/' + id).set({
                 text: text
             });
             id += 1;
