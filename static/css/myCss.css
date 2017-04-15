@@ -23,7 +23,6 @@
 
 .number-of-editing {
 	color: #fff;
-	display: inline;
 }
 
 .slideTemplate{
@@ -35,5 +34,9 @@
 }
 
 .keyword {
+	color: #fff;
+}
+
+.id-of-slide {
 	color: #fff;
 }
