@@ -1,34 +1,54 @@
-(function() {
+var imgMain;
+$(document).ready(function(){
     var takePicture = document.querySelector("#take-picture");
     //showPicture = document.querySelector("#show-picture");
     console.log(takePicture);
     if (takePicture) {
         // Set events
         takePicture.onchange = function(event) {
-            console.log("take picture");
+            console.log("take picture~~");
             // Get a reference to the taken picture or chosen file
-            var files = event.target.files,
-                file;
-            if (files && files.length > 0) {
-                file = files[0];
-                try {
-                    //var mpImg = new MegaPixImage(file);
-                    var fileReader = new FileReader();
-                    var img = document.createElement("img");
-                    var resCanvas1 = document.createElement('canvas');
-                    var extension = file.name.split('.').pop().toLowerCase();
-                    console.log(extension);
+            var files = event.target.files,file;
+            var img = document.createElement("img");
 
+            if (files && files.length > 0) {
+                console.log(">0");
+                file = files[0];
+                var extension = file.name.split('.').pop().toLowerCase();
+                try {
+                    var ii = loadImage(
+                            file,
+                            function (canvas) {
+                                
+                                console.log(canvas);
+                                createSlide(canvas.toDataURL("image/"+extension));
+
+                            },
+                            {maxWidth: 300,canvas:true} // Options
+                    );
+                    //var mpImg = new MegaPixImage(file);
+                    /*
+                    var fileReader = new FileReader();
+                    
+                    var resCanvas1 = document.createElement('canvas');
+                    
+                    console.log(extension);
+                    
                     fileReader.onload = function(event) {
                         //showPicture.src = event.target.result;
-                        img.src = event.target.result;
+                        //img.src = event.target.result;
+                        console.log("onload");
+                        
                         //img.onload = function()
-                        /* Resize image */
+                
                         //console.log("img start: " + img.width + ", " + img.height);
-                        var newURL = resizeImage(img);
+                        //var newURL = resizeImage(img);
                         //mpImg.render(img, { maxWidth: 300, maxHeight: 300, quality: 0.5 });
                         //mpImg.render(resCanvas1, { maxWidth: 300, maxHeight: 300 });
-                        createSlide(resCanvas1.toDataURL("data:image/"+extension));
+                        
+                        //cvs = resCanvas1;
+                        //console.log(resCanvas1.toDataURL("image/"+extension));
+                        //createSlide(resCanvas1.toDataURL("image/"+extension));
 
                         //console.log(newURL);
                         //createSlide("image/"+extension+newURL);
@@ -36,18 +56,20 @@
                         //createSlide(event.target.result);
                     };
                     fileReader.readAsDataURL(file);
+                    */
                 } catch (e) {
                     //
                     var error = document.querySelector("#error");
                     if (error) {
                         error.innerHTML = "Neither createObjectURL or FileReader are supported";
                     }
+                    console.log(error);
                 }
 
             }
         };
     }
-})();
+});
 
 function resizeImage(img) {
     //console.log("img is resize function: " + img.naturalWidth + ", " + img.naturalHeight);

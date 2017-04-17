@@ -55,7 +55,8 @@ function createSlide(data_url) {
             changePad(sessionID + sessionTitle + slidesCount)
         });
         console.log('before uploade');
-        uploadImageToFirebase(data_url, slidesCount, null);
+        //uploadImageToFirebase(data_url, slidesCount, null);
+        uploadImageBlobToFirebase(data_url, slidesCount, null);
     });
 }
 var imgRef;
@@ -64,6 +65,13 @@ function uploadImageToFirebase(data_url, slideId, callback) {
     console.log('images/' + sessionTitle + slideId + '.png');
     imgRef = storageRef.child('images/' + sessionTitle + slideId + '.png');
     imgRef.putString(data_url, 'data_url').then(function(snapshot) {
+        getFileURL(slideId, callback)
+    });
+}
+function uploadImageBlobToFirebase(data, slideId, callback) {
+    console.log('images/' + sessionTitle + slideId + '.png');
+    imgRef = storageRef.child('images/' + sessionTitle + slideId + '.png');
+    imgRef.put(data).then(function(snapshot) {
         getFileURL(slideId, callback)
     });
 }
