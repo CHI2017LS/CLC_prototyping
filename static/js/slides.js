@@ -145,12 +145,12 @@ function listenToSpeech() {
 function addSpeech(key, text) {
     // Create a div of each sentence
     jQuery('<div/>', {
-        id: currentPadId + key,
+        id: currentPadId + key + "speech",
         "class": 'recognizing',
         text: text
     }).appendTo('#lines');
-    $('#' + currentPadId + key).css('cursor', 'pointer');
-    $('#' + currentPadId + key).click(function() {
+    $('#' + currentPadId + key + "speech").css('cursor', 'pointer');
+    $('#' + currentPadId + key + "speech").click(function() {
         addLine(currentPadId, $(this).text());
     });
 }

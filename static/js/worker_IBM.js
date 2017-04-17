@@ -125,8 +125,8 @@ function addSpeechToFirebase() {
         }
     }
     nextSelect = parseInt(currentSelect) + 1;
-    if ($('#' + currentPadId + nextSelect).text() != "") {
-        $('#editLines').val($('#' + currentPadId + nextSelect).text());
+    if ($('#' + currentPadId + nextSelect + "speech").text() != "") {
+        $('#editLines').val($('#' + currentPadId + nextSelect + "speech").text());
         currentSelect = nextSelect;
     } else $('#editLines').val("");
 }
@@ -257,10 +257,10 @@ var lastDivId = 1;
 var currentSelect = 1;
 var createSpeechDiv = function() {
     jQuery('<div/>', {
-        id: currentPadId + lastDivId,
+        id: currentPadId + lastDivId + "speech",
         "class": 'recognizing'
     }).appendTo('#lines');
-    $('#' + currentPadId + lastDivId).click(function() {
+    $('#' + currentPadId + lastDivId + "speech").click(function() {
         console.log('click');
         currentSelect = $(this).attr('id').split(currentPadId)[1];
         console.log('this id = ' + currentSelect);
@@ -282,9 +282,9 @@ function start() {
     stream.setEncoding('utf8'); // get text instead of Buffers for on data events
     stream.on('data', function(data) {
         console.log(data);
-        $('#' + currentPadId + lastDivId).text(data);
-        $('#' + currentPadId + lastDivId).css('cursor', 'pointer');
-        $('#' + currentPadId + lastDivId).click(function(e) {
+        $('#' + currentPadId + lastDivId + "speech").text(data);
+        $('#' + currentPadId + lastDivId + "speech").css('cursor', 'pointer');
+        $('#' + currentPadId + lastDivId + "speech").click(function(e) {
             console.log('click');
             currentSelect = $(this).attr('id').split(currentPadId)[1];
             console.log("this id = " + currentSelect);
@@ -293,10 +293,10 @@ function start() {
         lastDivId += 1;
         console.log(lastDivId);
         jQuery('<div/>', {
-            id: currentPadId + lastDivId,
+            id: currentPadId + lastDivId + "speech",
             "class": 'recognizing'
         }).appendTo('#lines');
-        $('#' + currentPadId + lastDivId).click(function() {
+        $('#' + currentPadId + lastDivId + "speech").click(function() {
             console.log('click');
             currentSelect = $(this).attr('id').split(currentPadId)[1];
             console.log("this id = " + currentSelect);

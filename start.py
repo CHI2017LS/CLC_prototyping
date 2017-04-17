@@ -83,12 +83,12 @@ def test_connect():
 	global thread
 	if thread is None:
 		thread = socketio.start_background_task(target=background_thread)
-	emit('response', {'data': 'Connected'})
+	# emit('response', {'data': 'Connected'})
 
 @socketio.on('disconnect', namespace='/getpadusercount')
 def test_disconnect():
     print('Client disconnected', request.sid)
-    emit('response', {'data': 'Disconnected'})
+    # emit('response', {'data': 'Disconnected'})
 
 if __name__ == "__main__":
     # app.run(host='0.0.0.0')
