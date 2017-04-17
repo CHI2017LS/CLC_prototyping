@@ -50,6 +50,7 @@ function addSlide(id, img_url) {
     $(newSlide).find('a').attr('onclick', "changePad('" + sessionID + sessionTitle + id + "')");
     $(newSlide).find('p.id-of-slide').attr("id", "slide-id-" + id);
     $(newSlide).find('p.id-of-slide').text(parseInt(id) + 1);
+    $(newSlide).find('p.id-of-slide').css("display", "block");
 
     $(newSlide).find('img.img-responsive').attr({'src': img_url, 'onclick': "highlightSlide(this)"});
     //$(newSlide).find('img.img-responsive').attr('src', img_url);
