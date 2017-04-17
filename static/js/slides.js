@@ -281,6 +281,7 @@ function createPad(padID, callback) {
         console.log(response);
     });
 }
+
 // Keywords adding Script
 var txtId;
 $('#addKeyword').click(function() {
