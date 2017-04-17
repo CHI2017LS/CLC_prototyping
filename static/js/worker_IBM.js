@@ -19,6 +19,7 @@ function init() {
         $('.title').text(sessionTitle);
         listenToSlides();
         changePad(sessionID + sessionTitle + 0); // default is the first slide
+        createSpeechDiv();
         // Update pad users count
         testWs();
         listenToKeywords();
@@ -254,37 +255,25 @@ function createPad(padID, callback) {
 }
 var lastDivId = 1;
 var currentSelect = 1;
-jQuery('<div/>', {
-    id: currentPadId + lastDivId,
-    "class": 'recognizing'
-}).appendTo('#lines');
-$('#' + currentPadId + lastDivId).click(function() {
-    console.log('click');
-    currentSelect = $(this).attr('id').split(currentPadId)[1];
-    console.log('this id = ' + currentSelect);
-    editLine($(this).text());
-});
+var createSpeechDiv = function() {
+    jQuery('<div/>', {
+        id: currentPadId + lastDivId,
+        "class": 'recognizing'
+    }).appendTo('#lines');
+    $('#' + currentPadId + lastDivId).click(function() {
+        console.log('click');
+        currentSelect = $(this).attr('id').split(currentPadId)[1];
+        console.log('this id = ' + currentSelect);
+        editLine($(this).text());
+    });    
+}
+
 
 function start() {
+    var token = $('#tokenDiv').text().trim();
+    console.log(token);
     console.log('hihi');
-    // https://stream.watsonplatform.net/authorization/api/v1/token?url=https://stream.watsonplatform.net/speech-to-text/api
-    var token = 'UiRl3QxnqjElDFaXRwATJOwM%2Fq%2BTvF1EwOKdQWmX0bH4WbWw2mJ3XKm%2FAPv6o79h8JczBxWy41J6%2BmVmCBe8F3KYUlC0WcRDOPtRYPeCPoqUegjOmY1ARc0%2FepfV8s3oAe%2B3ySnsx8yaPlox5JvXRJWx5Xxsq8XWQVLmhi8S9lMcnNa4z%2BJRl%2FPbBiiXnQmkl8YPJAkwd1dHAAo6kIHDqWiPJVpNZyyooXgYAzduvBaRb2fXJkWi8jr5IXpbe4OYFzdBEsXFStdoJhy1aOIyeiGV%2F4kL5qZDP7d11DASn4Vkpte0k0UCuDIBPDaidPP2hhZ2AVrL97NVtzpN1J%2FYLxI62U9HzTlCtmgchI5XYkcIpJZ%2Bv1aCwiyNC83yH2cIA9MiYLEw%2Bai%2BFWGe4xm46yyCdCQ4nd1jJq8SuHzV63SGWCXDm7qOybFzGr45L7e%2FRJ4GdufbPG8xqgly%2FGn8fi1MXmVtHco0%2BQp4gfmIhxZIGUdRUZXbZQMmTFA%2FStL3JgHeuVYC3cNIoSM11HTYYYQbHm77aVBQ2A%2FHzbwoKnzse5iA%2Bhx7V3F9hfNMMM5ANwSrU0D3yoJOGUU%2BnqpdXHXoSqKDS2gHmaSHrxLV4N8TWW8nk%2FqZM9OOffZxySVHO3y%2B%2BcO9JmnP0MRnznumyLtBIgk33MuXi9tSYCP7adzG%2FPpFJtLiX9Cyx7IAlbYSshOqDxDTeeUbH7S0CYZitHutNfFdC45Bqsn5VLB05T%2B2QZ6YNBSs1r%2Fuj3oKhcxS6txpeP7YYbLDC7mYLEuEhbLw1xTVltiCEvik%2FX%2FAwLc50m1ABbEsh9p1nS9YHVjQVmeXihhXAxsc2qHl4uXIRKoXJclCimnAWCAVwQ%2F7JNcGP0Fzqq9Z1gqYKWEHxhLfUrhuKyNVJyvBs2IUzYWFdN78wciXWKZy3LC72ojPSRLgT%2BWL5069vg%3D%3D';
-    // fetch('https://watson-speech.mybluemix.net/api/speech-to-text/token',
-    //   {mode: 'no-cors'
-    //   // header: {
-    //   //   Authorization: 'Basic MWFhOGM0ZTAtN2JlMS00YTM5LTkzMTYtNTBmNTAxNGRiZGE3OmppQnduQWlpTUYzdw=='
-    //   // }
-    //   // body:'username=1aa8c4e0-7be1-4a39-9316-50f5014dbda7&password=jiBwnAiiMF3w'
-    // }).then(function(response) {
-    //     if(response.ok){
-    //       console.log('ok');
-    //       return response.text();
-    //     }
-    //     else if(response.status == 401){
-    //       console.log("not authorized!");
-    //     }
-    // }).then(function (token) {
-    // console.log(token);
+    
     var stream = WatsonSpeech.SpeechToText.recognizeMicrophone({
         token: token,
         object_mode: false // default

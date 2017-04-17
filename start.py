@@ -2,6 +2,8 @@ import json
 from flask import Flask, render_template, request
 from etherpad_lite import EtherpadLiteClient
 from flask_socketio import SocketIO, emit	# pip install flask-socketio
+from watson_developer_cloud import AuthorizationV1
+from watson_developer_cloud import SpeechToTextV1
 
 app = Flask(__name__)
 app.config.update(
@@ -41,8 +43,14 @@ def slides():
 	return render_template('slides.html')
 
 @app.route("/worker")
-def worker():
-	return render_template('worker.html')
+def worker(token = None):
+	authorization = AuthorizationV1(
+	    username='1aa8c4e0-7be1-4a39-9316-50f5014dbda7',
+	    password='jiBwnAiiMF3w'
+	)
+
+	token = authorization.get_token(url=SpeechToTextV1.default_url)
+	return render_template('worker.html', token = token)
 
 @app.route("/test")
 def test():

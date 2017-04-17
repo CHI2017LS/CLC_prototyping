@@ -128,6 +128,11 @@
                             </button>
                             <div id="lines" style="height:150px; overflow-y: scroll; overflow-x: hidden;">
                             </div>
+                            {% if token %}
+                            <div id="tokenDiv" style="display:none">
+                                {{ token }}
+                            </div>
+                            {% endif %}
                             <div style="height:50px; border: 3px #aaaaee solid; overflow-y: scroll; overflow-x: hidden; position: relative;">
                                 <textarea id="editLines" style="border: none; width: 100%">
                                 </textarea>
