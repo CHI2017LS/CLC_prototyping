@@ -15,25 +15,23 @@
                     //var mpImg = new MegaPixImage(file);
                     var fileReader = new FileReader();
                     var img = document.createElement("img");
-                    //var resCanvas1 = document.createElement('canvas');
+                    var resCanvas1 = document.createElement('canvas');
                     var extension = file.name.split('.').pop().toLowerCase();
+                    console.log(extension);
 
                     fileReader.onload = function(event) {
                         //showPicture.src = event.target.result;
                         img.src = event.target.result;
-                        console.log(img.src);
                         //img.onload = function()
                         /* Resize image */
                         //console.log("img start: " + img.width + ", " + img.height);
-                        //var newURL = resizeImage(img);
-
+                        var newURL = resizeImage(img);
                         //mpImg.render(img, { maxWidth: 300, maxHeight: 300, quality: 0.5 });
                         //mpImg.render(resCanvas1, { maxWidth: 300, maxHeight: 300 });
-
-                        //createSlide(resCanvas1.toDataURL("image/"+extension));
+                        createSlide(resCanvas1.toDataURL("data:image/"+extension));
 
                         //console.log(newURL);
-                        createSlide(img.src);
+                        //createSlide("image/"+extension+newURL);
                         //createSlide(img.src);
                         //createSlide(event.target.result);
                     };
