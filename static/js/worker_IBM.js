@@ -20,8 +20,7 @@ function init() {
         listenToSlides();
         changePad(sessionID + sessionTitle + 0); // default is the first slide
         createSpeechDiv();
-        // Update pad users count
-        testWs();
+        testWs();   // Update pad users count
         listenToKeywords();
     });
 }
@@ -125,8 +124,8 @@ function addSpeechToFirebase() {
         }
     }
     nextSelect = parseInt(currentSelect) + 1;
-    if ($('#' + currentPadId + nextSelect).text() != "") {
-        $('#editLines').val($('#' + currentPadId + nextSelect).text());
+    if ($('#speech' + currentPadId + nextSelect).text() != "") {
+        $('#editLines').val($('#speech' + currentPadId + nextSelect).text());
         currentSelect = nextSelect;
     } else $('#editLines').val("");
 }
@@ -257,10 +256,10 @@ var lastDivId = 1;
 var currentSelect = 1;
 var createSpeechDiv = function() {
     jQuery('<div/>', {
-        id: currentPadId + lastDivId,
+        id: "speech" + currentPadId + lastDivId,
         "class": 'recognizing'
     }).appendTo('#lines');
-    $('#' + currentPadId + lastDivId).click(function() {
+    $('#speech' + currentPadId + lastDivId).click(function() {
         console.log('click');
         currentSelect = $(this).attr('id').split(currentPadId)[1];
         console.log('this id = ' + currentSelect);
@@ -282,9 +281,9 @@ function start() {
     stream.setEncoding('utf8'); // get text instead of Buffers for on data events
     stream.on('data', function(data) {
         console.log(data);
-        $('#' + currentPadId + lastDivId).text(data);
-        $('#' + currentPadId + lastDivId).css('cursor', 'pointer');
-        $('#' + currentPadId + lastDivId).click(function(e) {
+        $('#speech' + currentPadId + lastDivId).text(data);
+        $('#speech' + currentPadId + lastDivId).css('cursor', 'pointer');
+        $('#speech' + currentPadId + lastDivId).click(function(e) {
             console.log('click');
             currentSelect = $(this).attr('id').split(currentPadId)[1];
             console.log("this id = " + currentSelect);
@@ -293,10 +292,10 @@ function start() {
         lastDivId += 1;
         console.log(lastDivId);
         jQuery('<div/>', {
-            id: currentPadId + lastDivId,
+            id: "speech" + currentPadId + lastDivId,
             "class": 'recognizing'
         }).appendTo('#lines');
-        $('#' + currentPadId + lastDivId).click(function() {
+        $('#speech' + currentPadId + lastDivId).click(function() {
             console.log('click');
             currentSelect = $(this).attr('id').split(currentPadId)[1];
             console.log("this id = " + currentSelect);

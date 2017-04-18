@@ -9,39 +9,30 @@
             // Get a reference to the taken picture or chosen file
             var files = event.target.files,
                 file;
+            
             if (files && files.length > 0) {
+                console.log(">0");
                 file = files[0];
+                var extension = file.name.split('.').pop().toLowerCase();
                 try {
-                    //var mpImg = new MegaPixImage(file);
-                    var fileReader = new FileReader();
-                    var img = document.createElement("img");
-                    var resCanvas1 = document.createElement('canvas');
-                    var extension = file.name.split('.').pop().toLowerCase();
-                    console.log(extension);
+                    var ii = loadImage(
+                            file,
+                            function (canvas) {
+                                
+                                console.log(canvas);
+                                createSlide(canvas.toDataURL("image/"+extension));
 
-                    fileReader.onload = function(event) {
-                        //showPicture.src = event.target.result;
-                        img.src = event.target.result;
-                        //img.onload = function()
-                        /* Resize image */
-                        //console.log("img start: " + img.width + ", " + img.height);
-                        var newURL = resizeImage(img);
-                        //mpImg.render(img, { maxWidth: 300, maxHeight: 300, quality: 0.5 });
-                        //mpImg.render(resCanvas1, { maxWidth: 300, maxHeight: 300 });
-                        createSlide(resCanvas1.toDataURL("data:image/"+extension));
-
-                        //console.log(newURL);
-                        //createSlide("image/"+extension+newURL);
-                        //createSlide(img.src);
-                        //createSlide(event.target.result);
-                    };
-                    fileReader.readAsDataURL(file);
+                            },
+                            {maxWidth: 300,canvas:true} // Options
+                    );
+                    
                 } catch (e) {
                     //
                     var error = document.querySelector("#error");
                     if (error) {
                         error.innerHTML = "Neither createObjectURL or FileReader are supported";
                     }
+                    console.log(error);
                 }
 
             }

@@ -4,6 +4,14 @@ from etherpad_lite import EtherpadLiteClient
 from flask_socketio import SocketIO, emit	# pip install flask-socketio
 from watson_developer_cloud import AuthorizationV1
 from watson_developer_cloud import SpeechToTextV1
+from OpenSSL import SSL
+ 
+import os
+ 
+context = SSL.Context(SSL.SSLv23_METHOD)
+cer = os.path.join('/etc/letsencrypt/live/chi17-lanbridge.com/cert.pem')
+key = os.path.join('/etc/letsencrypt/live/chi17-lanbridge.com/privkey.pem')
+
 
 app = Flask(__name__)
 app.config.update(
@@ -22,7 +30,7 @@ def background_thread():
                       {'data': data}, namespace='/getpadusercount')
 
 def getPadUsersCount():
-	c = EtherpadLiteClient(base_params={'apikey':'f42591e743037bc39d530ba6b1550b0d558aed32f3e9f5e8f12cdeaa1a48b0cd'})
+	c = EtherpadLiteClient(base_params={'apikey':'8b370ace91baa8557c685d75d70a6c2005e19761a5cf55a83611c3773d3d4c38'})
 	padList = c.listAllPads()
 	userCount = {}
 
@@ -60,7 +68,7 @@ def test():
 def createPad():
 	id = request.args.get('padID')
 	print(id)
-	c = EtherpadLiteClient(base_params={'apikey':'f42591e743037bc39d530ba6b1550b0d558aed32f3e9f5e8f12cdeaa1a48b0cd'})
+	c = EtherpadLiteClient(base_params={'apikey':'8b370ace91baa8557c685d75d70a6c2005e19761a5cf55a83611c3773d3d4c38'})
 	padList = c.listAllPads()
 	if id in padList['padIDs']:
 		c.deletePad(padID=id)
@@ -72,7 +80,7 @@ def createPad():
 def pasteText(padID=None,text=None):
 	text = request.args.get('text')
 	padID = request.args.get('padID')
-	c = EtherpadLiteClient(base_params={'apikey':'f42591e743037bc39d530ba6b1550b0d558aed32f3e9f5e8f12cdeaa1a48b0cd'})
+	c = EtherpadLiteClient(base_params={'apikey':'8b370ace91baa8557c685d75d70a6c2005e19761a5cf55a83611c3773d3d4c38'})
 	#padList = c.listAllPads()
 	#padList['padIDs']['']
 	message = c.appendText(padID=padID, text=text)
@@ -83,15 +91,17 @@ def test_connect():
 	global thread
 	if thread is None:
 		thread = socketio.start_background_task(target=background_thread)
-	emit('response', {'data': 'Connected'})
+#	emit('response', {'data': 'Connected'})
 
 @socketio.on('disconnect', namespace='/getpadusercount')
 def test_disconnect():
     print('Client disconnected', request.sid)
-    emit('response', {'data': 'Disconnected'})
+ #   emit('response', {'data': 'Disconnected'})
 
 if __name__ == "__main__":
     # app.run(host='0.0.0.0')
     # app.run()
-    socketio.run(app, debug=True, host='0.0.0.0')
+    # socketio.run(app, debug=True, host='0.0.0.0')
+    context = (cer, key)
+    socketio.run(app, host='0.0.0.0', port=5000, debug = True, ssl_context=context)
 

@@ -2,7 +2,7 @@
 
   $.fn.pad = function( options ) {
     var settings = {
-      'host'              : 'http://140.114.79.181:9001',
+      'host'              : 'https://chi17-lanbridge.com:9000',
       'baseUrl'           : '/p/',
       'showControls'      : true,
       'showChat'          : false,

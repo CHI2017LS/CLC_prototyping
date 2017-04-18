@@ -145,12 +145,12 @@ function listenToSpeech() {
 function addSpeech(key, text) {
     // Create a div of each sentence
     jQuery('<div/>', {
-        id: currentPadId + key,
+        id: "speech" + currentPadId + key,
         "class": 'recognizing',
         text: text
     }).appendTo('#lines');
-    $('#' + currentPadId + key).css('cursor', 'pointer');
-    $('#' + currentPadId + key).click(function() {
+    $('#speech' + currentPadId + key).css('cursor', 'pointer');
+    $('#speech' + currentPadId + key).click(function() {
         addLine(currentPadId, $(this).text());
     });
 }
@@ -174,34 +174,31 @@ function addLine(padID, text) { // add a new line to etherpad
 }
 var existPadId = [];
 
-function loadKeywordsFromFirebase() { // display on right side of the page
+function loadKeywordsFromFirebase() {
     var keywordRef = speechDB.ref("keyword/" + sessionID + sessionTitle + '/' + currentPadId); // reference to keywords of current pad
-    // keywordRef.on("child_added", function(snapshot) {
         keywordRef.once("value", function(snapshot) {
             snapshot.forEach(function(childSnapshot) {
                 var keyword = childSnapshot.val();
-                console.log("parent: " + keywordRef.key);
+                // console.log("parent: " + keywordRef.key);
                 if (keyword) {
                     if ($('#kw' + currentPadId + childSnapshot.key).length == 0) {   // element not exists
-                        // addKeyword(snapshot.key, snapshot.val().text);
                         $("#showBlock").append('<span class="keywordSpan" id="kw' + currentPadId + childSnapshot.key + '"><input type="text" class="keywordBtn" size="8" value="' + childSnapshot.val().text + '" id="kw' + currentPadId + childSnapshot.key + 'text" onchange="ok(this.value,' + childSnapshot.key + ')"/></span>');
                         txtId = parseInt(childSnapshot.key) + 1;
                     }
-                    
                 }                
             })
     });
 }
 
 function listenToKeywords() {  
-    var kw_slides = speechDB.ref("keyword/" + sessionID + sessionTitle + '/'); // reference to keywords for each slide in the talk
+    var kw_slides = speechDB.ref("keyword/" + sessionID + sessionTitle + '/'); // reference to keywords of each slide in the talk
     kw_slides.on("child_added", function(snapshot) {
         snapshot.forEach(function() { // each slide
             var padId = snapshot.key;
             console.log("padId: " + padId); // get the pad id
             console.log("existPadId: " + existPadId);
             if (existPadId.length == 0 || !(existPadId.includes(padId))) {
-                existPadId.push(padId);
+                existPadId.push(padId); // record the pad id which has been 
                 var pad_ref = speechDB.ref("keyword/" + sessionID + sessionTitle + '/' + padId);
 
                 pad_ref.on("child_added", function(childSnapshot) {
