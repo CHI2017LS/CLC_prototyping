@@ -20,7 +20,7 @@ function init() {
         listenToSlides();
         changePad(sessionID + sessionTitle + 0); // default is the first slide
         createSpeechDiv();
-        testWs(); // Update pad users count
+        // testWs(); // Update pad users count
         listenToKeywords();
     });
 }
@@ -55,8 +55,8 @@ function addSlide(id, img_url) {
     //$(newSlide).find('img.img-responsive').attr('src', img_url);
     $(newSlide).find('img.img-responsive').css("display", "inline");
     $(newSlide).find('img.user-img').css("display", "inline");
-    $(newSlide).find('p.number-of-editing').attr('id', 'padInfo-' + sessionID + sessionTitle + id);
-    $(newSlide).find('p.number-of-editing').css("display", "inline");
+    $(newSlide).find('p.number-of-looking').attr('id', 'padUserCount-' + sessionID + sessionTitle + id);
+    $(newSlide).find('p.number-of-looking').css("display", "inline");
     $(newSlide).find('p.keyword').attr('id', 'padKeyword-' + sessionID + sessionTitle + id);
     $(newSlide).find('p.keyword').css("display", "block");
     //var el = $("<li class='list-group-item'><b><img src=" +  img_url + ":</b> " + "ee" + "</li>");//modify
@@ -393,8 +393,8 @@ function testWs() { // use web-socket
         console.log(msg.data);
         response = JSON.parse(msg.data); // parse JSON string
         for (var padId in response) {
-            if ($('#padInfo-' + padId).length > 0) { // element exist
-                $("#padInfo-" + padId).text(response[padId]);
+            if ($('#padUserCount-' + padId).length > 0) { // element exist
+                $("#padUserCount-" + padId).text(response[padId]);
             }
         }
     });

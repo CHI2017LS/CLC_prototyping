@@ -35,6 +35,7 @@ function listenToSlides() {
         var slide = snapshot.val();
         if (slide) {
             addSlide(snapshot.key, slide.img);
+            // listenToUserCount(snapshot.key);
         }
     });
 }
@@ -58,8 +59,8 @@ function addSlide(id, img_url) {
     //$(newSlide).find('img.img-responsive').attr('src', img_url);
     $(newSlide).find('img.img-responsive').css("display", "inline");
     $(newSlide).find('img.user-img').css("display", "inline");
-    $(newSlide).find('p.number-of-editing').attr('id', 'padInfo-' + sessionID + sessionTitle + id);
-    $(newSlide).find('p.number-of-editing').css("display", "inline");
+    $(newSlide).find('p.number-of-looking').attr('id', 'padUserCount-' + sessionID + sessionTitle + id);
+    $(newSlide).find('p.number-of-looking').css("display", "inline");
     $(newSlide).find('p.keyword').attr('id', 'padKeyword-' + sessionID + sessionTitle + id);
     $(newSlide).find('p.keyword').css("display", "block");
     //var el = $("<li class='list-group-item'><b><img src=" +  img_url + ":</b> " + "ee" + "</li>");//modify
@@ -271,6 +272,17 @@ var changePad = function(id) {
     txtId = 1;
     $('span').remove('.keywordSpan');
     loadKeywordsFromFirebase();
+
+    // add 1 to user count
+    // countRef = speechDB.ref("userCount/" + sessionID + sessionTitle + "/" + id.split(sessionTitle)[1]);
+    // countRef.once('value').then(function(snapshot) {
+    //     var user_count = snapshot.val().count;
+    //     console.log("count: " + user_count);
+    //     var new_user_count = user_count + 1;
+    //     var postData = {count: new_user_count};
+    //     countRef.update(postData);
+    // });
+
 }
 
 function createPad(padID, callback) {
@@ -287,6 +299,22 @@ function createPad(padID, callback) {
         console.log(response);
     });
 }
+
+// User count of each slide
+function listenToUserCount(slideId) {
+    countRef = speechDB.ref("userCount/" + sessionID + sessionTitle + "/" + slideId);
+
+    // initialize
+    countRef.set({count:0});
+
+    countRef.on("child_changed", function(snapshot) {
+        var count = snapshot.val();
+        if (count) {
+            $('#padUserCount-' + sessionID + sessionTitle + slideId).text(count);
+        }
+    });
+}
+
 // Keywords adding Script
 var txtId;
 $('#addKeyword').click(function() {
@@ -337,8 +365,8 @@ function checkEmpty(edit_value, kwId) {
         $('#kw' + currentPadId + kwId).remove();
     }
 }
-// Get pad user count with websocket
-// var wsUri = "ws://echo.websocket.org/";
+Get pad user count with websocket
+var wsUri = "ws://echo.websocket.org/";
 var wsUri = "/getpadusercount";
 var output;
 var socket = new io.connect(location.protocol + '//' + document.domain + ':' + location.port + wsUri);
@@ -357,8 +385,8 @@ function testWs() { // use web-socket to get pad users count
         // console.log(msg.data);
         response = JSON.parse(msg.data); // parse JSON string
         for (var padId in response) {
-            if ($('#padInfo-' + padId).length > 0) { // element exist
-                $("#padInfo-" + padId).text(response[padId]);
+            if ($('#padUserCount-' + padId).length > 0) { // element exist
+                $("#padUserCount-" + padId).text(response[padId]);
             }
         }
     });
