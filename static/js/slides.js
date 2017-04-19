@@ -209,10 +209,9 @@ function listenToKeywords() {
                     if (keyword) {
                         // display on the left-bar
                         if ($('#padKeyword-' + padId).find("span").length == 0) {  // no keyword now
-                            console.log("the first keyword");
-                            $('#padKeyword-' + padId).append('<span id="' + padId + childSnapshot.key + '">' + keyword + '</span>');
+                            $('#padKeyword-' + padId).append('<span id="padKw' + padId + childSnapshot.key + '">' + keyword + '</span>');
                         } else {
-                            $('#padKeyword-' + padId).append('<span id="' + padId + childSnapshot.key + '">' + ", " + keyword + '</span>');
+                            $('#padKeyword-' + padId).append('<span id="padKw' + padId + childSnapshot.key + '">' + ", " + keyword + '</span>');
                         }
 
                         //display on the right-top
@@ -227,10 +226,10 @@ function listenToKeywords() {
                     if (keyword) {
                         // display on the left-bar
                         if (document.getElementById("padKeyword-" + padId).childElementCount == 1) {
-                            $('#' + padId + childSnapshot.key).text(keyword);
+                            $('#padKw' + padId + childSnapshot.key).text(keyword);
                         } else if (document.getElementById("padKeyword-" + padId).childElementCount > 1) {
-                            if (document.getElementById("padKeyword-" + padId).childNodes[1] == $('#' + padId + childSnapshot.key)[0]) $('#' + padId + childSnapshot.key).text(keyword);
-                            else $('#' + padId + childSnapshot.key).text(", " + keyword);
+                            if (document.getElementById("padKeyword-" + padId).childNodes[1] == $('#padKw' + padId + childSnapshot.key)[0]) $('#padKw' + padId + childSnapshot.key).text(keyword);
+                            else $('#padKw' + padId + childSnapshot.key).text(", " + keyword);
                         }
 
                         //display on the right-top
@@ -244,7 +243,7 @@ function listenToKeywords() {
                     if (keyword) {
                         // display on the left-bar
                         var kwList = $("#padKeyword-" + padId).find('span');
-                        $('#' + padId + childSnapshot.key).remove();
+                        $('#padKw' + padId + childSnapshot.key).remove();
 
                         if($(kwList[0]).text() == keyword) {    // remove the first keyword
                             // remove the ','
