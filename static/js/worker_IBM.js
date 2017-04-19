@@ -182,11 +182,14 @@ function listenToKeywords() {
                     var keyword = childSnapshot.val().text;
                     console.log(padId + ": " + keyword);
                     if (keyword) {
-                        if ($('#padKeyword-' + padId).text() == "Keywords: ") {
+                        // display on the left-bar
+                        if ($('#padKeyword-' + padId).find("span").length == 0) {  // no keyword now
                             $('#padKeyword-' + padId).append('<span id="' + padId + childSnapshot.key + '">' + keyword + '</span>');
                         } else {
                             $('#padKeyword-' + padId).append('<span id="' + padId + childSnapshot.key + '">' + ", " + keyword + '</span>');
                         }
+
+                        //display on the right-top
                         if ($('#kw' + padId + childSnapshot.key).length == 0 && currentPadId == padId) { // element not exists
                             $("#showBlock").append('<span class="keywordSpan" id="kw' + padId + childSnapshot.key + '"><input type="text" class="keywordBtn" size="8" value="' + childSnapshot.val().text + '" id="kw' + padId + childSnapshot.key + 'text" onchange="ok(this.value,' + childSnapshot.key + ')"/></span>');
                             txtId = parseInt(childSnapshot.key) + 1;
@@ -196,12 +199,15 @@ function listenToKeywords() {
                 pad_ref.on("child_changed", function(childSnapshot) {
                     var keyword = childSnapshot.val().text;
                     if (keyword) {
+                        // display on the left-bar
                         if (document.getElementById("padKeyword-" + padId).childElementCount == 1) {
                             $('#' + padId + childSnapshot.key).text(keyword);
                         } else if (document.getElementById("padKeyword-" + padId).childElementCount > 1) {
                             if (document.getElementById("padKeyword-" + padId).childNodes[1] == $('#' + padId + childSnapshot.key)[0]) $('#' + padId + childSnapshot.key).text(keyword);
                             else $('#' + padId + childSnapshot.key).text(", " + keyword);
                         }
+
+                        //display on the right-top
                         if ($('#kw' + currentPadId + childSnapshot.key).length > 0 && currentPadId == padId) {
                             document.getElementById("kw" + currentPadId + childSnapshot.key).innerHTML = '<input type="text" class="keywordBtn" size="8" value="' + childSnapshot.val().text + '" id="kw' + currentPadId + childSnapshot.key + 'text" onchange="ok(this.value,' + childSnapshot.key + ')"/>';
                         }
@@ -210,7 +216,16 @@ function listenToKeywords() {
                 pad_ref.on("child_removed", function(childSnapshot) {
                     var keyword = childSnapshot.val().text;
                     if (keyword) {
+                        // display on the left-bar
+                        var kwList = $("#padKeyword-" + padId).find('span');
                         $('#' + padId + childSnapshot.key).remove();
+
+                        if($(kwList[0]).text() == keyword) {    // remove the first keyword
+                            // remove the ','
+                            $(kwList[1]).text( $(kwList[1]).text().split(", ")[1]);
+                        }
+
+                        //display on the right-top
                         if ($('#kw' + currentPadId + childSnapshot.key).length > 0 && currentPadId == padId) {
                             $('#kw' + currentPadId + childSnapshot.key).remove();
                         }
@@ -345,7 +360,7 @@ function ok(edit_value, kwId) {
         });
     } else {
         console.log("not delete");
-        document.getElementById("kw" + currentPadId + kwId).innerHTML = '<input type="button" class="keywordBtn" id="kw' + currentPadId + kwId + 'text" value="' + edit_value + '" onclick="edit(' + kwId + ')"/>';
+        document.getElementById("kw" + currentPadId + kwId).innerHTML = '<input type="text" class="keywordBtn" size="8" id="kw' + currentPadId + kwId + 'text" value="' + edit_value + '" onclick="edit(' + kwId + ')"/>';
         // create entry in Firebase
         speechDB.ref('keyword/' + sessionID + sessionTitle + '/' + currentPadId).child(kwId).set({
             text: edit_value
