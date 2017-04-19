@@ -1,0 +1,12 @@
+{
+  "url": "https://stream.watsonplatform.net/speech-to-text/api",
+  "username": "1aa8c4e0-7be1-4a39-9316-50f5014dbda7",
+  "password": "jiBwnAiiMF3w"
+}
+
+//IBM
+{
+  "url": "https://stream.watsonplatform.net/speech-to-text/api",
+  "username": "340ed380-e330-439f-b7e8-1383e16367e8",
+  "password": "HzoBlN2H5dEX"
+}

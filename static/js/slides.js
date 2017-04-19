@@ -51,8 +51,10 @@ function addSlide(id, img_url) {
     $(newSlide).find('p.id-of-slide').attr("id", "slide-id-" + id);
     $(newSlide).find('p.id-of-slide').text(parseInt(id) + 1);
     $(newSlide).find('p.id-of-slide').css("display", "block");
-
-    $(newSlide).find('img.img-responsive').attr({'src': img_url, 'onclick': "highlightSlide(this)"});
+    $(newSlide).find('img.img-responsive').attr({
+        'src': img_url,
+        'onclick': "highlightSlide(this)"
+    });
     //$(newSlide).find('img.img-responsive').attr('src', img_url);
     $(newSlide).find('img.img-responsive').css("display", "inline");
     $(newSlide).find('img.user-img').css("display", "inline");
@@ -65,8 +67,8 @@ function addSlide(id, img_url) {
 }
 
 function highlightSlide(slide) {
-	slideList.find('img.img-responsive').css('box-shadow',"initial");
-	slide.style.boxShadow = "0px 0px 40px 5px lightblue";	
+    slideList.find('img.img-responsive').css('box-shadow', "initial");
+    slide.style.boxShadow = "0px 0px 40px 5px lightblue";
 }
 
 function createSlide(data_url) {
@@ -176,21 +178,21 @@ var existPadId = [];
 
 function loadKeywordsFromFirebase() {
     var keywordRef = speechDB.ref("keyword/" + sessionID + sessionTitle + '/' + currentPadId); // reference to keywords of current pad
-        keywordRef.once("value", function(snapshot) {
-            snapshot.forEach(function(childSnapshot) {
-                var keyword = childSnapshot.val();
-                // console.log("parent: " + keywordRef.key);
-                if (keyword) {
-                    if ($('#kw' + currentPadId + childSnapshot.key).length == 0) {   // element not exists
-                        $("#showBlock").append('<span class="keywordSpan" id="kw' + currentPadId + childSnapshot.key + '"><input type="text" class="keywordBtn" size="8" value="' + childSnapshot.val().text + '" id="kw' + currentPadId + childSnapshot.key + 'text" onchange="ok(this.value,' + childSnapshot.key + ')"/></span>');
-                        txtId = parseInt(childSnapshot.key) + 1;
-                    }
-                }                
-            })
+    keywordRef.once("value", function(snapshot) {
+        snapshot.forEach(function(childSnapshot) {
+            var keyword = childSnapshot.val();
+            // console.log("parent: " + keywordRef.key);
+            if (keyword) {
+                if ($('#kw' + currentPadId + childSnapshot.key).length == 0) { // element not exists
+                    $("#showBlock").append('<span class="keywordSpan" id="kw' + currentPadId + childSnapshot.key + '"><input type="text" class="keywordBtn" size="8" value="' + childSnapshot.val().text + '" id="kw' + currentPadId + childSnapshot.key + 'text" onchange="ok(this.value,' + childSnapshot.key + ')"/></span>');
+                    txtId = parseInt(childSnapshot.key) + 1;
+                }
+            }
+        })
     });
 }
 
-function listenToKeywords() {  
+function listenToKeywords() {
     var kw_slides = speechDB.ref("keyword/" + sessionID + sessionTitle + '/'); // reference to keywords of each slide in the talk
     kw_slides.on("child_added", function(snapshot) {
         snapshot.forEach(function() { // each slide
@@ -200,7 +202,6 @@ function listenToKeywords() {
             if (existPadId.length == 0 || !(existPadId.includes(padId))) {
                 existPadId.push(padId); // record the pad id which has been 
                 var pad_ref = speechDB.ref("keyword/" + sessionID + sessionTitle + '/' + padId);
-
                 pad_ref.on("child_added", function(childSnapshot) {
                     var id = childSnapshot.key;
                     var keyword = childSnapshot.val().text;
@@ -211,27 +212,21 @@ function listenToKeywords() {
                         } else {
                             $('#padKeyword-' + padId).append('<span id="' + padId + childSnapshot.key + '">' + ", " + keyword + '</span>');
                         }
-                        if ($('#kw' + padId + childSnapshot.key).length == 0 && currentPadId == padId) {   // element not exists
+                        if ($('#kw' + padId + childSnapshot.key).length == 0 && currentPadId == padId) { // element not exists
                             $("#showBlock").append('<span class="keywordSpan" id="kw' + padId + childSnapshot.key + '"><input type="text" class="keywordBtn" size="8" value="' + childSnapshot.val().text + '" id="kw' + padId + childSnapshot.key + 'text" onchange="ok(this.value,' + childSnapshot.key + ')"/></span>');
                             txtId = parseInt(childSnapshot.key) + 1;
                         }
-
                     }
                 });
-
                 pad_ref.on("child_changed", function(childSnapshot) {
                     var keyword = childSnapshot.val().text;
                     if (keyword) {
                         if (document.getElementById("padKeyword-" + padId).childElementCount == 1) {
                             $('#' + padId + childSnapshot.key).text(keyword);
-                        } else if(document.getElementById("padKeyword-" + padId).childElementCount > 1) {
-                            if(document.getElementById("padKeyword-" + padId).childNodes[1] == $('#' + padId + childSnapshot.key)[0]) 
-                                $('#' + padId + childSnapshot.key).text(keyword);
-                            
-                            else
-                                $('#' + padId + childSnapshot.key).text(", " + keyword);
-                        }                        
-                        
+                        } else if (document.getElementById("padKeyword-" + padId).childElementCount > 1) {
+                            if (document.getElementById("padKeyword-" + padId).childNodes[1] == $('#' + padId + childSnapshot.key)[0]) $('#' + padId + childSnapshot.key).text(keyword);
+                            else $('#' + padId + childSnapshot.key).text(", " + keyword);
+                        }
                         if ($('#kw' + currentPadId + childSnapshot.key).length > 0 && currentPadId == padId) {
                             document.getElementById("kw" + currentPadId + childSnapshot.key).innerHTML = '<input type="text" class="keywordBtn" size="8" value="' + childSnapshot.val().text + '" id="kw' + currentPadId + childSnapshot.key + 'text" onchange="ok(this.value,' + childSnapshot.key + ')"/>';
                         }
@@ -250,7 +245,6 @@ function listenToKeywords() {
         });
     });
 }
-
 // Create pad and change pad Script
 var currentPadId;
 var changePad = function(id) {
@@ -278,7 +272,6 @@ function createPad(padID, callback) {
         console.log(response);
     });
 }
-
 // Keywords adding Script
 var txtId;
 $('#addKeyword').click(function() {

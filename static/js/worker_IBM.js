@@ -20,7 +20,7 @@ function init() {
         listenToSlides();
         changePad(sessionID + sessionTitle + 0); // default is the first slide
         createSpeechDiv();
-        testWs();   // Update pad users count
+        testWs(); // Update pad users count
         listenToKeywords();
     });
 }
@@ -48,8 +48,10 @@ function addSlide(id, img_url) {
     $(newSlide).find('p.id-of-slide').attr("id", "slide-id-" + id);
     $(newSlide).find('p.id-of-slide').text(parseInt(id) + 1);
     $(newSlide).find('p.id-of-slide').css("display", "block");
-
-    $(newSlide).find('img.img-responsive').attr({'src': img_url, 'onclick': "highlightSlide(this)"});
+    $(newSlide).find('img.img-responsive').attr({
+        'src': img_url,
+        'onclick': "highlightSlide(this)"
+    });
     //$(newSlide).find('img.img-responsive').attr('src', img_url);
     $(newSlide).find('img.img-responsive').css("display", "inline");
     $(newSlide).find('img.user-img').css("display", "inline");
@@ -62,8 +64,8 @@ function addSlide(id, img_url) {
 }
 
 function highlightSlide(slide) {
-	slideList.find('img.img-responsive').css('box-shadow',"initial");
-	slide.style.boxShadow = "0px 0px 40px 5px lightblue";	
+    slideList.find('img.img-responsive').css('box-shadow', "initial");
+    slide.style.boxShadow = "0px 0px 40px 5px lightblue";
 }
 
 function createSlide(data_url) {
@@ -147,25 +149,25 @@ function getFileURL(slideId, callback) {
 function editLine(text) {
     $('#editLines').val(text);
 }
-
 var existPadId = [];
+
 function loadKeywordsFromFirebase() { // display on right side of the page
     var keywordRef = speechDB.ref("keyword/" + sessionID + sessionTitle + '/' + currentPadId); // reference to keywords of current pad
-        keywordRef.once("value", function(snapshot) {
-            snapshot.forEach(function(childSnapshot) {
-                var keyword = childSnapshot.val();
-                console.log("parent: " + keywordRef.key);
-                if (keyword) {
-                    if ($('#kw' + currentPadId + childSnapshot.key).length == 0) {   // element not exists
-                        $("#showBlock").append('<span class="keywordSpan" id="kw' + currentPadId + childSnapshot.key + '"><input type="text" class="keywordBtn" size="8" value="' + childSnapshot.val().text + '" id="kw' + currentPadId + childSnapshot.key + 'text" onchange="ok(this.value,' + childSnapshot.key + ')"/></span>');
-                        txtId = parseInt(childSnapshot.key) + 1;
-                    }
-                    
-                }                
-            })
+    keywordRef.once("value", function(snapshot) {
+        snapshot.forEach(function(childSnapshot) {
+            var keyword = childSnapshot.val();
+            console.log("parent: " + keywordRef.key);
+            if (keyword) {
+                if ($('#kw' + currentPadId + childSnapshot.key).length == 0) { // element not exists
+                    $("#showBlock").append('<span class="keywordSpan" id="kw' + currentPadId + childSnapshot.key + '"><input type="text" class="keywordBtn" size="8" value="' + childSnapshot.val().text + '" id="kw' + currentPadId + childSnapshot.key + 'text" onchange="ok(this.value,' + childSnapshot.key + ')"/></span>');
+                    txtId = parseInt(childSnapshot.key) + 1;
+                }
+            }
+        })
     });
 }
-function listenToKeywords() {  
+
+function listenToKeywords() {
     var kw_slides = speechDB.ref("keyword/" + sessionID + sessionTitle + '/'); // reference to keywords for each slide in the talk
     kw_slides.on("child_added", function(snapshot) {
         snapshot.forEach(function() { // each slide
@@ -175,7 +177,6 @@ function listenToKeywords() {
             if (existPadId.length == 0 || !(existPadId.includes(padId))) {
                 existPadId.push(padId);
                 var pad_ref = speechDB.ref("keyword/" + sessionID + sessionTitle + '/' + padId);
-
                 pad_ref.on("child_added", function(childSnapshot) {
                     var id = childSnapshot.key;
                     var keyword = childSnapshot.val().text;
@@ -186,27 +187,21 @@ function listenToKeywords() {
                         } else {
                             $('#padKeyword-' + padId).append('<span id="' + padId + childSnapshot.key + '">' + ", " + keyword + '</span>');
                         }
-                        if ($('#kw' + padId + childSnapshot.key).length == 0 && currentPadId == padId) {   // element not exists
+                        if ($('#kw' + padId + childSnapshot.key).length == 0 && currentPadId == padId) { // element not exists
                             $("#showBlock").append('<span class="keywordSpan" id="kw' + padId + childSnapshot.key + '"><input type="text" class="keywordBtn" size="8" value="' + childSnapshot.val().text + '" id="kw' + padId + childSnapshot.key + 'text" onchange="ok(this.value,' + childSnapshot.key + ')"/></span>');
                             txtId = parseInt(childSnapshot.key) + 1;
                         }
-
                     }
                 });
-
                 pad_ref.on("child_changed", function(childSnapshot) {
                     var keyword = childSnapshot.val().text;
                     if (keyword) {
                         if (document.getElementById("padKeyword-" + padId).childElementCount == 1) {
                             $('#' + padId + childSnapshot.key).text(keyword);
-                        } else if(document.getElementById("padKeyword-" + padId).childElementCount > 1) {
-                            if(document.getElementById("padKeyword-" + padId).childNodes[1] == $('#' + padId + childSnapshot.key)[0]) 
-                                $('#' + padId + childSnapshot.key).text(keyword);
-                            
-                            else
-                                $('#' + padId + childSnapshot.key).text(", " + keyword);
-                        }                        
-                        
+                        } else if (document.getElementById("padKeyword-" + padId).childElementCount > 1) {
+                            if (document.getElementById("padKeyword-" + padId).childNodes[1] == $('#' + padId + childSnapshot.key)[0]) $('#' + padId + childSnapshot.key).text(keyword);
+                            else $('#' + padId + childSnapshot.key).text(", " + keyword);
+                        }
                         if ($('#kw' + currentPadId + childSnapshot.key).length > 0 && currentPadId == padId) {
                             document.getElementById("kw" + currentPadId + childSnapshot.key).innerHTML = '<input type="text" class="keywordBtn" size="8" value="' + childSnapshot.val().text + '" id="kw' + currentPadId + childSnapshot.key + 'text" onchange="ok(this.value,' + childSnapshot.key + ')"/>';
                         }
@@ -225,7 +220,6 @@ function listenToKeywords() {
         });
     });
 }
-
 var currentPadId;
 var changePad = function(id) {
     console.log(id);
@@ -264,15 +258,13 @@ var createSpeechDiv = function() {
         currentSelect = $(this).attr('id').split(currentPadId)[1];
         console.log('this id = ' + currentSelect);
         editLine($(this).text());
-    });    
+    });
 }
-
 
 function start() {
     var token = $('#tokenDiv').text().trim();
     console.log(token);
     console.log('hihi');
-    
     var stream = WatsonSpeech.SpeechToText.recognizeMicrophone({
         token: token,
         object_mode: false // default
@@ -366,20 +358,18 @@ function checkEmpty(edit_value, kwId) {
         $('#kw' + currentPadId + kwId).remove();
     }
 }
-
 // Get pad user count with websocket
 // var wsUri = "ws://echo.websocket.org/";
 var wsUri = "/getpadusercount";
 var output;
 var socket = new io.connect(location.protocol + '//' + document.domain + ':' + location.port + wsUri);
 
-function testWs() {   // use web-socket
-    
+function testWs() { // use web-socket
     socket.on('connect', function() {
         console.log("connected!");
     });
     socket.on('disconnect', function() {
-       console.log("disconnected!"); 
+        console.log("disconnected!");
     });
     socket.on('error', function(evt) {
         console.log("ERROR: " + evt.data);
@@ -394,7 +384,6 @@ function testWs() {   // use web-socket
         }
     });
 }
-
 // function getPadUsersCount() {
 //     $.ajax({
 //         type: "GET",
