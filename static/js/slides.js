@@ -35,7 +35,7 @@ function listenToSlides() {
         var slide = snapshot.val();
         if (slide) {
             addSlide(snapshot.key, slide.img);
-            // listenToUserCount(snapshot.key);
+            listenToUserCount(snapshot.key);
         }
     });
 }
@@ -122,7 +122,8 @@ function getFileURL(slideId, callback) {
     var result = imgRef.getDownloadURL().then(function(url) {
         console.log(url);
         var re = slidesRef.child(slideId).set({
-            img: url
+            img: url,
+            count: 0    // initialize user count
         });
         console.log(re);
     }).catch(function(error) {
@@ -265,24 +266,46 @@ function listenToKeywords() {
 var currentPadId;
 var changePad = function(id) {
     console.log(id);
-    currentPadId = id;
-    $('#mypad').pad({
-        'padId': id
-    });
-    txtId = 1;
-    $('span').remove('.keywordSpan');
-    loadKeywordsFromFirebase();
 
-    // add 1 to user count
-    // countRef = speechDB.ref("userCount/" + sessionID + sessionTitle + "/" + id.split(sessionTitle)[1]);
-    // countRef.once('value').then(function(snapshot) {
-    //     var user_count = snapshot.val().count;
-    //     console.log("count: " + user_count);
-    //     var new_user_count = user_count + 1;
-    //     var postData = {count: new_user_count};
-    //     countRef.update(postData);
-    // });
+    if(currentPadId != id) {    // prevent from double click
+        // add 1 to user count of the select slide
+        addRef = slidesRef.child("/" + id.split(sessionTitle)[1]);
+        // addRef = speechDB.ref("userCount/" + sessionID + sessionTitle + "/" + id.split(sessionTitle)[1]);
+        addRef.once('value').then(function(snapshot) {
+            var user_count = snapshot.val().count;
+            var new_user_count = user_count + 1;
+            var postData = {count: new_user_count};
 
+            $('#padUserCount-' + sessionID + sessionTitle + id.split(sessionTitle)[1]).text(new_user_count);
+            addRef.update(postData);
+        });
+
+        // minus 1 to user count of the last slide
+        if(currentPadId != undefined){
+            minusRef = slidesRef.child("/" + currentPadId.split(sessionTitle)[1]);
+            // minusRef = speechDB.ref("userCount/" + sessionID + sessionTitle + "/" + currentPadId.split(sessionTitle)[1]);
+            minusRef.once('value').then(function(snapshot) {
+                var user_count = snapshot.val().count;
+                var new_user_count = user_count - 1;
+                var postData = {count: new_user_count};
+
+                $('#padUserCount-' + sessionID + sessionTitle + currentPadId.split(sessionTitle)[1]).text(new_user_count);
+                minusRef.update(postData);
+            });
+        }
+        else {
+            console.log("undefined");
+        }         
+    
+  
+        currentPadId = id;
+        $('#mypad').pad({
+            'padId': id
+        });
+        txtId = 1;
+        $('span').remove('.keywordSpan');
+        loadKeywordsFromFirebase();
+    }
 }
 
 function createPad(padID, callback) {
@@ -302,14 +325,22 @@ function createPad(padID, callback) {
 
 // User count of each slide
 function listenToUserCount(slideId) {
-    countRef = speechDB.ref("userCount/" + sessionID + sessionTitle + "/" + slideId);
+    // countRef = speechDB.ref("userCount/" + sessionID + sessionTitle + "/" + slideId);
+    countRef = slidesRef.child("/" + slideId);
 
     // initialize
-    countRef.set({count:0});
+    countRef.once("value").then(function(snapshot) {
+        var count = snapshot.val();
+        if (count) {
+            $('#padUserCount-' + sessionID + sessionTitle + slideId).text(snapshot.val().count);
+        }
+    });
 
     countRef.on("child_changed", function(snapshot) {
         var count = snapshot.val();
-        if (count) {
+        // console.log("count: " + count);
+        if (count && snapshot.key == "count") {
+            console.log("count: " + count);
             $('#padUserCount-' + sessionID + sessionTitle + slideId).text(count);
         }
     });
@@ -365,8 +396,8 @@ function checkEmpty(edit_value, kwId) {
         $('#kw' + currentPadId + kwId).remove();
     }
 }
-Get pad user count with websocket
-var wsUri = "ws://echo.websocket.org/";
+// Get pad user count with websocket
+// var wsUri = "ws://echo.websocket.org/";
 var wsUri = "/getpadusercount";
 var output;
 var socket = new io.connect(location.protocol + '//' + document.domain + ':' + location.port + wsUri);

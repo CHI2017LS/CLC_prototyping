@@ -103,5 +103,6 @@ if __name__ == "__main__":
     # app.run()
     # socketio.run(app, debug=True, host='0.0.0.0')
     context = (cer, key)
-    socketio.run(app, host='0.0.0.0', port=5000, debug = True, ssl_context=context)
+    # socketio.run(app, host='0.0.0.0', port=5000, debug = True, ssl_context=context)
+    socketio.run(app, host='0.0.0.0', port=5000, debug = True)
 
