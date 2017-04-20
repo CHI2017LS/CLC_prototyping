@@ -45,8 +45,7 @@ function addSlide(id, img_url) {
     console.log(img_url);
     $(newSlide).attr('class', 'slide');
     $(newSlide).attr('id', 'slide' + id);
-    $(newSlide).find('a').attr('onclick', "changePad('" + sessionID + sessionTitle + id + "')");
-    $(newSlide).find('a').attr('onclick', "updateUserCount('" + id + "')");
+    $(newSlide).find('a').attr('onclick', "slideClickEvent('" + id + "')");
     $(newSlide).find('p.id-of-slide').attr("id", "slide-id-" + id);
     $(newSlide).find('p.id-of-slide').text(parseInt(id) + 1);
     $(newSlide).find('p.id-of-slide').css("display", "block");
@@ -64,6 +63,11 @@ function addSlide(id, img_url) {
     //var el = $("<li class='list-group-item'><b><img src=" +  img_url + ":</b> " + "ee" + "</li>");//modify
     slideList.append(newSlide);
     listenToUserCount(id);
+}
+
+function slideClickEvent(slideId) {
+    changePad(sessionID + sessionTitle + slideId);
+    updateUserCount(slideId);
 }
 
 function highlightSlide(slide) {
