@@ -20,7 +20,6 @@ function init() {
         listenToSlides();
         changePad(sessionID + sessionTitle + 0); // default is the first slide
         createSpeechDiv();
-        // testWs(); // Update pad users count
         listenToKeywords();
     });
 }
@@ -45,6 +44,7 @@ function addSlide(id, img_url) {
     $(newSlide).attr('class', 'slide');
     $(newSlide).attr('id', 'slide' + id);
     $(newSlide).find('a').attr('onclick', "changePad('" + sessionID + sessionTitle + id + "')");
+    $(newSlide).find('a').attr('onclick', "updateUserCount('" + id + "')");
     $(newSlide).find('p.id-of-slide').attr("id", "slide-id-" + id);
     $(newSlide).find('p.id-of-slide').text(parseInt(id) + 1);
     $(newSlide).find('p.id-of-slide').css("display", "block");
@@ -61,6 +61,7 @@ function addSlide(id, img_url) {
     $(newSlide).find('p.keyword').css("display", "block");
     //var el = $("<li class='list-group-item'><b><img src=" +  img_url + ":</b> " + "ee" + "</li>");//modify
     slideList.append(newSlide);
+    listenToUserCount(id);
 }
 
 function highlightSlide(slide) {
@@ -138,7 +139,8 @@ function getFileURL(slideId, callback) {
     var result = imgRef.getDownloadURL().then(function(url) {
         console.log(url);
         var re = slidesRef.child(slideId).set({
-            img: url
+            img: url,
+            count: 0    // initialize
         });
         console.log(re);
     }).catch(function(error) {
@@ -323,6 +325,73 @@ function start() {
     //     console.log(error);
     // });  
 }
+
+// User count of each slide
+function listenToUserCount(slideId) {
+    // countRef = speechDB.ref("userCount/" + sessionID + sessionTitle + "/" + slideId);
+    countRef = slidesRef.child("/" + slideId);
+    // initialize
+    countRef.once("value").then(function(snapshot) {
+        var count = snapshot.val();
+        if (count) {
+            $('#padUserCount-' + sessionID + sessionTitle + slideId).text(snapshot.val().count);
+        }
+    });
+    countRef.on("child_changed", function(snapshot) {
+        var count = snapshot.val();
+        console.log("count change! : " + count);
+        if (snapshot.key == "count") {
+            console.log("count: " + count);
+            $('#padUserCount-' + sessionID + sessionTitle + slideId).text(count);
+        }
+    });
+}
+var already_added_slideId;
+var already_minused_slideId;
+var lastSlideId;
+function updateUserCount(newSlideId) {
+    // lastSlideId = currentPadId.split(sessionTitle)[1];
+    // format: currentPadId=4meeting0; newSlideId=0
+    console.log("updateUserCount: " + lastSlideId + ", " + newSlideId);
+    if (already_minused_slideId != lastSlideId && lastSlideId != newSlideId) { // prevent from double click
+        // minus 1 to user count of the last slide
+        minusRef = slidesRef.child("/" + lastSlideId);
+        // minusRef = speechDB.ref("userCount/" + sessionID + sessionTitle + "/" + lastSlideId.split(sessionTitle)[1]);
+        minusRef.once('value').then(function(snapshot) {
+            var user_count = snapshot.val().count;
+            var new_user_count = user_count - 1;
+            var postData = {
+                count: new_user_count
+            };
+            // $('#padUserCount-' + sessionID + sessionTitle + lastSlideId).text(new_user_count);
+            minusRef.update(postData);
+        });
+        already_minused_slideId = lastSlideId;
+    }
+
+    if (already_added_slideId != newSlideId) {
+        // add 1 to user count of the select slide
+        addRef = slidesRef.child("/" + newSlideId);
+        // addRef = speechDB.ref("userCount/" + sessionID + sessionTitle + "/" + newSlideId.split(sessionTitle)[1]);
+        addRef.once('value').then(function(snapshot) {
+            var user_count = snapshot.val().count;
+            var new_user_count = user_count + 1;
+            var postData = {
+                count: new_user_count
+            };
+            // $('#padUserCount-' + sessionID + sessionTitle + newSlideId).text(new_user_count);
+            addRef.update(postData);
+        });
+        already_added_slideId = newSlideId;
+        lastSlideId = newSlideId;
+    }
+    
+
+    console.log("already_added_slideId: " + already_added_slideId);
+    console.log("already_minused_slideId: " + already_minused_slideId);
+    console.log("lastSlideId: " + lastSlideId);
+}
+
 // Keywords adding Script
 var txtId;
 $('#addKeyword').click(function() {
@@ -373,43 +442,3 @@ function checkEmpty(edit_value, kwId) {
         $('#kw' + currentPadId + kwId).remove();
     }
 }
-// Get pad user count with websocket
-// var wsUri = "ws://echo.websocket.org/";
-var wsUri = "/getpadusercount";
-var output;
-var socket = new io.connect(location.protocol + '//' + document.domain + ':' + location.port + wsUri);
-
-function testWs() { // use web-socket
-    socket.on('connect', function() {
-        console.log("connected!");
-    });
-    socket.on('disconnect', function() {
-        console.log("disconnected!");
-    });
-    socket.on('error', function(evt) {
-        console.log("ERROR: " + evt.data);
-    });
-    socket.on('response', function(msg) {
-        console.log(msg.data);
-        response = JSON.parse(msg.data); // parse JSON string
-        for (var padId in response) {
-            if ($('#padUserCount-' + padId).length > 0) { // element exist
-                $("#padUserCount-" + padId).text(response[padId]);
-            }
-        }
-    });
-}
-// function getPadUsersCount() {
-//     $.ajax({
-//         type: "GET",
-//         url: "/getpadusercount"
-//     }).done(function(response) {
-//         response = JSON.parse(response); // parse JSON string
-//         for (var padId in response) {
-//             if ($('#padInfo-' + padId).length > 0) { // element exist
-//                 $("#padInfo-" + padId).text(response[padId]);
-//             }
-//         }
-//     });
-//     setTimeout(getPadUsersCount, 3000); // call getPadUsersCount() every 3 seconds
-// }
