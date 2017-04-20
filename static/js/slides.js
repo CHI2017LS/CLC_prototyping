@@ -21,7 +21,7 @@ function init() {
         $('.title').text(sessionTitle);
         listenToSlides();
         listenToSpeech();
-        changePad(sessionID + sessionTitle + 0); // default is the first slide
+        changePad("introduction");  // default is the introduction pad
         listenToKeywords();
     });
 }
