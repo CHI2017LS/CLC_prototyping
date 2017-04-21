@@ -75,27 +75,8 @@ function highlightSlide(slide) {
     slide.style.boxShadow = "0px 0px 40px 5px lightblue";
 }
 
-function createSlide(data_url) {
-    databaseRef.child("session/" + QueryString.session_id).once('value').then(function(snapshot) {
-        var slidesCount = 0;
-        if (sessionInfo.slides != null) slidesCount = snapshot.val().slides.length;
-        console.log("id:" + slidesCount);
-        createPad(sessionID + sessionTitle + slidesCount, function() {
-            changePad(sessionID + sessionTitle + slidesCount)
-        });
-        console.log('before uploade');
-        uploadImageToFirebase(data_url, slidesCount, null);
-    });
-}
 var imgRef;
 
-function uploadImageToFirebase(data_url, slideId, callback) {
-    console.log('images/' + sessionTitle + slideId + '.png');
-    imgRef = storageRef.child('images/' + sessionTitle + slideId + '.png');
-    imgRef.putString(data_url, 'data_url').then(function(snapshot) {
-        getFileURL(slideId, callback)
-    });
-}
 var QueryString = function() {
     // This function is anonymous, is executed immediately and 
     // the return value is assigned to QueryString!
@@ -118,21 +99,6 @@ var QueryString = function() {
     }
     return query_string;
 }();
-//save slides
-function getFileURL(slideId, callback) {
-    console.log("slides database");
-    var talk_topic = "test";
-    var result = imgRef.getDownloadURL().then(function(url) {
-        console.log(url);
-        var re = slidesRef.child(slideId).set({
-            img: url,
-            count: 0 // initialize user count
-        });
-        console.log(re);
-    }).catch(function(error) {
-        console.log("database error");
-    });
-}
 
 function listenToSpeech() {
     speechRef = speechDB.ref("speech/" + sessionID + sessionTitle);
@@ -275,20 +241,6 @@ var changePad = function(id) {
     loadKeywordsFromFirebase();
 }
 
-function createPad(padID, callback) {
-    $.ajax({
-        type: "GET",
-        url: "/createpad",
-        data: {
-            padID: padID
-        }
-    }).done(function(response) {
-        callback();
-        console.log(response);
-        response = JSON.parse(response); // parse JSON string
-        console.log(response);
-    });
-}
 // User count of each slide
 function listenToUserCount(slideId) {
     // countRef = speechDB.ref("userCount/" + sessionID + sessionTitle + "/" + slideId);
@@ -367,15 +319,6 @@ function edit(kwId) {
     if (keyword.length > 0) {
         //document.write(keyword);
         document.getElementById("kw" + currentPadId + kwId).innerHTML = '<input type="text" class="keywordBtn" size="8" value="' + keyword + '" id="kw' + currentPadId + kwId + 'text" onchange="ok(this.value,' + kwId + ')"/>';
-        // update entry in Firebase
-        // var postData = {
-        //     text: keyword
-        // }; // A post entry
-        // var newPostKey = speechDB.ref().child('keyword').push().key; // Get a key for a new Post
-        // console.log('newPostKey');
-        // var updates = {};
-        // updates['/' + currentPadId + '/' + newPostKey] = postData;
-        // return speechDB.ref('keyword' + currentPadId).update(updates);
     }
 }
 
