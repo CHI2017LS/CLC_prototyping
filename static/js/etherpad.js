@@ -61,7 +61,7 @@
           iFrameLink = iFrameLink + pluginParams;
           iFrameLink = iFrameLink +'" style="border:' + settings.border;
           iFrameLink = iFrameLink +'; border-style:' + settings.borderStyle;
-          iFrameLink = iFrameLink +';" width="' + settings.width; //'100%';
+          iFrameLink = iFrameLink +';" width="' + '100%';
           iFrameLink = iFrameLink +'" height="' + settings.height; 
           iFrameLink = iFrameLink +'"></iframe>';
       
