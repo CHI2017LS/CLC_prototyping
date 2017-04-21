@@ -16,8 +16,9 @@
       'alwaysShowChat'    : false,
       'width'             : 500,
       'height'            : 400,
-      'border'            : 0,
+      'border'            : '0.5px',
       'borderStyle'       : 'solid',
+      'borderColor'       : '#757475',
       'toggleTextOn'      : 'Disable Rich-text',
       'toggleTextOff'     : 'Enable Rich-text',
       'plugins'           : {},
@@ -61,6 +62,7 @@
           iFrameLink = iFrameLink + pluginParams;
           iFrameLink = iFrameLink +'" style="border:' + settings.border;
           iFrameLink = iFrameLink +'; border-style:' + settings.borderStyle;
+          iFrameLink = iFrameLink +'; border-color:' + settings.borderColor;
           iFrameLink = iFrameLink +';" width="' + '100%';
           iFrameLink = iFrameLink +'" height="' + settings.height; 
           iFrameLink = iFrameLink +'"></iframe>';
