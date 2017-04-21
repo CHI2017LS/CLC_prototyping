@@ -46,13 +46,14 @@ def test():
 @app.route("/createpad")
 def createPad():
 	id = request.args.get('padID')
+	text = request.args.get('text')
 	print(id)
 	c = EtherpadLiteClient(base_params={'apikey':'8b370ace91baa8557c685d75d70a6c2005e19761a5cf55a83611c3773d3d4c38'})
 	padList = c.listAllPads()
 	if id in padList['padIDs']:
 		c.deletePad(padID=id)
 	message = c.createPad(padID=id)
-	message = c.setText(padID=id, text="")
+	message = c.setText(padID=id, text=text)
 	return json.dumps(message)
 
 @app.route("/setText")

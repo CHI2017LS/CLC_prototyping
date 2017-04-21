@@ -249,7 +249,7 @@ var changePad = function(id) {
     $('#mypad').pad({
         'padId': id
     });
-    txtId = 1;
+    txtId = 1;  // default keyword id
     $('span').remove('.keywordSpan');
     loadKeywordsFromFirebase();
 }
@@ -259,7 +259,15 @@ function createPad(padID, callback) {
         type: "GET",
         url: "/createpad",
         data: {
-            padID: padID
+            padID: padID,
+            text: "\
+Contents of the Slide and What the speaker said in this page:\n\
+- Please use bullet points to do note-taking like the formats here.\n\
+- You can also bold or italic fonts to highlight the important parts.\n\n\n\
+\
+Comments:\n\
+- If you have any ideas or any thoughts, please type them here with bullet points format like this.\n\
+- You can reply to the comments with indention like this one.\n"
         }
     }).done(function(response) {
         callback();
@@ -422,7 +430,7 @@ function edit(kwId) {
     }
 }
 
-function ok(edit_value, kwId) {
+function ok(edit_value, kwId) { // user press enter
     console.log("ok");
     // var keyword = document.getElementById("kw" + kwId + "text").value;
     console.log('keyword: ' + edit_value);
