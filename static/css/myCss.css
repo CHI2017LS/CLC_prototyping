@@ -46,3 +46,7 @@
     overflow-y: scroll;
     overflow-x: hidden;
 }
+
+#how-to-use-link {
+    font-size: 20px;
+}
