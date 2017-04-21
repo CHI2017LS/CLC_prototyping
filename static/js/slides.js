@@ -21,7 +21,7 @@ function init() {
         $('.title').text(sessionTitle);
         listenToSlides();
         listenToSpeech();
-        changePad("introduction");  // default is the introduction pad
+        changePad("introduction"); // default is the introduction pad
         listenToKeywords();
     });
 }
@@ -74,9 +74,7 @@ function highlightSlide(slide) {
     slideList.find('img.img-responsive').css('box-shadow', "initial");
     slide.style.boxShadow = "0px 0px 40px 5px lightblue";
 }
-
 var imgRef;
-
 var QueryString = function() {
     // This function is anonymous, is executed immediately and 
     // the return value is assigned to QueryString!
@@ -240,7 +238,6 @@ var changePad = function(id) {
     $('span').remove('.keywordSpan');
     loadKeywordsFromFirebase();
 }
-
 // User count of each slide
 function listenToUserCount(slideId) {
     // countRef = speechDB.ref("userCount/" + sessionID + sessionTitle + "/" + slideId);
@@ -264,9 +261,9 @@ function listenToUserCount(slideId) {
 var already_added_slideId;
 var already_minused_slideId;
 var lastSlideId;
+
 function updateUserCount(newSlideId) {
-    // lastSlideId = currentPadId.split(sessionTitle)[1];
-    // format: currentPadId=4meeting0; newSlideId=0
+    // format: currentPadId=4meeting0; newSlideId=0, lastSlideId=0
     console.log("updateUserCount: " + lastSlideId + ", " + newSlideId);
     if (already_minused_slideId != lastSlideId && lastSlideId != newSlideId) { // prevent from double click
         // minus 1 to user count of the last slide
@@ -283,7 +280,6 @@ function updateUserCount(newSlideId) {
         });
         already_minused_slideId = lastSlideId;
     }
-
     if (already_added_slideId != newSlideId) {
         // add 1 to user count of the select slide
         addRef = slidesRef.child("/" + newSlideId);
@@ -300,11 +296,22 @@ function updateUserCount(newSlideId) {
         already_added_slideId = newSlideId;
         lastSlideId = newSlideId;
     }
-    
-
     console.log("already_added_slideId: " + already_added_slideId);
     console.log("already_minused_slideId: " + already_minused_slideId);
     console.log("lastSlideId: " + lastSlideId);
+}
+
+function userUnload() {
+    // minus 1 to user count of the last slide
+    minusRef = slidesRef.child("/" + currentPadId.split(sessionTitle)[1]);
+    minusRef.once('value').then(function(snapshot) {
+        var user_count = snapshot.val().count;
+        var new_user_count = user_count - 1;
+        var postData = {
+            count: new_user_count
+        };
+        minusRef.update(postData);
+    });
 }
 // Keywords adding Script
 var txtId;

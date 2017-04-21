@@ -19,7 +19,7 @@ function init() {
         $('.title').text(sessionTitle);
         listenToSlides();
         // changePad(sessionID + sessionTitle + 0); // default is the first slide
-        changePad("introduction");  // default is the introduction pad
+        changePad("introduction"); // default is the introduction pad
         createSpeechDiv();
         listenToKeywords();
     });
@@ -145,7 +145,7 @@ function getFileURL(slideId, callback) {
         console.log(url);
         var re = slidesRef.child(slideId).set({
             img: url,
-            count: 0    // initialize
+            count: 0 // initialize
         });
         console.log(re);
     }).catch(function(error) {
@@ -190,12 +190,11 @@ function listenToKeywords() {
                     console.log(padId + ": " + keyword);
                     if (keyword) {
                         // display on the left-bar
-                        if ($('#padKeyword-' + padId).find("span").length == 0) {  // no keyword now
+                        if ($('#padKeyword-' + padId).find("span").length == 0) { // no keyword now
                             $('#padKeyword-' + padId).append('<span id="padKw' + padId + childSnapshot.key + '">' + keyword + '</span>');
                         } else {
                             $('#padKeyword-' + padId).append('<span id="padKw' + padId + childSnapshot.key + '">' + ", " + keyword + '</span>');
                         }
-
                         //display on the right-top
                         if ($('#kw' + padId + childSnapshot.key).length == 0 && currentPadId == padId) { // element not exists
                             $("#showBlock").append('<span class="keywordSpan" id="kw' + padId + childSnapshot.key + '"><input type="text" class="keywordBtn" size="8" value="' + childSnapshot.val().text + '" id="kw' + padId + childSnapshot.key + 'text" onchange="ok(this.value,' + childSnapshot.key + ')"/></span>');
@@ -213,7 +212,6 @@ function listenToKeywords() {
                             if (document.getElementById("padKeyword-" + padId).childNodes[1] == $('#padKw' + padId + childSnapshot.key)[0]) $('#padKw' + padId + childSnapshot.key).text(keyword);
                             else $('#padKw' + padId + childSnapshot.key).text(", " + keyword);
                         }
-
                         //display on the right-top
                         if ($('#kw' + currentPadId + childSnapshot.key).length > 0 && currentPadId == padId) {
                             document.getElementById("kw" + currentPadId + childSnapshot.key).innerHTML = '<input type="text" class="keywordBtn" size="8" value="' + childSnapshot.val().text + '" id="kw' + currentPadId + childSnapshot.key + 'text" onchange="ok(this.value,' + childSnapshot.key + ')"/>';
@@ -226,12 +224,10 @@ function listenToKeywords() {
                         // display on the left-bar
                         var kwList = $("#padKeyword-" + padId).find('span');
                         $('#padKw' + padId + childSnapshot.key).remove();
-
-                        if($(kwList[0]).text() == keyword) {    // remove the first keyword
+                        if ($(kwList[0]).text() == keyword) { // remove the first keyword
                             // remove the ','
-                            $(kwList[1]).text( $(kwList[1]).text().split(", ")[1]);
+                            $(kwList[1]).text($(kwList[1]).text().split(", ")[1]);
                         }
-
                         //display on the right-top
                         if ($('#kw' + currentPadId + childSnapshot.key).length > 0 && currentPadId == padId) {
                             $('#kw' + currentPadId + childSnapshot.key).remove();
@@ -249,7 +245,7 @@ var changePad = function(id) {
     $('#mypad').pad({
         'padId': id
     });
-    txtId = 1;  // default keyword id
+    txtId = 1; // default keyword id
     $('span').remove('.keywordSpan');
     loadKeywordsFromFirebase();
 }
@@ -260,14 +256,12 @@ function createPad(padID, callback) {
         url: "/createpad",
         data: {
             padID: padID,
-            text: "\
-Contents of the Slide and What the speaker said in this page:\n\
-- Please use bullet points to do note-taking like the formats here.\n\
-- You can also bold or italic fonts to highlight the important parts.\n\n\n\
-\
+            text: "Contents of the Slide and What the speaker said in this page:\n\
+\t- Please use bullet points to do note-taking like the formats here.\n\
+\t- You can also bold or italic fonts to highlight the important parts.\n\n\n\
 Comments:\n\
-- If you have any ideas or any thoughts, please type them here with bullet points format like this.\n\
-- You can reply to the comments with indention like this one.\n"
+\t- If you have any ideas or any thoughts, please type them here with bullet points format like this.\n\
+\t\t- You can reply to the comments with indention like this one.\n"
         }
     }).done(function(response) {
         callback();
@@ -338,7 +332,6 @@ function start() {
     //     console.log(error);
     // });  
 }
-
 // User count of each slide
 function listenToUserCount(slideId) {
     // countRef = speechDB.ref("userCount/" + sessionID + sessionTitle + "/" + slideId);
@@ -362,6 +355,7 @@ function listenToUserCount(slideId) {
 var already_added_slideId;
 var already_minused_slideId;
 var lastSlideId;
+
 function updateUserCount(newSlideId) {
     // lastSlideId = currentPadId.split(sessionTitle)[1];
     // format: currentPadId=4meeting0; newSlideId=0
@@ -381,7 +375,6 @@ function updateUserCount(newSlideId) {
         });
         already_minused_slideId = lastSlideId;
     }
-
     if (already_added_slideId != newSlideId) {
         // add 1 to user count of the select slide
         addRef = slidesRef.child("/" + newSlideId);
@@ -398,13 +391,23 @@ function updateUserCount(newSlideId) {
         already_added_slideId = newSlideId;
         lastSlideId = newSlideId;
     }
-    
-
     console.log("already_added_slideId: " + already_added_slideId);
     console.log("already_minused_slideId: " + already_minused_slideId);
     console.log("lastSlideId: " + lastSlideId);
 }
 
+function userUnload() {
+    // minus 1 to user count of the last slide
+    minusRef = slidesRef.child("/" + currentPadId.split(sessionTitle)[1]);
+    minusRef.once('value').then(function(snapshot) {
+        var user_count = snapshot.val().count;
+        var new_user_count = user_count - 1;
+        var postData = {
+            count: new_user_count
+        };
+        minusRef.update(postData);
+    });
+}
 // Keywords adding Script
 var txtId;
 $('#addKeyword').click(function() {
