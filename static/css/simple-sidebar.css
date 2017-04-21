@@ -235,4 +235,12 @@ input[type="file"] {
         display: block;
         text-align: left;
     }
+
+    #how-to-use-link {
+        display: none;
+    }
+
+    #how-to-use-link.extend {
+        display: block;
+    }
 }

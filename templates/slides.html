@@ -7,7 +7,7 @@
         <meta content="" name="description"/>
         <meta content="" name="author"/>
         <title>
-            Simple Sidebar - Start Bootstrap Template
+            CHI2017 LanBridge
         </title>
         <!-- Bootstrap Core CSS -->
         <link href="static/css/bootstrap.min.css" rel="stylesheet"/>
@@ -39,7 +39,7 @@
                     <ul class="sidebar-nav">
                         <li class="sidebar-brand">
                             <a href="#">
-                                CHI2017 CLC Tool
+                                Logo
                             </a>
                         </li>
                         <li class="icon">
@@ -47,6 +47,7 @@
                                 ☰
                             </a>
                         </li>
+                        <a href="javascript: return false;" id="how-to-use-link" onclick="changePad('introduction');" >How to use</a>
                         <div class="slideTemplate">
                             <div class="row">
                                 <div class="row-left">
@@ -103,11 +104,12 @@
         <!-- /#wrapper -->
         <!-- Menu Toggle Script -->
         <script>
-            function extend() {
-        $(".sidebar-nav").toggleClass("responsive");
-        $("#sidebar-wrapper").toggleClass("extend");
-        $("#wrapper").toggleClass("extend");
-    }
+        function extend() {
+            $(".sidebar-nav").toggleClass("responsive");
+            $("#sidebar-wrapper").toggleClass("extend");
+            $("#wrapper").toggleClass("extend");
+            $("#how-to-use-link").toggleClass("extend");
+        }
         </script>
         <script src="https://www.gstatic.com/firebasejs/3.7.1/firebase.js">
         </script>
