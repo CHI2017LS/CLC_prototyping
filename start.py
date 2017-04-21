@@ -20,6 +20,10 @@ app.config['SECRET_KEY'] = 'secret!'
 
 @app.route("/")
 def index():
+	return render_template('index.html')
+
+@app.route("/menu")
+def menu():
 	return render_template('menu.html')
 
 @app.route("/slides")

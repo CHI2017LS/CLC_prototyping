@@ -1,30 +1,49 @@
 <html>
-<head>
-	<title></title>
-</head>
-<body>
-
-	<div class="session-block-template">
-	<a href="/slides?session_id">
-		<p class="session-title">sessionPadTemplate</p>
-		<p class="session-time">time:13:00</p>
-		</a>
-	</div>
-
-<div class="session-display-area">
-	
-</div>
-
-
-<div>
-	<p>title: <input id='create-session-titlefield' type="text" name="title" value="type"></p>
-	<input id="create-session-btn" type="button" name="Create session" value="Create Session">
-</div>
-</body> 
-<script src="static/js/jquery.js"></script>
-<script src="https://www.gstatic.com/firebasejs/3.7.1/firebase.js"></script>
-	<script>
-      // Initialize Firebase
+    <head>
+        <title>
+            CHI2017 LanBridge
+        </title>
+    </head>
+    <body>
+        <div class="session-block-template">
+            <li>
+                <a href="/slides?session_id">
+                    <span class="session-title">
+                        sessionPadTemplate
+                    </span>
+                    <span class="session-time">
+                        time:13:00
+                    </span>
+                </a>
+            </li>
+            <!-- <a href="/slides?session_id">
+                <p class="session-title">
+                    sessionPadTemplate
+                </p>
+                <p class="session-time">
+                    time:13:00
+                </p>
+            </a> -->
+        </div>
+        <div class="session-display-area">
+        </div>
+        <div>
+            <p>
+                title:
+                <input id="create-session-titlefield" name="title" type="text" value="title"/>
+                time:
+                <input id="create-session-timefield" name="time" type="text" value="time"/>
+            </p>
+            <input id="create-session-btn" name="Create session" type="button" value="Create Session">
+            </input>
+        </div>
+    </body>
+    <script src="static/js/jquery.js">
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/3.7.1/firebase.js">
+    </script>
+    <script>
+        // Initialize Firebase
       var config = {
         apiKey: "AIzaSyBvhsHOR3UrEdb6gTXR9tIOihdsYizOaVc",
         authDomain: "clc-chi-6d953.firebaseapp.com",
@@ -34,5 +53,6 @@
       };
       firebase.initializeApp(config);
     </script>
-<script src="static/js/menu.js"></script>
+    <script src="static/js/menu.js">
+    </script>
 </html>
