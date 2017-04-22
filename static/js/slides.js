@@ -229,7 +229,6 @@ function listenToKeywords() {
 var currentPadId;
 var changePad = function(id) {
     console.log(id);
-    // updateUserCount(currentPadId, id);
     currentPadId = id;
     $('#mypad').pad({
         'padId': id
@@ -268,30 +267,31 @@ function updateUserCount(newSlideId) {
     if (already_minused_slideId != lastSlideId && lastSlideId != newSlideId) { // prevent from double click
         // minus 1 to user count of the last slide
         minusRef = slidesRef.child("/" + lastSlideId);
-        // minusRef = speechDB.ref("userCount/" + sessionID + sessionTitle + "/" + lastSlideId.split(sessionTitle)[1]);
-        minusRef.once('value').then(function(snapshot) {
-            var user_count = snapshot.val().count;
+        minusRef.transaction(function(snapshot) {
+            // If users/ada/rank has never been set, currentRank will be `null`.
+            var user_count = snapshot.count;
             var new_user_count = user_count - 1;
             var postData = {
-                count: new_user_count
+                count: new_user_count,
+                img: snapshot.img
             };
-            // $('#padUserCount-' + sessionID + sessionTitle + lastSlideId).text(new_user_count);
-            minusRef.update(postData);
+            return postData;
         });
         already_minused_slideId = lastSlideId;
     }
     if (already_added_slideId != newSlideId) {
         // add 1 to user count of the select slide
         addRef = slidesRef.child("/" + newSlideId);
-        // addRef = speechDB.ref("userCount/" + sessionID + sessionTitle + "/" + newSlideId.split(sessionTitle)[1]);
-        addRef.once('value').then(function(snapshot) {
-            var user_count = snapshot.val().count;
+        addRef.transaction(function(snapshot) {
+            // If users/ada/rank has never been set, currentRank will be `null`.
+            console.log("add: " + snapshot.count);
+            var user_count = snapshot.count;
             var new_user_count = user_count + 1;
             var postData = {
-                count: new_user_count
+                count: new_user_count,
+                img: snapshot.img
             };
-            // $('#padUserCount-' + sessionID + sessionTitle + newSlideId).text(new_user_count);
-            addRef.update(postData);
+            return postData;
         });
         already_added_slideId = newSlideId;
         lastSlideId = newSlideId;
@@ -304,13 +304,15 @@ function updateUserCount(newSlideId) {
 function userUnload() {
     // minus 1 to user count of the last slide
     minusRef = slidesRef.child("/" + currentPadId.split(sessionTitle)[1]);
-    minusRef.once('value').then(function(snapshot) {
-        var user_count = snapshot.val().count;
+    minusRef.transaction(function(snapshot) {
+        // If users/ada/rank has never been set, currentRank will be `null`.
+        var user_count = snapshot.count;
         var new_user_count = user_count - 1;
         var postData = {
-            count: new_user_count
+            count: new_user_count,
+            img: snapshot.img
         };
-        minusRef.update(postData);
+        return postData;
     });
 }
 // Keywords adding Script
