@@ -250,7 +250,8 @@ function listenToKeywords() {
 var currentPadId;
 var changePad = function(id) {
     console.log(id);
-    if (id == "introduction") {  // cancel slide highlight if id = 'introduction'
+    if (id == "introduction") {  // disable slide highlight if id = 'introduction'
+        
         slideList.find('img.img-responsive').css('box-shadow', "initial");
         if(lastSlideId != undefined)
             updateUserCount("introduction");
@@ -321,7 +322,7 @@ function start() {
             editLine($(this).text());
         });
         autoAddSpeechToFirebase(data);
-        
+
         lastDivId += 1;
         console.log(lastDivId);
         jQuery('<div/>', {
@@ -472,7 +473,8 @@ function ok(edit_value, kwId) { // user press enter
     console.log("ok");
     // var keyword = document.getElementById("kw" + kwId + "text").value;
     console.log('keyword: ' + edit_value);
-    if (edit_value.length == 0) {
+    reg = /^\s*$/g;
+    if (edit_value.length == 0 || reg.test(edit_value)) {
         console.log("delete");
         $('#kw' + currentPadId + kwId).remove();
         speechDB.ref('keyword/' + sessionID + sessionTitle + '/' + currentPadId).child(kwId).set({

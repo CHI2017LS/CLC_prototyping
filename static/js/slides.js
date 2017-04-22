@@ -230,8 +230,9 @@ var currentPadId;
 var changePad = function(id) {
     console.log(id);
     
-    if (id == "introduction") {  // cancel slide highlight if id = 'introduction'
+    if (id == "introduction") {  // disable slide highlight if id = 'introduction'
         slideList.find('img.img-responsive').css('box-shadow', "initial");
+
         if(lastSlideId != undefined)
             updateUserCount("introduction");
     }
@@ -347,7 +348,6 @@ function edit(kwId) {
     console.log("edit");
     var keyword = document.getElementById("kw" + currentPadId + kwId + "text").value;
     if (keyword.length > 0) {
-        //document.write(keyword);
         document.getElementById("kw" + currentPadId + kwId).innerHTML = '<input type="text" class="keywordBtn" size="8" value="' + keyword + '" id="kw' + currentPadId + kwId + 'text" onchange="ok(this.value,' + kwId + ')"/>';
     }
 }
@@ -356,7 +356,8 @@ function ok(edit_value, kwId) {
     console.log("ok");
     // var keyword = document.getElementById("kw" + kwId + "text").value;
     console.log('keyword: ' + edit_value);
-    if (edit_value.length == 0) {
+    reg = /^\s*$/g;
+    if (edit_value.length == 0 || reg.test(edit_value)) {
         console.log("delete");
         $('#kw' + currentPadId + kwId).remove();
         speechDB.ref('keyword/' + sessionID + sessionTitle + '/' + currentPadId).child(kwId).set({
@@ -373,6 +374,7 @@ function ok(edit_value, kwId) {
 }
 
 function checkEmpty(edit_value, kwId) {
+    
     if (edit_value.length == 0) {
         $('#kw' + currentPadId + kwId).remove();
     }
