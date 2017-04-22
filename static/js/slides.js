@@ -131,7 +131,7 @@ function addLine(padID, text) { // add a new line to etherpad
         type: "GET",
         url: "/setText",
         data: {
-            text: text + '\n',
+            text: "[" + text + "]" + '\n',
             padID: padID
         }
     }).done(function(response) {
