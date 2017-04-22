@@ -37,17 +37,17 @@
             <div id="sidebar-wrapper">
                 <div class="col-md-offset-2">
                     <ul class="sidebar-nav">
-                            <li class="sidebar-brand">
-                                <a href="/">
-                                    <img id="logo" src="static/img/logo.png" style="height:80px">
-                                    </img>
-                                </a>
-                            </li>
-                            <li class="icon">
-                                <a onclick="extend()">
-                                    ☰
-                                </a>
-                            </li>
+                        <li class="sidebar-brand">
+                            <a href="/">
+                                <img id="logo" src="static/img/logo.png" style="height:80px">
+                                </img>
+                            </a>
+                        </li>
+                        <li class="icon">
+                            <a onclick="extend()">
+                                ☰
+                            </a>
+                        </li>
                         <br/>
                         <a href="javascript: return false;" id="how-to-use-link" onclick="changePad('introduction');">
                             How to use
@@ -84,26 +84,26 @@
             <!-- /#sidebar-wrapper -->
             <!-- Page Content -->
             <div id="page-content-wrapper">
-                <span id="showBlock">
+                <div id="keywordDiv" style="visibility:hidden;">
+                    <span id="showBlock">
+                        <b style="font-size:20px;">
+                            Keywords:
+                        </b>
+                    </span>
+                    <img class="keywordAdd" id="addKeyword" src="static/img/add.png"/>
+                </div>
+                <hr/>
+                <div id="PadContent" style="float: left; width: 100%">
+                    <div id="mypad">
+                    </div>
+                    <div class="speechTemplate">
+                    </div>
                     <b style="font-size:20px;">
-                        Keywords:
+                        Auto Transcription:
                     </b>
-                </span>
-                <img class="keywordAdd" id="addKeyword" src="static/img/add.png">
-                    <hr style="color:black">
-                        <div id="PadContent" style="float: left; width: 100%">
-                            <div id="mypad">
-                            </div>
-                            <div class="speechTemplate">
-                            </div>
-                            <b style="font-size:20px;">
-                                Auto Transcription:
-                            </b>
-                            <div id="lines">
-                            </div>
-                        </div>
-                    </hr>
-                </img>
+                    <div id="lines">
+                    </div>
+                </div>
             </div>
             <!-- /#page-content-wrapper -->
         </div>

@@ -229,12 +229,12 @@ function listenToKeywords() {
 var currentPadId;
 var changePad = function(id) {
     console.log(id);
-    
-    if (id == "introduction") {  // disable slide highlight if id = 'introduction'
+    if (id == "introduction") { // disable slide highlight if id = 'introduction'
         slideList.find('img.img-responsive').css('box-shadow', "initial");
-
-        if(lastSlideId != undefined)
-            updateUserCount("introduction");
+        $('#keywordDiv').css("visibility", "hidden");
+        if (lastSlideId != undefined) updateUserCount("introduction");
+    } else {
+        $('#keywordDiv').css("visibility", "visible");
     }
     currentPadId = id;
     $('#mypad').pad({
@@ -272,18 +272,43 @@ function updateUserCount(newSlideId) {
     // format: currentPadId=4meeting0; newSlideId=0, lastSlideId=0
     console.log("updateUserCount: " + lastSlideId + ", " + newSlideId);
     if (newSlideId == "introduction") {
-        minusRef = slidesRef.child("/" + lastSlideId);
-        minusRef.transaction(function(snapshot) {
-            // If users/ada/rank has never been set, currentRank will be `null`.
-            var user_count = snapshot.count;
-            var new_user_count = user_count - 1;
-            var postData = {
-                count: new_user_count,
-                img: snapshot.img
-            };
-            return postData;
-        });
-        already_minused_slideId = lastSlideId;
+        if (already_minused_slideId != lastSlideId && lastSlideId != newSlideId) { // prevent from double click
+            // minus 1 to user count of the last slide
+            minusRef = slidesRef.child("/" + lastSlideId);
+            minusRef.transaction(function(snapshot) {
+                // If users/ada/rank has never been set, currentRank will be `null`.
+                var user_count = snapshot.count;
+                var new_user_count = user_count - 1;
+                var postData = {
+                    count: new_user_count,
+                    img: snapshot.img
+                };
+                return postData;
+            });
+            already_minused_slideId = lastSlideId;
+            already_added_slideId = newSlideId;
+            lastSlideId = newSlideId;
+        }
+    } else if (lastSlideId == "introduction") {
+        console.log("lastSlideId!!!!!!!!!!");
+        if (already_added_slideId != newSlideId) {
+            // add 1 to user count of the select slide
+            addRef = slidesRef.child("/" + newSlideId);
+            addRef.transaction(function(snapshot) {
+                // If users/ada/rank has never been set, currentRank will be `null`.
+                console.log("add: " + snapshot.count);
+                var user_count = snapshot.count;
+                var new_user_count = user_count + 1;
+                var postData = {
+                    count: new_user_count,
+                    img: snapshot.img
+                };
+                return postData;
+            });
+            already_minused_slideId = lastSlideId;
+            already_added_slideId = newSlideId;
+            lastSlideId = newSlideId;
+        }
     } else {
         if (already_minused_slideId != lastSlideId && lastSlideId != newSlideId) { // prevent from double click
             // minus 1 to user count of the last slide
@@ -374,7 +399,6 @@ function ok(edit_value, kwId) {
 }
 
 function checkEmpty(edit_value, kwId) {
-    
     if (edit_value.length == 0) {
         $('#kw' + currentPadId + kwId).remove();
     }
