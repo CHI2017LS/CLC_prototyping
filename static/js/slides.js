@@ -48,7 +48,11 @@ function addSlide(id, img_url) {
     $(newSlide).attr('id', 'slide' + id);
     $(newSlide).find('a').attr('onclick', "slideClickEvent('" + id + "')");
     $(newSlide).find('p.id-of-slide').attr("id", "slide-id-" + id);
-    $(newSlide).find('p.id-of-slide').text(parseInt(id) + 1);
+
+    if(id != 0){
+        $('#slide' + (parseInt(id) - 1) ).find('p.id-of-slide').text(id);
+    }
+    $(newSlide).find('p.id-of-slide').text(parseInt(id) + 1 + " (the latest!)");
     $(newSlide).find('p.id-of-slide').css("display", "block");
     $(newSlide).find('img.img-responsive').attr({
         'src': img_url,
@@ -63,7 +67,7 @@ function addSlide(id, img_url) {
     $(newSlide).find('p.keyword').css("display", "block");
     
     // slideList.append(newSlide);
-    $(".sidebar-nav1").append(newSlide);
+    $(".sidebar-slides").prepend(newSlide);
     listenToUserCount(id);
 }
 
@@ -237,6 +241,7 @@ var changePad = function(id) {
         if (lastSlideId != undefined) updateUserCount("introduction");
     } else {
         $('#keywordDiv').css("visibility", "visible");
+        $('#padId').text(parseInt(id.split(sessionTitle)[1]) + 1);
     }
     currentPadId = id;
     $('#mypad').pad({
