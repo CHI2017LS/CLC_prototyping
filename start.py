@@ -33,8 +33,8 @@ def slides():
 @app.route("/worker")
 def worker(token = None):
 	authorization = AuthorizationV1(
-	    username='1aa8c4e0-7be1-4a39-9316-50f5014dbda7',
-	    password='jiBwnAiiMF3w'
+	    username='340ed380-e330-439f-b7e8-1383e16367e8',
+	    password='HzoBlN2H5dEX'
 	)
 
 	token = authorization.get_token(url=SpeechToTextV1.default_url)
