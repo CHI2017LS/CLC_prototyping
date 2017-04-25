@@ -239,14 +239,18 @@ var changePad = function(id) {
         slideList.find('img.img-responsive').css('box-shadow', "initial");
         $('#keywordDiv').css("visibility", "hidden");
         if (lastSlideId != undefined) updateUserCount("introduction");
+        $('#mypad').pad({
+            'padId': "r.bdfaed80e726bfea2c562766a4e61e48"
+        });
     } else {
         $('#keywordDiv').css("visibility", "visible");
         $('#padId').text(parseInt(id.split(sessionTitle)[1]) + 1);
+        $('#mypad').pad({
+            'padId': id
+        });
     }
     currentPadId = id;
-    $('#mypad').pad({
-        'padId': id
-    });
+    
     txtId = 1;
     $('span').remove('.keywordSpan');
     loadKeywordsFromFirebase();
