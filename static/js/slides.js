@@ -19,6 +19,7 @@ function init() {
         sessionInfo = snapshot.val();
         sessionTitle = snapshot.val().title;
         $('.title').text(sessionTitle);
+        $('#sessionTitle').text(sessionTitle);
         listenToSlides();
         listenToSpeech();
         changePad("introduction"); // default is the introduction pad
@@ -60,8 +61,9 @@ function addSlide(id, img_url) {
     $(newSlide).find('p.number-of-looking').css("display", "inline");
     $(newSlide).find('p.keyword').attr('id', 'padKeyword-' + sessionID + sessionTitle + id);
     $(newSlide).find('p.keyword').css("display", "block");
-    //var el = $("<li class='list-group-item'><b><img src=" +  img_url + ":</b> " + "ee" + "</li>");//modify
-    slideList.append(newSlide);
+    
+    // slideList.append(newSlide);
+    $(".sidebar-nav1").append(newSlide);
     listenToUserCount(id);
 }
 

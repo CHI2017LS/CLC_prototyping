@@ -17,6 +17,7 @@ function init() {
         sessionInfo = snapshot.val();
         sessionTitle = snapshot.val().title;
         $('.title').text(sessionTitle);
+        $('#sessionTitle').text(sessionTitle);
         listenToSlides();
         // changePad(sessionID + sessionTitle + 0); // default is the first slide
         changePad("introduction"); // default is the introduction pad

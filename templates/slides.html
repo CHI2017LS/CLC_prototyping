@@ -10,7 +10,7 @@
             CHI2017 LanBridge
         </title>
         <!-- Bootstrap Core CSS -->
-        <link href="static/css/bootstrap.min.css" rel="stylesheet"/>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <!-- Custom CSS -->
         <link href="static/css/simple-sidebar.css" rel="stylesheet"/>
         <link href="static/css/myCss.css" rel="stylesheet"/>
@@ -37,6 +37,7 @@
             <div id="sidebar-wrapper">
                 <div class="col-md-offset-2">
                     <ul class="sidebar-nav">
+                        <br/>
                         <li class="sidebar-brand">
                             <a href="/">
                                 <img id="logo" src="static/img/logo.png" style="height:80px">
@@ -49,35 +50,37 @@
                             </a>
                         </li>
                         <br/>
+                        <p id="sessionTitle">
+                        </p>
                         <a href="javascript: return false;" id="how-to-use-link" onclick="changePad('introduction');">
                             How to use
                         </a>
-                        <div class="slideTemplate">
-                            <div class="row">
-                                <div class="row-left">
-                                    <p class="id-of-slide" style="display: none">
-                                        1
-                                    </p>
-                                    <a href="javascript: return false;" id="1" onclick="changePad(this.id);">
-                                        <img alt="" class="img-responsive" src="http://imgur.com/UBOTllp.jpg" style="display: none" tabindex="0"/>
-                                    </a>
+                        <hr/>
+                        <div class="sidebar-nav1">
+                            <div class="slideTemplate">
+                                <div class="row">
+                                    <div class="row-left">
+                                        <p class="id-of-slide" style="display: none">
+                                            1
+                                        </p>
+                                        <a href="javascript: return false;" id="1" onclick="changePad(this.id);">
+                                            <img alt="" class="img-responsive" src="http://imgur.com/UBOTllp.jpg" style="display: none" tabindex="0"/>
+                                        </a>
+                                    </div>
+                                    <div class="row-right">
+                                        <img class="user-img" src="static/img/users.png" style="display: none">
+                                        </img>
+                                        <p class="number-of-looking" style="display: none">
+                                            0
+                                        </p>
+                                        <p class="keyword" style="display: none">
+                                            Keywords:
+                                        </p>
+                                    </div>
                                 </div>
-                                <div class="row-right">
-                                    <img class="user-img" src="static/img/users.png" style="display: none">
-                                    </img>
-                                    <p class="number-of-looking" style="display: none">
-                                        0
-                                    </p>
-                                    <p class="keyword" style="display: none">
-                                        Keywords:
-                                    </p>
-                                </div>
+                                <hr/>
                             </div>
-                            <hr>
-                            </hr>
                         </div>
-                        <hr>
-                        </hr>
                     </ul>
                 </div>
             </div>
@@ -115,6 +118,7 @@
             $("#sidebar-wrapper").toggleClass("extend");
             $("#wrapper").toggleClass("extend");
             $("#how-to-use-link").toggleClass("extend");
+            $("#sessionTitle").toggleClass("extend");
         }
         </script>
         <script src="https://www.gstatic.com/firebasejs/3.7.1/firebase.js">

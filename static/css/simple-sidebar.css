@@ -236,11 +236,19 @@ input[type="file"] {
         text-align: left;
     }
 
-    #how-to-use-link {
+    #how-to-use-link{
         display: none;
     }
 
-    #how-to-use-link.extend {
+    #how-to-use-link.extend{
+        display: block;
+    }
+
+    #sessionTitle{
+        display: none;
+    }
+
+    #sessionTitle.extend{
         display: block;
     }
 }
