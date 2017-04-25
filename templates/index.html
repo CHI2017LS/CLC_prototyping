@@ -4,37 +4,26 @@
         <title>
             CHI2017 LanBridge
         </title>
-
+        
+        <!-- Bootstrap Core CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <link href="static/css/index.css" rel="stylesheet"/>
     </head>
-    <body bgcolor=black>
-        <center><img src="static/img/lanbridge logo_v4_color.png" alt="Mountain View" style="width:30%;height:20%;"></center>
-        <!-- <img id="logo" src="static/img/logo_round.png" style="height:80px"> -->
+    <body>
+        <br/><br/>
+        <div class="container">
+        <center><img src="static/img/lanbridge logo_v4_color.png" alt="Mountain View" style="width:20%;height:20%;"></center>
         </img>
-        <!-- <h3>
-            CHI2017 LanBridge
-        </h3> -->
+        <br>
+        <center>
+            <p>
+                Thanks for using CHI2017 LanBridge! The following are the supporting sessions. We recommend to use <b>laptop</b> to have better experience.
+            </p>
+        </center>
+        <!-- <div class="panel panel-success">   
+          <div class="panel-heading">Monday</div>
 
-        <p>
-            Thanks for using CHI2017 LanBridge! The following are the supporting sessions. We recommend to use <b>laptop</b> to have better experience.
-        </p>
-        <div class="session-block-template" style="display: none">
-            <li>
-                <p>
-                    <a href="/slides?session_id">
-                        <span class="session-title">
-                            sessionPadTemplate
-                        </span>
-                        :
-                        <span class="session-time">
-                            13:00
-                        </span>
-                    </a>
-                </p>
-            </li>
-        </div>
-
-        <div class="session-display-area">
-            <table class="table table-hover" id="session-display-table">
+          <table class="table table-hover">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -43,16 +32,71 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="session-row-template clickable-row" data-href='/slides?session_id'>
-                        <td class="session-id">1</td>
-                        <td class="session-title">title</td>
-                        <td class="session-time">time</td>
+                    <tr class="clickable-row">
+                    <td>test</td>
                     </tr>
                 </tbody>
-            </table>
+          </table>
+        </div> -->
+        <table class="table table-hover" id="session-display-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Title</th>
+                    <th>Chair</th>
+                    <th>Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="clickable-row" data-href="/slides?session_id=3">
+                    <td>1</td>
+                    <td>Social and Collaborative Technologies</td>
+                    <td>John C. Tang</td>
+                    <td>Mon.  14:30-15:50</td>
+                </tr>
+                <tr class="clickable-row">
+                    <td>2</td>
+                    <td>Self-monitored Healthcare</td>
+                    <td>Munmun De Choudhury</td>
+                    <td>Mon.  16:30-17:50</td>
+                </tr>
+                <tr class="clickable-row">
+                    <td>3</td>
+                    <td>Design and Cognitive Impairment</td>
+                    <td>Anja Thieme</td>
+                    <td>Tue.  9:30-10:50</td>
+                </tr>
+                <tr class="clickable-row">
+                    <td>4</td>
+                    <td>Crowd-powered Systems</td>
+                    <td>Katharina Reinecke</td>
+                    <td>Tue.  11:30-12:50</td>
+                </tr>
+                <tr class="clickable-row">
+                    <td>5</td>
+                    <td>Improving Gaze Mechanisms</td>
+                    <td>Naomi Yamashita</td>
+                    <td>Tue.  14:30-15:50</td>
+                </tr>
+                <tr class="clickable-row">
+                    <td>6</td>
+                    <td>Social Justice</td>
+                    <td>Michael Muller</td>
+                    <td>Tue.  16:30-17:50</td>
+                </tr>
+                <tr class="clickable-row">
+                    <td>7</td>
+                    <td>Technology and Spatial Landmarks</td>
+                    <td>Brent Hecht</td>
+                    <td>Wed.  9:30-10:50</td>
+                </tr>
+            </tbody>
+        </table>    
         </div>
     </body>
     <script src="static/js/jquery.js">
+    </script>
+    <script src="static/js/bootstrap.min.js">
     </script>
     <script src="https://www.gstatic.com/firebasejs/3.7.1/firebase.js">
     </script>
@@ -67,6 +111,6 @@
       };
       firebase.initializeApp(config);
     </script>
-    <script src="static/js/menu.js">
+    <script src="static/js/index.js">
     </script>
 </html>

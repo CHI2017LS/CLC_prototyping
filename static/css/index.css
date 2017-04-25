@@ -1,0 +1,21 @@
+body {
+	background-color: #000;
+}
+
+.container {
+	width: 80%;
+}
+
+p {
+	color: #fff;
+}
+
+tr {
+	color: #fff;
+}
+
+#session-display-table tbody tr:hover {
+	background-color: rgba(189,78,67,1.0); 
+	cursor: pointer;
+}
+

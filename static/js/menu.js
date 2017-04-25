@@ -33,8 +33,7 @@ function displaySessions() {
             var sessions = snapshot.val();
             for (var key in sessions) {
                 var session = sessions[key];
-                // displaySessionBlock(key, session);
-                displaySessionRow(key, session);
+                displaySessionBlock(key, session);
             }
         }
     });
@@ -48,17 +47,6 @@ function displaySessionBlock(id, session) {
     $(newSessionBlock).find('.session-title').text(session.title);
     $(newSessionBlock).find('.session-time').text(session.time);
     $('.session-display-area').append(newSessionBlock);
-}
-
-function displaySessionRow(id, session) {
-    var newSessionRow = $('.session-row-template clickable-row').clone();
-    $(newSessionRow).css('display', 'block');
-    $(newSessionRow).attr('class', 'session-row');
-    $(newSessionRow).data('href') = "/slides?session_id=" + id;
-    $(newSessionRow).find('.session-id').text(id);
-    $(newSessionRow).find('.session-title').text(session.title);
-    $(newSessionRow).find('.session-time').text(session.time);
-    $('#session-display-table').append(newSessionRow);
 }
 
 $(document).ready(function() {
