@@ -33,7 +33,8 @@ function displaySessions() {
             var sessions = snapshot.val();
             for (var key in sessions) {
                 var session = sessions[key];
-                displaySessionBlock(key, session);
+                // displaySessionBlock(key, session);
+                displaySessionRow(key, session);
             }
         }
     });
@@ -48,10 +49,26 @@ function displaySessionBlock(id, session) {
     $(newSessionBlock).find('.session-time').text(session.time);
     $('.session-display-area').append(newSessionBlock);
 }
+
+function displaySessionRow(id, session) {
+    var newSessionRow = $('.session-row-template clickable-row').clone();
+    $(newSessionRow).css('display', 'block');
+    $(newSessionRow).attr('class', 'session-row');
+    $(newSessionRow).data('href') = "/slides?session_id=" + id;
+    $(newSessionRow).find('.session-id').text(id);
+    $(newSessionRow).find('.session-title').text(session.title);
+    $(newSessionRow).find('.session-time').text(session.time);
+    $('#session-display-table').append(newSessionRow);
+}
+
 $(document).ready(function() {
     displaySessions();
     $('#create-session-btn').click(function() {
         createSession($('#create-session-titlefield').val(), $('#create-session-timefield').val());
+    });
+
+    $(".clickable-row").click(function() {
+        window.location = $(this).data("href");
     });
 });
 //session/{sessionName}/slides/{index}/

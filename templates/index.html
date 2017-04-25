@@ -30,7 +30,24 @@
                 </p>
             </li>
         </div>
+
         <div class="session-display-area">
+            <table class="table table-hover" id="session-display-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Session Title</th>
+                        <th>Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="session-row-template clickable-row" data-href='/slides?session_id'>
+                        <td class="session-id">1</td>
+                        <td class="session-title">title</td>
+                        <td class="session-time">time</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </body>
     <script src="static/js/jquery.js">
