@@ -11,6 +11,15 @@ $(document).ready(function() {
     init();
 });
 
+$(window).on("beforeunload", function() { 
+    userUnload();
+    return inFormOrLink ? "Do you really want to close?" : null; 
+});
+
+$( window ).unload(function() {
+    userUnload();
+});
+
 function init() {
     databaseRef.child("session/" + QueryString.session_id).once('value').then(function(snapshot) {
         console.log(snapshot.val());
@@ -131,7 +140,8 @@ function addSpeechToFirebase() {
         for (var i = 0; i < str.length; i++) {
             text = str[i];
             speechDB.ref('speech/' + sessionID + sessionTitle + '/' + id).set({
-                text: text
+                text: text,
+                count: 0
             });
             id += 1;
         }
@@ -146,7 +156,8 @@ function addSpeechToFirebase() {
 function autoAddSpeechToFirebase(text) {
     if (text != "") {
         speechDB.ref('speech/' + sessionID + sessionTitle + '/' + id).set({
-            text: text
+            text: text,
+            count: 0
         });
         id += 1;
     }

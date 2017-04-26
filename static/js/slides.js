@@ -12,6 +12,15 @@ $(document).ready(function() {
     init();
 });
 
+$(window).on("beforeunload", function() { 
+    userUnload();
+    return inFormOrLink ? "Do you really want to close?" : null; 
+});
+
+$( window ).unload(function() {
+    userUnload();
+});
+
 function init() {
     sessionID = QueryString.session_id;
     databaseRef.child("session/" + QueryString.session_id).once('value').then(function(snapshot) {
@@ -129,6 +138,19 @@ function addSpeech(key, text) {
     $('#speech' + currentPadId + key).css('cursor', 'pointer');
     $('#speech' + currentPadId + key).click(function() {
         addLine(currentPadId, $(this).text());
+
+        speechCountRef = speechDB.ref("speech/" + sessionID + sessionTitle + '/' + key);
+        speechCountRef.transaction(function(snapshot) {
+            // If users/ada/rank has never been set, currentRank will be `null`.
+            console.log("add speech count: " + snapshot.count);
+            var click_count = snapshot.count;
+            var new_click_count = click_count + 1;
+            var postData = {
+                text: text,
+                count: new_click_count
+            };
+            return postData;
+        });
     });
 }
 
