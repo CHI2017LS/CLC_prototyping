@@ -85,8 +85,9 @@ function slideClickEvent(slideId) {
     updateUserCount(slideId);
     ga('send', {
       hitType: 'event',
-      eventCategory: 'Slides',
-      eventAction: 'click-on-slide'
+      eventCategory: 'Slide',
+      eventAction: 'click-on-slide',
+      eventLabel: 'slide' + slideId
     });
 }
 
@@ -144,6 +145,7 @@ function addSpeech(key, text) {
     $('#speech' + currentPadId + key).click(function() {
         addLine(currentPadId, $(this).text());
 
+        // update click count
         speechCountRef = speechDB.ref("speech/" + sessionID + sessionTitle + '/' + key);
         speechCountRef.transaction(function(snapshot) {
             // If users/ada/rank has never been set, currentRank will be `null`.
@@ -155,6 +157,14 @@ function addSpeech(key, text) {
                 count: new_click_count
             };
             return postData;
+        });
+
+        // send click-event to ga
+        ga('send', {
+          hitType: 'event',
+          eventCategory: 'Speech',
+          eventAction: 'click-on-speech',
+          eventLabel: 'speech' + key
         });
     });
 }
@@ -406,6 +416,12 @@ var txtId;
 $('#addKeyword').click(function() {
     $("#showBlock").append('<span class="keywordSpan" id="kw' + currentPadId + txtId + '"><input type="text" class="keywordBtn" size="8" id="kw' + currentPadId + txtId + 'text" onchange="ok(this.value,' + txtId + ')"  onfocusout="checkEmpty(this.value,' + txtId + ')" autofocus/></span>');
     txtId++;
+
+    ga('send', {
+      hitType: 'event',
+      eventCategory: 'Keyword',
+      eventAction: 'add-keyword'
+    });
 });
 
 function edit(kwId) {
