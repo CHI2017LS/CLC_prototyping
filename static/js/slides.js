@@ -83,6 +83,11 @@ function addSlide(id, img_url) {
 function slideClickEvent(slideId) {
     changePad(sessionID + sessionTitle + slideId);
     updateUserCount(slideId);
+    ga('send', {
+      hitType: 'event',
+      eventCategory: 'Slides',
+      eventAction: 'click-on-slide'
+    });
 }
 
 function highlightSlide(slide) {
