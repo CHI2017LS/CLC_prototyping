@@ -17,10 +17,6 @@ $(window).on("beforeunload", function() {
     return inFormOrLink ? "Do you really want to close?" : null; 
 });
 
-$( window ).unload(function() {
-    userUnload();
-});
-
 function init() {
     sessionID = QueryString.session_id;
     databaseRef.child("session/" + QueryString.session_id).once('value').then(function(snapshot) {
