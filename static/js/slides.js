@@ -11,10 +11,9 @@ var sessionInfo;
 $(document).ready(function() {
     init();
 });
-
-$(window).on("beforeunload", function() { 
+$(window).on("beforeunload", function() {
     userUnload();
-    return inFormOrLink ? "Do you really want to close?" : null; 
+    return inFormOrLink ? "Do you really want to close?" : null;
 });
 
 function init() {
@@ -25,7 +24,7 @@ function init() {
         sessionTitle = snapshot.val().title;
         $('.title').text(sessionTitle);
         $('#sessionTitle').text(sessionTitle);
-        sessionTitle = sessionTitle.replace(/\s/g,"");
+        sessionTitle = sessionTitle.replace(/\s/g, "");
         listenToSlides();
         listenToSpeech();
         changePad("introduction"); // default is the introduction pad
@@ -54,9 +53,8 @@ function addSlide(id, img_url) {
     $(newSlide).attr('id', 'slide' + id);
     $(newSlide).find('a').attr('onclick', "slideClickEvent('" + id + "')");
     $(newSlide).find('p.id-of-slide').attr("id", "slide-id-" + id);
-
-    if(id != 0){
-        $('#slide' + (parseInt(id) - 1) ).find('p.id-of-slide').text(id);
+    if (id != 0) {
+        $('#slide' + (parseInt(id) - 1)).find('p.id-of-slide').text(id);
     }
     $(newSlide).find('p.id-of-slide').text(parseInt(id) + 1 + " (the latest!)");
     $(newSlide).find('p.id-of-slide').css("display", "block");
@@ -71,7 +69,6 @@ function addSlide(id, img_url) {
     $(newSlide).find('p.number-of-looking').css("display", "inline");
     $(newSlide).find('p.keyword').attr('id', 'padKeyword-' + sessionID + sessionTitle + id);
     $(newSlide).find('p.keyword').css("display", "block");
-    
     // slideList.append(newSlide);
     $(".sidebar-slides").prepend(newSlide);
     listenToUserCount(id);
@@ -81,10 +78,10 @@ function slideClickEvent(slideId) {
     changePad(sessionID + sessionTitle + slideId);
     updateUserCount(slideId);
     ga('send', {
-      hitType: 'event',
-      eventCategory: 'Slide',
-      eventAction: 'click-on-slide',
-      eventLabel: 'slide' + slideId
+        hitType: 'event',
+        eventCategory: 'Slide',
+        eventAction: 'click-on-slide',
+        eventLabel: 'slide' + slideId
     });
 }
 
@@ -141,7 +138,6 @@ function addSpeech(key, text) {
     $('#speech' + currentPadId + key).css('cursor', 'pointer');
     $('#speech' + currentPadId + key).click(function() {
         addLine(currentPadId, $(this).text());
-
         // update click count
         speechCountRef = speechDB.ref("speech/" + sessionID + sessionTitle + '/' + key);
         speechCountRef.transaction(function(snapshot) {
@@ -155,33 +151,34 @@ function addSpeech(key, text) {
             };
             return postData;
         });
-
         // send click-event to ga
         ga('send', {
-          hitType: 'event',
-          eventCategory: 'Speech',
-          eventAction: 'click-on-speech',
-          eventLabel: 'speech' + key
+            hitType: 'event',
+            eventCategory: 'Speech',
+            eventAction: 'click-on-speech',
+            eventLabel: 'speech' + key
         });
     });
 }
 
 function addLine(padID, text) { // add a new line to etherpad
-    $.ajax({
-        type: "GET",
-        url: "/setText",
-        data: {
-            text: "[" + text + "]" + '\n',
-            padID: padID
-        }
-    }).done(function(response) {
-        console.log(response);
-        response = JSON.parse(response); // parse JSON string
-        console.log(response);
-        for (var padID in response) {
-            console.log('test');
-        }
-    });
+    if (padID != "introduction") {
+        $.ajax({
+            type: "GET",
+            url: "/setText",
+            data: {
+                text: "[" + text + "]" + '\n',
+                padID: padID
+            }
+        }).done(function(response) {
+            console.log(response);
+            response = JSON.parse(response); // parse JSON string
+            console.log(response);
+            for (var padID in response) {
+                console.log('test');
+            }
+        });
+    }
 }
 var existPadId = [];
 
@@ -285,7 +282,6 @@ var changePad = function(id) {
         });
     }
     currentPadId = id;
-    
     txtId = 1;
     $('span').remove('.keywordSpan');
     loadKeywordsFromFirebase();
@@ -413,11 +409,10 @@ var txtId;
 $('#addKeyword').click(function() {
     $("#showBlock").append('<span class="keywordSpan" id="kw' + currentPadId + txtId + '"><input type="text" class="keywordBtn" size="8" id="kw' + currentPadId + txtId + 'text" onchange="ok(this.value,' + txtId + ')"  onfocusout="checkEmpty(this.value,' + txtId + ')" autofocus/></span>');
     txtId++;
-
     ga('send', {
-      hitType: 'event',
-      eventCategory: 'Keyword',
-      eventAction: 'add-keyword'
+        hitType: 'event',
+        eventCategory: 'Keyword',
+        eventAction: 'add-keyword'
     });
 });
 
