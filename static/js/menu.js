@@ -1,12 +1,12 @@
-var databaseRef = firebase.database().ref("chiclc");
+var databaseRef = firebase.database().ref("/chiclc");
 // var ref = databaseRef.child("chiclc");
-var sessionRef = firebase.database().ref("chiclc/session");;
+var sessionRef = ref.child('session');
 //createSession("testSession");
 function createSession(sessionTitle, sessionTime) {
     console.log('create session');
     var id = 0;
-    databaseRef.once('value').then(function(snapshot) {
-        console.log(snapshot);
+    ref.once('value').then(function(snapshot) {
+        console.log(snapshot.val());
         var id = 0;
         if (snapshot.val().session != null) {
             id = snapshot.val().session.length;
