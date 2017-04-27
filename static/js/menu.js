@@ -1,4 +1,4 @@
-var databaseRef = firebase.database().ref("/chiclc");
+var databaseRef = firebase.database().ref();
 var ref = databaseRef.child("chiclc");
 var sessionRef = ref.child('session');
 //createSession("testSession");
