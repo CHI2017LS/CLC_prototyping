@@ -1,12 +1,12 @@
-var databaseRef = firebase.database().ref();
-var ref = databaseRef.child("chiclc");
-var sessionRef = ref.child('session');
+var databaseRef = firebase.database().ref("chiclc");
+// var ref = databaseRef.child("chiclc");
+var sessionRef = firebase.database().ref("chiclc/session");;
 //createSession("testSession");
 function createSession(sessionTitle, sessionTime) {
     console.log('create session');
     var id = 0;
-    ref.once('value').then(function(snapshot) {
-        console.log("once");
+    databaseRef.once('value').then(function(snapshot) {
+        console.log(snapshot);
         var id = 0;
         if (snapshot.val().session != null) {
             id = snapshot.val().session.length;
@@ -53,10 +53,6 @@ $(document).ready(function() {
     displaySessions();
     $('#create-session-btn').click(function() {
         createSession($('#create-session-titlefield').val(), $('#create-session-timefield').val());
-    });
-
-    $(".clickable-row").click(function() {
-        window.location = $(this).data("href");
     });
 });
 //session/{sessionName}/slides/{index}/
