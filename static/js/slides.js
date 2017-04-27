@@ -25,6 +25,7 @@ function init() {
         sessionTitle = snapshot.val().title;
         $('.title').text(sessionTitle);
         $('#sessionTitle').text(sessionTitle);
+        sessionTitle = sessionTitle.replace(/\s/g,"");
         listenToSlides();
         listenToSpeech();
         changePad("introduction"); // default is the introduction pad
