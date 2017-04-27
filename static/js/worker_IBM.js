@@ -90,7 +90,8 @@ function createSlide(data_url) {
         if (snapshot.val().slides != null) slidesCount = snapshot.val().slides.length;
         console.log("id:" + slidesCount);
         createPad(sessionID + sessionTitle + slidesCount, function() {
-            changePad(sessionID + sessionTitle + slidesCount)
+            // changePad(sessionID + sessionTitle + slidesCount)
+            console.log("createpad finished!");
         });
         console.log('before uploade');
         uploadImageToFirebase(data_url, slidesCount, null);
