@@ -81,7 +81,10 @@ function slideClickEvent(slideId) {
         hitType: 'event',
         eventCategory: 'Slide',
         eventAction: 'click-on-slide',
-        eventLabel: 'slide' + slideId
+        eventLabel: {
+            'slide': "slide" + slideId,
+            'time': new Date()
+        }
     });
 }
 
