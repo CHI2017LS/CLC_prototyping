@@ -59,6 +59,7 @@ function addSlide(id, img_url) {
     $(newSlide).find('p.id-of-slide').text(parseInt(id) + 1 + " (the latest!)");
     $(newSlide).find('p.id-of-slide').css("display", "block");
     $(newSlide).find('img.img-responsive').attr({
+        'id': 'slideImg' + id,
         'src': img_url,
         'onclick': "highlightSlide(this)"
     });
@@ -77,13 +78,6 @@ function addSlide(id, img_url) {
 function slideClickEvent(slideId) {
     changePad(sessionID + sessionTitle + slideId);
     updateUserCount(slideId);
-
-    // ga('send', {
-    //     hitType: 'event',
-    //     eventCategory: 'Slide',
-    //     eventAction: 'click-on-slide',
-    //     eventLabel: 'x'
-    // });
 }
 
 function highlightSlide(slide) {
@@ -132,12 +126,12 @@ function listenToSpeech() {
 function addSpeech(key, text) {
     // Create a div of each sentence
     jQuery('<div/>', {
-        id: "speech" + currentPadId + key,
+        id: "speech" + sessionTitle + key,
         "class": 'recognizing',
         text: text
     }).appendTo('#lines');
-    $('#speech' + currentPadId + key).css('cursor', 'pointer');
-    $('#speech' + currentPadId + key).click(function() {
+    $('#speech' + sessionTitle + key).css('cursor', 'pointer');
+    $('#speech' + sessionTitle + key).click(function() {
         addLine(currentPadId, $(this).text());
         // update click count
         speechCountRef = speechDB.ref("speech/" + sessionID + sessionTitle + '/' + key);
@@ -152,13 +146,6 @@ function addSpeech(key, text) {
             };
             return postData;
         });
-        // send click-event to ga
-        // ga('send', {
-        //     hitType: 'event',
-        //     eventCategory: 'Speech',
-        //     eventAction: 'click-on-speech',
-        //     eventLabel: 'speech' + key
-        // });
     });
 }
 
@@ -410,11 +397,6 @@ var txtId;
 $('#addKeyword').click(function() {
     $("#showBlock").append('<span class="keywordSpan" id="kw' + currentPadId + txtId + '"><input type="text" class="keywordBtn" size="8" id="kw' + currentPadId + txtId + 'text" onchange="ok(this.value,' + txtId + ')"  onfocusout="checkEmpty(this.value,' + txtId + ')" autofocus/></span>');
     txtId++;
-    // ga('send', {
-    //     hitType: 'event',
-    //     eventCategory: 'Keyword',
-    //     eventAction: 'add-keyword'
-    // });
 });
 
 function edit(kwId) {
