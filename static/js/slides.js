@@ -260,7 +260,7 @@ var changePad = function(id) {
         $('#padId').text("");
         if (lastSlideId != undefined) updateUserCount("introduction");
         $('#mypad').pad({
-            'padId': "r.bdfaed80e726bfea2c562766a4e61e48"
+            'padId': "r.dc931cd0c425dcfa1b3edb63190c8040"
         });
     } else {
         $('#keywordDiv').css("visibility", "visible");
