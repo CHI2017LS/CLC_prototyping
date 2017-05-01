@@ -496,17 +496,7 @@ function edit(kwId) {
     console.log("edit");
     var keyword = document.getElementById("kw" + currentPadId + kwId + "text").value;
     if (keyword.length > 0) {
-        //document.write(keyword);
         document.getElementById("kw" + currentPadId + kwId).innerHTML = '<input type="text" class="keywordBtn" size="8" value="' + keyword + '" id="kw' + currentPadId + kwId + 'text" onchange="ok(this.value,' + kwId + ')"/>';
-        // update entry in Firebase
-        // var postData = {
-        //     text: keyword
-        // }; // A post entry
-        // var newPostKey = speechDB.ref().child('keyword').push().key; // Get a key for a new Post
-        // console.log('newPostKey');
-        // var updates = {};
-        // updates['/' + currentPadId + '/' + newPostKey] = postData;
-        // return speechDB.ref('keyword' + currentPadId).update(updates);
     }
 }
 
@@ -535,4 +525,28 @@ function checkEmpty(edit_value, kwId) {
     if (edit_value.length == 0) {
         $('#kw' + currentPadId + kwId).remove();
     }
+}
+
+var userCount_id = 0;
+// record user number of each slide every 30 secs
+function recordUserNum() {
+    setInterval(function(){
+        console.log("recordUserNum"); 
+        slidesRef.once("value").then(function(snapshot) {
+            var slides = snapshot.val();
+            if (slides) {
+                speechDB.ref('userCount/' + sessionID + sessionTitle + '/' + userCount_id).set({
+                    time: new Date().getTime()
+                });
+
+                for(var i = 0; i < slides.length; i++){
+                    speechDB.ref('userCount/' + sessionID + sessionTitle + '/' + userCount_id +'/slide' + i).set({
+                        count: slides[i].count
+                    });
+                    
+                }
+                userCount_id += 1;
+            }
+        });
+    }, 30000);
 }
