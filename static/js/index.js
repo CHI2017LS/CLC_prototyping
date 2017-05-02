@@ -28,10 +28,8 @@ function displaySessionRow(id, session) {
     title.innerHTML = session.title;
     time.innerHTML = session.time;
 }
-
 $(document).ready(function() {
     // displaySessions();
-
     $(".clickable-row").click(function() {
         window.location = $(this).data("href");
     });

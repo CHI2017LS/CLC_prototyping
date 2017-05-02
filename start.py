@@ -19,6 +19,10 @@ app.config.update(
 app.config['SECRET_KEY'] = 'secret!'
 
 @app.route("/")
+def login():
+	return render_template('login.html')
+
+@app.route("/index")
 def index():
 	return render_template('index.html')
 
