@@ -251,4 +251,12 @@ input[type="file"] {
     #sessionTitle.extend{
         display: block;
     }
+
+    #survey-link{
+        display: none;
+    }
+
+    #survey-link.extend{
+        display: block;
+    }
 }
