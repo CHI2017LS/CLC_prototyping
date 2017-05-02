@@ -23,18 +23,17 @@ function validateForm() {
         console.log(snapshot.val());
         if (snapshot.val() != null) {
             password = snapshot.val();
+            console.log(password);
+            var pw = document.loginForm.password.value;
+            if (pw == password) {
+                $("#unsuccessful-login-alert").css("display", "none");
+                Cookies.set('login', new Date().getTime());
+                window.location = "/index";
+            } else {
+                $("#unsuccessful-login-alert").css("display", "block");
+            }
         }
     });
-    console.log(password);
-    var pw = document.loginForm.password.value;
-    if (pw == password) {
-        $("#unsuccessful-login-alert").css("display", "none");
-        Cookies.set('login', new Date().getTime());
-        window.location = "/index";
-    } else {
-        $("#unsuccessful-login-alert").css("display", "block");
-    }
-}
 
 function submitenter(myfield, e) {
     var keycode;
