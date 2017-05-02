@@ -15,6 +15,12 @@
         <link href="static/css/simple-sidebar.css" rel="stylesheet"/>
         <link href="static/css/myCss.css" rel="stylesheet"/>
         
+        <script src="static/js/js.cookie.js"></script>
+        <script type="text/javascript">
+            if (Cookies.get('login') == undefined) {
+                window.location = "/";
+            }
+        </script>
         <!-- Google Tag Manager -->
         <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
         new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
