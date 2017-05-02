@@ -19,6 +19,14 @@ var ref = databaseRef.child("password");
 var password;
 
 function validateForm() {
+    var email = document.loginForm.email.value;
+    if (email != "") {
+        var emailListRef = firebase.database().ref("email/");
+        var newPostRef = emailListRef.push();
+        newPostRef.set({
+            email: email
+        });
+    }
     ref.once('value').then(function(snapshot) {
         console.log(snapshot.val());
         if (snapshot.val() != null) {
@@ -34,6 +42,7 @@ function validateForm() {
             }
         }
     });
+}
 
 function submitenter(myfield, e) {
     var keycode;

@@ -28,20 +28,18 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     </head>
     <body>
         <div class="alert alert-danger" id="unsuccessful-login-alert" role="alert">
-            Login was unsuccessful, please check your and password
+            Login was unsuccessful, please check your password
         </div>
         <div class="login">
             <center>
                 <img src="static/img/logo.png" style="width:300px;"/>
             </center>
-            <!-- <h2>
-                Login
-            </h2> -->
             <br/>
             <br/>
             <form method="post" name="loginForm">
                 <!-- <input name="u" placeholder="Username" required="required" type="text"/> -->
                 <input name="password" placeholder="Password" type="password" required onKeyPress="return submitenter(this,event)"/>
+                <input name="email" placeholder="Email" type="email" onKeyPress="return submitenter(this,event)"/>
                 <button class="btn btn-primary btn-block btn-large" onclick="validateForm()" type="button" >
                     Let me in.
                 </button>
