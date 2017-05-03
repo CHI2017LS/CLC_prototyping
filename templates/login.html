@@ -37,13 +37,14 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             <br/>
             <br/>
             <form method="post" name="loginForm">
-                <!-- <input name="u" placeholder="Username" required="required" type="text"/> -->
                 <input name="password" placeholder="Password" type="password" required onKeyPress="return submitenter(this,event)"/>
-                <input name="email" placeholder="Email" type="email" onKeyPress="return submitenter(this,event)"/>
                 <button class="btn btn-primary btn-block btn-large" onclick="validateForm()" type="button" >
                     Let me in.
                 </button>
             </form>
+            <br/>
+            <p>If you are willing to help us improve the system, please enter the <a href="https://goo.gl/forms/COfMGAQI1xZw6gt23" id="survey-link">link</a> to complete the survey.
+            </p>
         </div>
         <script src="https://www.gstatic.com/firebasejs/3.7.1/firebase.js">
         </script>
