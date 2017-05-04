@@ -288,12 +288,10 @@ function createPad(padID, callback) {
         url: "/createpad",
         data: {
             padID: padID,
-            text: "Contents of the Slide and What the speaker said in this page:\n\
-\t- Please use bullet points to do note-taking like the formats here.\n\
-\t- You can also bold or italic fonts to highlight the important parts.\n\n\n\
-Comments:\n\
-\t- If you have any ideas or any thoughts, please type them here with bullet points format like this.\n\
-\t\t- You can reply to the comments with indention like this one.\n"
+            text: "Instruction for notetaking:\n\
+\t- You may use bullet points to highlight key ideas associated with a slide\n\
+\t- You may “copy & paste” auto transcripts, and further edit the content in the pad\n\
+\t- Other people’s notes are highlighted in colors\n\n"
         }
     }).done(function(response) {
         callback();
