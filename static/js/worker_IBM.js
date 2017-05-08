@@ -24,7 +24,16 @@ function init() {
         $('.title').text(sessionTitle);
         $('#sessionTitle').text(sessionTitle);
         sessionTitle = sessionTitle.replace(/\s/g,"");
+
         listenToSlides();
+
+        console.log(sessionTitle);
+        speechDB.ref('speech/' + sessionID + sessionTitle).once('value',function(snapshot) {
+            console.log(snapshot.val());
+            if (snapshot.val() != null)
+                id = snapshot.val().length;
+            console.log("speech id = " + id);
+        });
         // changePad(sessionID + sessionTitle + 0); // default is the first slide
         changePad("introduction"); // default is the introduction pad
         createSpeechDiv();
@@ -107,7 +116,9 @@ function uploadImageToFirebase(data_url, slideId, callback) {
         getFileURL(slideId, callback)
     });
 }
+
 var id = 0;
+
 var QueryString = function() {
     // This function is anonymous, is executed immediately and 
     // the return value is assigned to QueryString!
