@@ -563,5 +563,5 @@ function recordUserNum() {
                 userCount_id += 1;
             }
         });
-    }, 3000);
+    }, 30000);
 }
