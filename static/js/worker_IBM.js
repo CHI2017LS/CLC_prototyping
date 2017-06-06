@@ -324,12 +324,12 @@ var createSpeechDiv = function() {
         id: "speech" + currentPadId + lastDivId,
         "class": 'recognizing'
     }).appendTo('#lines');
-    $('#speech' + currentPadId + lastDivId).click(function() {
-        // console.log('click');
-        currentSelect = $(this).attr('id').split(currentPadId)[1];
-        // console.log('this id = ' + currentSelect);
-        editLine($(this).text());
-    });
+    // $('#speech' + currentPadId + lastDivId).click(function() {
+    //     // console.log('click');
+    //     currentSelect = $(this).attr('id').split(currentPadId)[1];
+    //     // console.log('this id = ' + currentSelect);
+    //     editLine($(this).text());
+    // });
 }
 
 function start() {
@@ -346,12 +346,12 @@ function start() {
         // console.log(data);
         $('#speech' + currentPadId + lastDivId).text(data);
         $('#speech' + currentPadId + lastDivId).css('cursor', 'pointer');
-        $('#speech' + currentPadId + lastDivId).click(function(e) {
-            // console.log('click');
-            currentSelect = $(this).attr('id').split(currentPadId)[1];
-            // console.log("this id = " + currentSelect);
-            editLine($(this).text());
-        });
+        // $('#speech' + currentPadId + lastDivId).click(function(e) {
+        //     // console.log('click');
+        //     currentSelect = $(this).attr('id').split(currentPadId)[1];
+        //     // console.log("this id = " + currentSelect);
+        //     editLine($(this).text());
+        // });
         autoAddSpeechToFirebase(data);
 
         lastDivId += 1;
@@ -361,12 +361,12 @@ function start() {
             "class": 'recognizing'
         }).appendTo('#lines');
 
-        $('#speech' + currentPadId + lastDivId).click(function() {
-            // console.log('click');
-            currentSelect = $(this).attr('id').split(currentPadId)[1];
-            // console.log("this id = " + currentSelect);
-            editLine($(this).text());
-        });
+        // $('#speech' + currentPadId + lastDivId).click(function() {
+        //     // console.log('click');
+        //     currentSelect = $(this).attr('id').split(currentPadId)[1];
+        //     // console.log("this id = " + currentSelect);
+        //     editLine($(this).text());
+        // });
         // auto scroll
         var lines = document.getElementById('lines');
         // console.log("scrollHeight:" + lines.scrollHeight + ", top: " + lines.scrollTop);
