@@ -35,18 +35,29 @@ def slides():
 	return render_template('slides.html')
 
 @app.route("/worker")
-def worker(token = None):
+# use Google API
+def worker():
+	return render_template('worker_Google.html')
+
+@app.route("/test")
+def test():
+	return render_template('test.html')	
+
+@app.route("/test_google_api")
+def test_google_api():
+	return render_template('test_google_api.html')	
+
+@app.route("/worker2")
+# use IBM API
+def worker2(token = None):
 	authorization = AuthorizationV1(
 	    username='340ed380-e330-439f-b7e8-1383e16367e8',
 	    password='HzoBlN2H5dEX'
 	)
 
 	token = authorization.get_token(url=SpeechToTextV1.default_url)
-	return render_template('worker.html', token = token)
+	return render_template('worker_IBM.html', token = token)
 
-@app.route("/test")
-def test():
-	return render_template('test.html')	
 
 @app.route("/createpad")
 def createPad():
